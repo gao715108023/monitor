@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gcj.dao.UserAnalysisDao">
+
+    <insert id="insert_user_analysis" parameterType="com.gcj.bean.UserAnalysis">
+        insert into user_analysis(pid,token_value,version,message) values(#{pid},#{tokenValue},#{version},#{message})
+    </insert>
+    <select id="select_user_analysis" resultType="com.gcj.bean.UserAnalysis">
+        select * from user_analysis
+    </select>
+</mapper>

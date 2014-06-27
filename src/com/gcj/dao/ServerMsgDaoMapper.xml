@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gcj.dao.ServerMsgDao">
+
+    <insert id="insert_server_monitor" parameterType="com.gcj.bean.ServerMsgBean">
+        insert into
+        server_monitor(IP,ProcessId,UpdateTime,ProcessName,OneMinsProcs,FiveMinsProcs,FifteenMinsProcs,CPUUsage,IowaitTime,UsedMemory)
+        values(#{ip},#{pid},#{updateTime},#{proceeName},#{oneMinsProcs},#{fiveMinsProcs},#{fifteenMinsProcs},#{cpuUsage},#{iowaitTime},#{memUsage})
+    </insert>
+
+    <insert id="insert_iostat_monitor" parameterType="com.gcj.bean.IOStatMonitor">
+        insert into iostat_monitor(IP,UpdateTime,name,await,svctm,util)
+        values(#{ip},#{updateTime},#{name},#{await},#{svctm},#{util})
+    </insert>
+
+    <insert id="insert_traffic" parameterType="com.gcj.bean.TrafficInfoBean">
+        insert into
+        traffic_monitor(IP,UpdateTime,ReceiveTraffic,ReceivePackets,ReceiveErrs,TransmitTraffic,TransmitPackets,TransmitErrs)
+        values(#{ip},#{updateTime},#{receiveTraffic},#{receivePackets},#{receiveErrs},#{transmitTraffic},#{transmitPackets},#{transmitErrs})
+    </insert>
+
+    <insert id="insert_netstat_monitor" parameterType="com.gcj.bean.NetstatBean">insert into
+        netstat_monitor(IP,port,UpdateTime,Total,Established,TimeWait,FinWait2)
+        values(#{localHostIp},#{port},#{updateTime},#{total},#{established},#{timeWait},#{finWait2})
+    </insert>
+
+    <insert id="insert_computenodestatus" parameterType="com.gcj.bean.ComputeNodeStatus">
+        insert into computenodestatus(NodeName,UpdateTime,OneMinsProcs,FiveMinsProcs,FifteenMinsProcs,TotalTime,UserTime,NiceTime,SystemTime,IowaitTime,IdleTime,AllTotalTime,AllUserTime,AllNiceTime,AllSystemTime,AllIowaitTime,AllIdleTime,TotalMemory,UsedMemory,IdleMemory,SwapSize,UsedSwap,IdleSwap) value (#{nodeName},#{updateTime},#{oneMinsProcs},#{fiveMinsProcs},#{fifteenMinsProcs},#{totalTime},#{userTime},#{niceTime},#{systemTime},#{iowaitTime},#{idleTime},#{allTotalTime},#{allUserTime},#{allNiceTime},#{allSystemTime},#{allIowaitTime},#{allIdleTime},#{totalMemory},#{usedMemory},#{idleMemory},#{swapSize},#{usedSwap},#{idleSwap})
+    </insert>
+
+</mapper>

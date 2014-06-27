@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gcj.dao.ProcessInfoDao">
+
+    <insert id="insert_process_monitor" parameterType="com.gcj.bean.ProcessInfoBean">
+        insert into process_monitor(IP,ProcessId,UpdateTime,ProcessName,CPUUsage,MemUsage)
+        values(#{localHostIp},#{pid},#{updateTime},#{proceeName},#{cpuUsage},#{memUsage})
+    </insert>
+    <insert id="insert_resource_monitor" parameterType="com.gcj.bean.SystemResourceBean">
+        insert into resource_monitor(IP,UpdateTime,CPUUsage,MemUsage)
+        values(#{localHostIp},#{updateTime},#{cpuUsage},#{memUsage})
+    </insert>
+    <insert id="insert_netstat_monitor" parameterType="com.gcj.bean.NetstatBean">insert into
+        netstat_monitor(IP,port,UpdateTime,Total,Established,TimeWait,FinWait2)
+        values(#{localHostIp},#{port},#{updateTime},#{total},#{established},#{timeWait},#{finWait2})
+    </insert>
+
+    <!--<insert id="insert_iostat_monitor" parameterType="com.gcj.bean.IOStatBean">-->
+    <!--insert into iostat_monitor(IP,UpdateTime,user,nice,system,iowait,steal,idle,tps,Blk_read_speed,Blk_wrtn_speed,Blk_read,Blk_wrtn) values(#{ip},#{updateTime},#{user},#{nice},#{system},#{iowait},#{steal},#{idle},#{tps},#{blkReadSpeed},#{blkWrtnSpeed},#{blkRead},#{blkWrtn})-->
+    <!--</insert>-->
+
+    <insert id="insert_iostat_monitor" parameterType="com.gcj.bean.IOStatMonitor">
+        insert into iostat_monitor(IP,UpdateTime,name,await,svctm,util)
+        values(#{ip},#{updateTime},#{name},#{await},#{svctm},#{util})
+    </insert>
+
+</mapper>

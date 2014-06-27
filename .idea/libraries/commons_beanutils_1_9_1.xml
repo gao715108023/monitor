@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="commons-beanutils-1.9.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/commons-beanutils-1.9.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcommon-1.0.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jfreechart-1.0.14.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/log4j-1.2.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mybatis-3.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mysql-connector-java-5.1.22-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ojdbc6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/protobuf-java-2.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sigar.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

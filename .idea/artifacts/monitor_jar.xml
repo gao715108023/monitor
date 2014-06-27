@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="monitor:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/monitor_jar</output-path>
+    <root id="archive" name="monitor-1.4.jar">
+      <element id="module-output" name="monitor" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jcommon-1.0.17.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ojdbc6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mybatis-3.2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-logging-1.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jfreechart-1.0.14.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mysql-connector-java-5.1.22-bin.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/protobuf-java-2.5.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
