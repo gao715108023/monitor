@@ -24,15 +24,11 @@ public class TotalCPUMonitor extends GatherAbstract {
 
     private List<Integer> processIdList;  //进程ID
 
-    // private String ip; //本机IP地址
-
     private String processName;  //进程名
 
     private volatile boolean running = true;
 
     private volatile boolean getPidLoop = true;
-
-    //private ServerMsgDao serverMsgDao;
 
     private int intervalTime;  //采集信息的间隔
 
@@ -72,73 +68,10 @@ public class TotalCPUMonitor extends GatherAbstract {
      */
     public TotalCPUMonitor(String ip, String processName, int intervalTime) {
         super(ip);
-        //this.ip = ip;
         this.processName = processName;
         this.intervalTime = intervalTime;
-        //this.serverMsgDao = MybatisUtils.session.getMapper(ServerMsgDao.class);
         this.p = Pattern.compile("[^0-9]");
     }
-
-    /**
-     * 根据top命令获取进程的cpu使用率
-     *
-     * @param run
-     * @param serverMsgBean
-     * @return
-     */
-    private boolean getCPUMsgByTop(Runtime run, ServerMsgBean serverMsgBean) {
-        BufferedInputStream in = null;
-        BufferedReader inBr = null;
-        Process p = null;
-        boolean result = false;
-        try {
-            p = run.exec("");
-            in = new BufferedInputStream(p.getInputStream());
-            inBr = new BufferedReader(new InputStreamReader(in), 1024);
-            String lineStr;
-            while ((lineStr = inBr.readLine()) != null) {
-                if (lineStr.contains(processName)) {
-                    result = true;  //如果能够获取到进程的cpu信息，返回true
-                    LOG.debug(lineStr);
-                    lineStr = lineStr.replaceAll(" {2,}", " ").trim();//去掉字符串中多余的空格，只留一个空格
-                    LOG.debug(lineStr);
-                    String[] array = lineStr.split(" ");
-                    float cpuUsage = Float.parseFloat(array[8]);
-                    serverMsgBean.setCpuUsage(cpuUsage);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (inBr != null)
-                    inBr.close();
-                if (in != null)
-                    in.close();
-                if ((p != null ? p.getErrorStream() : null) != null) {
-                    p.getErrorStream().close();
-                }
-                if ((p != null ? p.getInputStream() : null) != null) {
-                    p.getInputStream().close();
-                }
-                if ((p != null ? p.getOutputStream() : null) != null) {
-                    p.getOutputStream().close();
-                }
-                if (p != null) {
-                    p.waitFor();
-                    p.destroy();
-                }
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
 
     /**
      * 获取CPU核心数
@@ -227,8 +160,6 @@ public class TotalCPUMonitor extends GatherAbstract {
                 oldProcessCpuTime[i] = 0;
                 memUsed[i] = 0;
             }
-            //oldProcessCpuTime = 0;
-            //memUsed = 0;
             loadAvgBean.setOneMinsProcs(0);
             loadAvgBean.setFiveMinsProcs(0);
             loadAvgBean.setFifteenMinsProcs(0);
@@ -254,14 +185,11 @@ public class TotalCPUMonitor extends GatherAbstract {
             processIdStrs[i] = String.valueOf(processIdList.get(i));
         }
 
-        //String processIdStr = String.valueOf(processId);
         pcpufp = new File[size];
 
         for (int i = 0; i < size; i++) {
             pcpufp[i] = new File("/proc/" + processIdStrs[i] + "/stat");
         }
-
-        //pcpufp = new File("/proc/" + processIdStr + "/stat");
 
         for (int i = 0; i < size; i++) {
             if (!pcpufp[i].exists()) {
@@ -281,8 +209,6 @@ public class TotalCPUMonitor extends GatherAbstract {
         for (int i = 0; i < size; i++) {
             memfp[i] = new File("/proc/" + processIdStrs[i] + "/status");
         }
-
-        //memfp = new File("/proc/" + processIdStr + "/status");
 
         for (int i = 0; i < size; i++) {
             if (!memfp[i].exists()) {
@@ -312,10 +238,10 @@ public class TotalCPUMonitor extends GatherAbstract {
                 oldProcessCpuTime[i] = newProcessCpuTime[i];
                 newProcessCpuTime[i] = 0;
             }
-            //oldProcessCpuTime = newProcessCpuTime;
-            //newProcessCpuTime = 0;
         } else {
+            LOG.warn("The service which monitored has been stopped running, monitoring program is to get the process ID of the service, please wait...");
             running = false;
+            getPidLoop = true;
         }
     }
 
@@ -326,16 +252,15 @@ public class TotalCPUMonitor extends GatherAbstract {
 
         for (int i = 0; i < size; i++) {
             pcpu[i] = 100 * ((newProcessCpuTime[i] - oldProcessCpuTime[i]) / (newTotalCpuTime - oldTotalCpuTime)) * ncpu;
-            LOG.info("double pcpu = 100 * ((" + newProcessCpuTime[i] + " - " + oldProcessCpuTime[i] + ") / (" + newTotalCpuTime + " - " + oldTotalCpuTime + ")) * " + ncpu);
+            LOG.debug("double pcpu = 100 * ((" + newProcessCpuTime[i] + " - " + oldProcessCpuTime[i] + ") / (" + newTotalCpuTime + " - " + oldTotalCpuTime + ")) * " + ncpu);
 
             if (pcpu[i] > (100 * ncpu)) {
                 LOG.warn("Over the Maximum Value: " + pcpu[i] + "%. Maximum Value: " + (100 * ncpu) + "%");
                 pcpu[i] = 0;
             }
 
-            LOG.info("Process CPU Used(%): " + pcpu[i] + "%");
+            LOG.debug("Process CPU Used(%): " + pcpu[i] + "%");
         }
-        //double pcpu = 100 * ((newProcessCpuTime - oldProcessCpuTime) / (newTotalCpuTime - oldTotalCpuTime)) * ncpu;
 
         for (int i = 0; i < size; i++) {
             ServerMsgBean serverMsgBean = new ServerMsgBean();
@@ -376,7 +301,7 @@ public class TotalCPUMonitor extends GatherAbstract {
                 }
             }
 
-            LOG.info("The Total CPU Time: " + newTotalCpuTime);
+            LOG.debug("The Total CPU Time: " + newTotalCpuTime);
 
             //读取进程CPU的信息
             for (int i = 0; i < size; i++) {
@@ -391,7 +316,7 @@ public class TotalCPUMonitor extends GatherAbstract {
                     LOG.error(pcpufp[i].getAbsolutePath() + " the contents of the file is empty!");
                     result = false;
                 }
-                LOG.info("The Process's CPU Time: " + newProcessCpuTime[i]);
+                LOG.debug("The Process's CPU Time: " + newProcessCpuTime[i]);
             }
 
 
@@ -408,7 +333,7 @@ public class TotalCPUMonitor extends GatherAbstract {
                 result = false;
             }
 
-            LOG.info("OneMinsProcs: " + loadAvgBean.getOneMinsProcs() + "  FiveMinsProcs: " + loadAvgBean.getFiveMinsProcs() + " FifteenMinsProcs: " + loadAvgBean.getFifteenMinsProcs());
+            LOG.debug("OneMinsProcs: " + loadAvgBean.getOneMinsProcs() + "  FiveMinsProcs: " + loadAvgBean.getFiveMinsProcs() + " FifteenMinsProcs: " + loadAvgBean.getFifteenMinsProcs());
 
             //读取进程内存信息
             for (int i = 0; i < size; i++) {
@@ -419,15 +344,12 @@ public class TotalCPUMonitor extends GatherAbstract {
                         memUsed[i] = (Integer.parseInt(m.replaceAll("").trim())) / 1024;
                     }
                 }
-                LOG.info("The Process Memory Used: " + memUsed[i] + "MB.");
+                LOG.debug("The Process Memory Used: " + memUsed[i] + "MB.");
             }
         } catch (FileNotFoundException e) {
-            //e.printStackTrace();
             LOG.error(LogTrance.getTrace(e));
-            //LOG.warn("Can't open " + pcpufp.getAbsolutePath() + ". Application will retrieve process, please wait...");
             result = false;
         } catch (IOException e) {
-            //e.printStackTrace();
             LOG.error(LogTrance.getTrace(e));
             result = false;
         } finally {
@@ -444,62 +366,11 @@ public class TotalCPUMonitor extends GatherAbstract {
                     }
                     sb.append(cpufp.getAbsolutePath());
                     sb.append("......[OK]");
-                    LOG.info(sb.toString());
-                    //LOG.info("Closed the buffer of " + cpufp.getAbsolutePath() + " and " + pcpufp.getAbsolutePath() + " and " + loadavgfp.getAbsolutePath() + " and " + memfp.getAbsolutePath() + "......[OK]");
+                    LOG.debug(sb.toString());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
                 result = false;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 从proc获取进程平均负载信息
-     *
-     * @param serverMsgBean
-     * @return
-     */
-    public boolean getProcessInfoFromProc(ServerMsgBean serverMsgBean) {
-        FileReader reader = null;
-        BufferedReader br = null;
-        boolean result = false;
-        try {
-            float oneMinsProcs;
-            float fiveMInsProcs;
-            float fifteenMinsProcs;
-            reader = new FileReader("/proc/loadavg"); //读取来自/proc/loadavg文件中的信息
-            br = new BufferedReader(reader);
-            String str = br.readLine();
-            while (str != null && !str.equals("") && !str.equals(" ")) {
-                String a[] = str.split(" "); //根据空格对字符串进行切分
-                oneMinsProcs = Float.parseFloat(a[0]); //第一位为1分钟进程数
-                fiveMInsProcs = Float.parseFloat(a[1]); //第二位为5分钟进程数
-                fifteenMinsProcs = Float.parseFloat(a[2]); //第三位为15分钟进程数
-                serverMsgBean.setOneMinsProcs(oneMinsProcs);
-                serverMsgBean.setFiveMinsProcs(fiveMInsProcs);
-                serverMsgBean.setFifteenMinsProcs(fifteenMinsProcs);
-                str = br.readLine();
-            }
-            result = true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null)
-                    br.close();
-                if (reader != null)
-                    reader.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
         }
         return result;
@@ -531,8 +402,6 @@ public class TotalCPUMonitor extends GatherAbstract {
     public List<Integer> getPids() {
 
         List<Integer> processIdList = new ArrayList<Integer>();
-
-        //int processId = -1;
 
         Runtime run = Runtime.getRuntime();
         BufferedReader inBr = null;
@@ -566,7 +435,7 @@ public class TotalCPUMonitor extends GatherAbstract {
             }
             //如果成功获取到进程pid，则退出循环
             if (processIdList.size() != 0) {
-                LOG.info("The pid of " + processName + ": " + processIdList);
+                LOG.info("Successfully get the list of pid." + processName + ": " + processIdList);
                 getPidLoop = false;
             }
             try {
@@ -578,74 +447,8 @@ public class TotalCPUMonitor extends GatherAbstract {
         return processIdList;
     }
 
-
     @Override
     public void run() {
-
-//        MemUsage memUsage = new MemUsage();
-//        Runtime run = Runtime.getRuntime();
-//        String memPath;
-//
-//        String currentTime;
-//        File statusFile;
-//        ServerMsgBean serverMsgBean = new ServerMsgBean();
-//        serverMsgBean.setLocalHostIp(ip);
-//        serverMsgBean.setProceeName(processName);
-//        //serverMsgBean.setPid(Integer.parseInt(processId));
-//        boolean processInfo;
-//        boolean cpuMsg;
-//        boolean memInfo;
-//        while (shutdown) {
-//
-//            processId = getPid(); //获取进程id
-//            LOG.info("Process Id: " + processId);
-//
-//            cmd = "top -p " + processId + " -b -n 1"; //top命令
-//            LOG.info("Top Command For Collecting CPU & Memory: " + cmd);
-//
-//            running = true;
-//
-//            processIdStr = String.valueOf(processId);
-//
-//            memPath = "/proc/" + processIdStr + "/status";
-//            LOG.info("Reading the file for memory: " + memPath);
-//            statusFile = new File(memPath);
-//
-//            serverMsgBean.setPid(processId);
-//
-//            while (shutdown && running) {
-//
-//                currentTime = TimeUtils.getCurrentTime();//获取系统当前时间
-//                serverMsgBean.setUpdateTime(currentTime);
-//
-//                //获取进程的负载信息
-//                processInfo = getProcessInfoFromProc(serverMsgBean);
-//
-//                //获取进程的cpu信息
-//                cpuMsg = getCPUMsgByTop(run, serverMsgBean);
-//
-//                //获取内存信息
-//                memInfo = memUsage.getMemUsage(statusFile, serverMsgBean);
-//
-//                debugMsg(serverMsgBean);
-//
-//                //如果三个信息都获取到了，则存储至数据库
-//                if (processInfo && cpuMsg && memInfo) {
-//                    serverMsgDao.insert_server_monitor(serverMsgBean);
-//                    MybatisUtils.session.commit();
-//
-//                } else if (!cpuMsg || !memInfo) {//否则，查看是否cpu还是内存没有获取到，若是这两个未获取到，一般是因为进程id改变了
-//                    running = false;
-//                    getPidLoop = true;
-//                }
-//                try {
-//                    Thread.sleep(intervalTime);
-//                } catch (InterruptedException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
         start();
     }
 

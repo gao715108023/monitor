@@ -18,15 +18,9 @@ public class IOStat extends GatherAbstract {
 
     private File iofp;
 
-    private File cpufp;			/* /proc/stat */
-
-    //private int kernel; //Kernel: 4 (2.4, /proc/partitions) or 6 (2.6, /proc/diskstats)
-
-    //private List<BlkioInfo> newBlkio = new ArrayList<BlkioInfo>();
+    private File cpufp;
 
     BlkioInfo[] newBlkio;
-
-    //private List<BlkioInfo> oldBlkio = new ArrayList<BlkioInfo>();
 
     BlkioInfo[] oldBlkio;
 
@@ -38,25 +32,12 @@ public class IOStat extends GatherAbstract {
 
     int MAX_PARTITIONS = 64;
 
-    //PartInfo[] partition = new PartInfo[MAX_PARTITIONS];
     List<PartInfo> partition = new ArrayList<PartInfo>();
 
     private int ncpu;		/* Number of processors */
 
-//    private Formatter f1 = new Formatter(System.out);
-
-    //private ServerMsgDao serverMsgDao;
-
-    // private String ip;
-
-//    public IOStat() {
-//        super();
-//    }
-
     public IOStat(String ip) {
         super(ip);
-        //this.ip = ip;
-        //this.serverMsgDao = MybatisUtils.session.getMapper(ServerMsgDao.class);
     }
 
     private void getNumberOfCPUs() {
@@ -73,7 +54,6 @@ public class IOStat extends GatherAbstract {
                     ncpu++;
                 }
             }
-//            System.out.println("cpus: " + ncpu);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -128,8 +108,6 @@ public class IOStat extends GatherAbstract {
 
         computePersistence();
 
-        /* Save old stats */
-
         try {
             for (p = 0; p < nPartitions; p++)
                 BeanUtils.copyProperties(oldBlkio[p], newBlkio[p]);
@@ -139,9 +117,6 @@ public class IOStat extends GatherAbstract {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        // oldBlkio[p] = newBlkio[p];
-        //oldBlkio = Arrays.copyOf(newBlkio, newBlkio.length);
-        //oldCPU = newCPU;
     }
 
     /**
@@ -152,19 +127,13 @@ public class IOStat extends GatherAbstract {
         int p;
         double deltams = 1000.0 * ((newCPU.getUser() + newCPU.getSystem() + newCPU.getIdle() + newCPU.getIowait()) - (oldCPU.getUser() + oldCPU.getSystem() + oldCPU.getIdle() + oldCPU.getIowait())) / ncpu / Parameter.HZ;
 
-        //System.out.println("1000.0 * ((" + newCPU.getUser() + " + " + newCPU.getSystem() + " + " + newCPU.getIdle() + " + " + newCPU.getIowait() + ") - (" + oldCPU.getUser() + " + " + oldCPU.getSystem() + " + " + oldCPU.getIdle() + " + " + oldCPU.getIowait() + ")) / " + ncpu + " / " + Parameter.HZ);
-        //System.out.println("deltams: " + deltams);
-//        System.out.println("Device:          rrqm/s    wrqm/s     r/s       w/s      rkB/s     wkB/s     avgrq-sz      avgqu-sz     await      svctm     %util");
         for (p = 0; p < nPartitions; p++) {
             BlkioInfo blkioInfo = new BlkioInfo();
             double nIOs;     //I/O完成次数
             double nTicks;     //每秒I/O花费的毫秒数
-            //double nKbytes; //每秒I/O扇区的次数
             double busy;    //磁盘利用率(%) util
             double svcT;	 /* 平均每次输入/输出操作花费的毫秒数svctm*/
             double wait;	 /* 平均每次I/O花费的毫秒数 await*/
-            //double size;     //平均1次I/O需要读取多少次扇区 avgrq-sz
-            //double queue;	 /* Average queue avgqu-sz*/
             blkioInfo.setRdIos(newBlkio[p].getRdIos() - oldBlkio[p].getRdIos());//每秒读完成次数 r/s
             blkioInfo.setRdMerges(newBlkio[p].getRdMerges() - oldBlkio[p].getRdMerges());//每秒合并读完成次数 rrqm/s
             blkioInfo.setRdSectors(newBlkio[p].getRdSectors() - oldBlkio[p].getRdSectors());//每秒读扇区的次数 rkB/s
@@ -180,24 +149,14 @@ public class IOStat extends GatherAbstract {
 
             nTicks = blkioInfo.getRdTicks() + blkioInfo.getWrTicks();
 
-            //nKbytes = (blkioInfo.getRdSectors() + blkioInfo.getWrSectors()) / 2.0;
-
-            //queue = blkioInfo.getAveq() / deltams;
-
-            //size = (nIOs != 0 ? nKbytes / nIOs : 0.0);
-
             wait = (nIOs != 0 ? nTicks / nIOs : 0.0);
 
             svcT = (nIOs != 0 ? blkioInfo.getTicks() / nIOs : 0.0);
 
-            busy = 100.0 * blkioInfo.getTicks() / deltams; /* percentage! */
+            busy = 100.0 * blkioInfo.getTicks() / deltams;
 
             if (busy > 100.0)
                 busy = 100.0;
-            //System.out.println(partition.get(p).getName() + "        " + blkioInfo.getRdMerges() + "    " + blkioInfo.getWrMerges() + "    " + blkioInfo.getRdIos() + "    " + blkioInfo.getWrIos() + "    " + blkioInfo.getRdSectors() / 2.0 + "    " + blkioInfo.getWrSectors() / 2.0 + "    " + round(size) + "    " + round(queue) + "    " + round(wait) + "    " + round(svcT) + "    " + round(busy));
-            //f1.format("%-16s %-5.2f %-5.2f %-6.2f %-6.2f %-7.2f %-7.2f %-6.2f %-5.2f %-6.2f %-5.2f %-3.2f", partition.get(p).getName(), (float)blkioInfo.getRdMerges(), (float)blkioInfo.getWrMerges(), (float)blkioInfo.getRdIos(), (float)blkioInfo.getWrIos(), (blkioInfo.getRdSectors() / 2.0), (blkioInfo.getWrSectors() / 2.0), size, queue, wait, svcT, busy);
-//            f1.format("%-16s %-9.2f %-9.2f %-9.2f %-9.2f %-9.2f %-9.2f %-9.2f %-9.2f %-9.2f %-9.2f %-9.2f", partition.get(p).getName(), (float) blkioInfo.getRdMerges(), (float) blkioInfo.getWrMerges(), (float) blkioInfo.getRdIos(), (float) blkioInfo.getWrIos(), (blkioInfo.getRdSectors() / 2.0), (blkioInfo.getWrSectors() / 2.0), size, queue, wait, svcT, busy);
-//            System.out.println("\n");
 
             IOStatMonitor ioStatMonitor = new IOStatMonitor();
             ioStatMonitor.setIp(getIp());
@@ -247,7 +206,6 @@ public class IOStat extends GatherAbstract {
                         } catch (InvocationTargetException e) {
                             e.printStackTrace();
                         }
-                        //newBlkio[p] = blkioInfo;
                         break;
                     }
                 }
@@ -262,9 +220,6 @@ public class IOStat extends GatherAbstract {
 
                     tempString = tempString.replaceAll(" {2,}", " ").trim();
                     String[] array = tempString.split(" ");
-//                    for (int i = 0; i < array.length; i++) {
-//                        System.out.println(array[i] + "   ");
-//                    }
                     newCPU.setUser(Double.parseDouble(array[1]));
                     nice = Double.parseDouble(array[2]);
                     newCPU.setSystem(Double.parseDouble(array[3]));
@@ -276,7 +231,6 @@ public class IOStat extends GatherAbstract {
                     newCPU.setSystem(newCPU.getSystem() + irq + softirq);
                 }
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -314,11 +268,12 @@ public class IOStat extends GatherAbstract {
 
                 int p;
 
-                for (p = 0; p < nPartitions && (partition.get(p).getMajor() != partInfo.getMajor() || partition.get(p).getMinor() != partInfo.getMinor()); p++)
-                    ;
+                p = 0;
+                while (p < nPartitions && (partition.get(p).getMajor() != partInfo.getMajor() || partition.get(p).getMinor() != partInfo.getMinor())) {
+                    p++;
+                }
                 if (p == nPartitions && p < MAX_PARTITIONS) {
                     if (reads != 0 && (p == 0 || !partInfo.getName().contains(partition.get(p - 1).getName()))) {
-                        //partition[p] = partInfo;
                         partition.add(partInfo);
                         nPartitions = p + 1;
                     }
@@ -342,12 +297,6 @@ public class IOStat extends GatherAbstract {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private void printPartition() {
-        for (PartInfo partInfo : partition) {
-            System.out.println(partInfo.getName());
         }
     }
 

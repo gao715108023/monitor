@@ -44,6 +44,8 @@ public class MonitorMain {
 
         if (args.length == 0) {
             startCPUAndMenory(conf, localhostIP, sampleTime);
+            startTraffic(conf, localhostIP, sampleTime);
+            startIO(localhostIP);
         } else {
             for (String arg : args) {
                 switch (arg.charAt(arg.length() - 1)) {
@@ -65,58 +67,12 @@ public class MonitorMain {
                 }
             }
         }
-
-
-//        String pidPath = conf.getString("pidPath");
-//        String processName = conf.getString("process_name");
-//        int sampleTime = conf.getInt("sampling_time");
-//        String localhostIP = HostUtil.getLocalHostIP();
-//        String pid = FileUtils.getPidOnce(pidPath);
-//        String cmd = "top -p " + pid + " -b -n 1";
-//        int listeningPort = conf.getInt("listening_port");
-//        String networkCardName = conf.getString("network_card_name");
-//        boolean isCollectCPUAndMemory = conf.getBoolean("collect_cpu_memory");
-//        boolean isCollectTraffic = conf.getBoolean("collect_traffic");
-//        boolean isCollectNetstat = conf.getBoolean("collect_netstat");
-//        boolean isSimpleProcess = conf.getBoolean("simple_process");
-//        LOG.info("The Path of Process Id: " + pidPath);
-//        LOG.info("Process Name: " + processName);
-//        LOG.info("Sample Time: " + sampleTime);
-//        LOG.info("The IP Address of Localhost: " + localhostIP);
-//        LOG.info("Process Id: " + pid);
-//        LOG.info("Top Command For Collecting CPU & Memory: " + cmd);
-//        LOG.info("The Port for netstat: " + listeningPort);
-//        LOG.info("The Name of Network Card: " + networkCardName);
-//        LOG.info("Is Collect CPU & Memory: " + isCollectCPUAndMemory);
-//        LOG.info("Is Collect Traffic: " + isCollectTraffic);
-//        LOG.info("Is Collect Netstat: " + isCollectNetstat);
-//        LOG.info("Is Simple Process: " + isSimpleProcess);
-//        if (isCollectCPUAndMemory && isSimpleProcess) {
-//            LOG.info("Starting The Thread for CPU & Memory......");
-//            new Thread(new CPUAndMemMonitor(cmd, processName, pid, sampleTime, localhostIP)).start();
-//        } else if (!isSimpleProcess && isCollectCPUAndMemory) {
-//            String[] array = pid.split(",");
-//            for (int i = 0; i < array.length; i++) {
-//                LOG.info("Starting The Thread[" + i + "] for CPU & Memory......");
-//                new Thread(new CPUAndMemMonitor(cmd, processName, array[i], sampleTime, localhostIP)).start();
-//            }
-//        }
-//        if (isCollectTraffic) {
-//            LOG.info("Starting The Thread for traffic......");
-//            new Thread(new Traffic(sampleTime, localhostIP, networkCardName)).start();
-//        }
-//        if (isCollectNetstat) {
-//            LOG.info("Starting The Thread for netstat......");
-//            new Thread(new NetstatMonitor(localhostIP, sampleTime, listeningPort)).start();
-//        }
     }
 
     private void startIO(String localhostIP) {
         IOStat ioStat = new IOStat(localhostIP);
         Thread t = new Thread(ioStat);
         t.start();
-        //new Thread(new IOStat()).start();
-
         LOG.info("Starting The Monitor for IOStat.      [OK]");
     }
 
@@ -141,24 +97,8 @@ public class MonitorMain {
 
     private void startCPUAndMenory(ConfigUtils conf, String localhostIP, int sampleTime) {
 
-//        String pidPath = conf.getString("pidPath");
-//        LOG.info("The Path of Process Id: " + pidPath);
-
-//        String pid = FileUtils.getPidOnce(pidPath);
-//        LOG.info("Process Id: " + pid);
-
-//        String cmd = "top -p " + pid + " -b -n 1";
-//        LOG.info("Top Command For Collecting CPU & Memory: " + cmd);
-
         String processName = conf.getString("process_name");
         LOG.info("Process Name: " + processName);
-
-//        if (pid == null) {
-//            LOG.error("请确认进程ID的文件路径是正确的：pidPath=" + pidPath);
-//            System.exit(1);
-//        }
-
-//        new Thread(new CPUAndMemMonitor(cmd, processName, pid, sampleTime, localhostIP)).start();
         new Thread(new TotalCPUMonitor(localhostIP, processName, sampleTime)).start();
 
         LOG.info("Start The Monitor for CPU & Memory.      [OK]");
@@ -166,12 +106,17 @@ public class MonitorMain {
 
     public static void main(String[] args) {
 
-        StringBuilder sb = new StringBuilder();
-        for (String arg : args) {
-            sb.append(arg.charAt(arg.length() - 1)).append(" ");
+        if (args != null) {
+            StringBuilder sb = new StringBuilder();
+            for (String arg : args) {
+                sb.append(arg.charAt(arg.length() - 1)).append(" ");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            LOG.info("输入的参数为：" + sb.toString());
+        } else {
+            LOG.info("未输入任何参数！");
         }
-        sb.deleteCharAt(sb.length() - 1);
-        LOG.info("输入的参数为：" + sb.toString());
+
         MonitorMain monitorMain = new MonitorMain();
         monitorMain.start(args);
     }
