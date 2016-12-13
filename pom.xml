@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
-        <module>monitor-service</module>
+        <module>monitor-agent</module>
     </modules>
 
     <dependencyManagement>

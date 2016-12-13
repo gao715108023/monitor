@@ -179,80 +179,60 @@ public final class ClientMsgProtos {
             return (ClientLog) PARSER.parseFrom(input, extensionRegistry);
         }
 
-        public int getKey() {
-            return this.key_;
-        }
-
         public static ClientLog parseDelimitedFrom(InputStream input) throws IOException {
             return (ClientLog) PARSER.parseDelimitedFrom(input);
         }
 
-        public List<PCMsgProto.PCItem> getPcItemList() {
-            return this.pcItem_;
+        public int getKey() {
+            return this.key_;
         }
 
         public static ClientLog parseDelimitedFrom(InputStream input, ExtensionRegistryLite extensionRegistry) throws IOException {
             return (ClientLog) PARSER.parseDelimitedFrom(input, extensionRegistry);
         }
 
-        public List<? extends PCMsgProto.PCItemOrBuilder> getPcItemOrBuilderList() {
-            return this.pcItem_;
-        }
-
         public static ClientLog parseFrom(CodedInputStream input) throws IOException {
             return (ClientLog) PARSER.parseFrom(input);
         }
 
-        public int getPcItemCount() {
-            return this.pcItem_.size();
+        public List<PCMsgProto.PCItem> getPcItemList() {
+            return this.pcItem_;
         }
 
         public static ClientLog parseFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry) throws IOException {
             return (ClientLog) PARSER.parseFrom(input, extensionRegistry);
         }
 
-        public PCMsgProto.PCItem getPcItem(int index) {
-            return (PCMsgProto.PCItem) this.pcItem_.get(index);
-        }
-
         public static Builder newBuilder() {
             return Builder.create();
         }
 
-        public PCMsgProto.PCItemOrBuilder getPcItemOrBuilder(int index) {
-            return (PCMsgProto.PCItemOrBuilder) this.pcItem_.get(index);
+        public List<? extends PCMsgProto.PCItemOrBuilder> getPcItemOrBuilderList() {
+            return this.pcItem_;
         }
 
         public static Builder newBuilder(ClientLog prototype) {
             return newBuilder().mergeFrom(prototype);
         }
 
-        public List<WebMsgProto.WebItem> getWebItemList() {
-            return this.webItem_;
-        }
-
         public ClientLog getDefaultInstanceForType() {
             return defaultInstance;
         }
 
-        public List<? extends WebMsgProto.WebItemOrBuilder> getWebItemOrBuilderList() {
-            return this.webItem_;
+        public int getPcItemCount() {
+            return this.pcItem_.size();
         }
 
         public Parser<ClientLog> getParserForType() {
             return PARSER;
         }
 
-        public int getWebItemCount() {
-            return this.webItem_.size();
-        }
-
         protected GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
             return ClientMsgProtos.internal_static_pbmsg_ClientLog_fieldAccessorTable.ensureFieldAccessorsInitialized(ClientLog.class, Builder.class);
         }
 
-        public WebMsgProto.WebItem getWebItem(int index) {
-            return (WebMsgProto.WebItem) this.webItem_.get(index);
+        public PCMsgProto.PCItem getPcItem(int index) {
+            return (PCMsgProto.PCItem) this.pcItem_.get(index);
         }
 
         public final boolean isInitialized() {
@@ -280,12 +260,12 @@ public final class ClientMsgProtos {
             return true;
         }
 
-        public WebMsgProto.WebItemOrBuilder getWebItemOrBuilder(int index) {
-            return (WebMsgProto.WebItemOrBuilder) this.webItem_.get(index);
-        }
-
         public final UnknownFieldSet getUnknownFields() {
             return this.unknownFields;
+        }
+
+        public PCMsgProto.PCItemOrBuilder getPcItemOrBuilder(int index) {
+            return (PCMsgProto.PCItemOrBuilder) this.pcItem_.get(index);
         }
 
         public void writeTo(CodedOutputStream output) throws IOException {
@@ -322,6 +302,10 @@ public final class ClientMsgProtos {
             return size;
         }
 
+        public List<WebMsgProto.WebItem> getWebItemList() {
+            return this.webItem_;
+        }
+
         protected Builder newBuilderForType(GeneratedMessage.BuilderParent parent) {
             Builder builder = new Builder(parent);
             return builder;
@@ -329,6 +313,10 @@ public final class ClientMsgProtos {
 
         protected Object writeReplace() throws ObjectStreamException {
             return super.writeReplace();
+        }
+
+        public List<? extends WebMsgProto.WebItemOrBuilder> getWebItemOrBuilderList() {
+            return this.webItem_;
         }
 
         public boolean hasKey() {
@@ -341,12 +329,20 @@ public final class ClientMsgProtos {
             this.webItem_ = Collections.emptyList();
         }
 
+        public int getWebItemCount() {
+            return this.webItem_.size();
+        }
+
         public Builder newBuilderForType() {
             return newBuilder();
         }
 
         public Builder toBuilder() {
             return newBuilder(this);
+        }
+
+        public WebMsgProto.WebItem getWebItem(int index) {
+            return (WebMsgProto.WebItem) this.webItem_.get(index);
         }
 
         public static final class Builder extends GeneratedMessage.Builder<Builder> implements ClientLogOrBuilder {
@@ -429,16 +425,16 @@ public final class ClientMsgProtos {
                 return true;
             }
 
-            public ClientLog getDefaultInstanceForType() {
-                return ClientLog.getDefaultInstance();
-            }
-
             public ClientLog build() {
                 ClientLog result = buildPartial();
                 if (!result.isInitialized()) {
                     throw newUninitializedMessageException(result);
                 }
                 return result;
+            }
+
+            public ClientLog getDefaultInstanceForType() {
+                return ClientLog.getDefaultInstance();
             }
 
             public ClientLog buildPartial() {
@@ -565,10 +561,6 @@ public final class ClientMsgProtos {
                 }
             }
 
-            public boolean hasKey() {
-                return (this.bitField0_ & 0x1) == 1;
-            }
-
             public Builder setPcItem(int index, PCMsgProto.PCItem value) {
                 if (this.pcItemBuilder_ == null) {
                     if (value == null) {
@@ -583,10 +575,6 @@ public final class ClientMsgProtos {
                 return this;
             }
 
-            public int getKey() {
-                return this.key_;
-            }
-
             public Builder setPcItem(int index, PCMsgProto.PCItem.Builder builderForValue) {
                 if (this.pcItemBuilder_ == null) {
                     ensurePcItemIsMutable();
@@ -598,11 +586,8 @@ public final class ClientMsgProtos {
                 return this;
             }
 
-            public Builder setKey(int value) {
-                this.bitField0_ |= 1;
-                this.key_ = value;
-                onChanged();
-                return this;
+            public boolean hasKey() {
+                return (this.bitField0_ & 0x1) == 1;
             }
 
             public Builder addPcItem(PCMsgProto.PCItem value) {
@@ -633,6 +618,10 @@ public final class ClientMsgProtos {
                 return this;
             }
 
+            public int getKey() {
+                return this.key_;
+            }
+
             public Builder addPcItem(PCMsgProto.PCItem.Builder builderForValue) {
                 if (this.pcItemBuilder_ == null) {
                     ensurePcItemIsMutable();
@@ -642,13 +631,6 @@ public final class ClientMsgProtos {
                     this.pcItemBuilder_.addMessage(builderForValue.build());
                 }
                 return this;
-            }
-
-            public List<PCMsgProto.PCItem> getPcItemList() {
-                if (this.pcItemBuilder_ == null) {
-                    return Collections.unmodifiableList(this.pcItem_);
-                }
-                return this.pcItemBuilder_.getMessageList();
             }
 
             public Builder addPcItem(int index, PCMsgProto.PCItem.Builder builderForValue) {
@@ -662,11 +644,11 @@ public final class ClientMsgProtos {
                 return this;
             }
 
-            public int getPcItemCount() {
-                if (this.pcItemBuilder_ == null) {
-                    return this.pcItem_.size();
-                }
-                return this.pcItemBuilder_.getCount();
+            public Builder setKey(int value) {
+                this.bitField0_ |= 1;
+                this.key_ = value;
+                onChanged();
+                return this;
             }
 
             public Builder addAllPcItem(Iterable<? extends PCMsgProto.PCItem> values) {
@@ -678,13 +660,6 @@ public final class ClientMsgProtos {
                     this.pcItemBuilder_.addAllMessages(values);
                 }
                 return this;
-            }
-
-            public PCMsgProto.PCItem getPcItem(int index) {
-                if (this.pcItemBuilder_ == null) {
-                    return (PCMsgProto.PCItem) this.pcItem_.get(index);
-                }
-                return (PCMsgProto.PCItem) this.pcItemBuilder_.getMessage(index);
             }
 
             public Builder clearPcItem() {
@@ -713,12 +688,26 @@ public final class ClientMsgProtos {
                 return (PCMsgProto.PCItem.Builder) getPcItemFieldBuilder().getBuilder(index);
             }
 
+            public List<PCMsgProto.PCItem> getPcItemList() {
+                if (this.pcItemBuilder_ == null) {
+                    return Collections.unmodifiableList(this.pcItem_);
+                }
+                return this.pcItemBuilder_.getMessageList();
+            }
+
             public PCMsgProto.PCItem.Builder addPcItemBuilder() {
                 return (PCMsgProto.PCItem.Builder) getPcItemFieldBuilder().addBuilder(PCMsgProto.PCItem.getDefaultInstance());
             }
 
             public PCMsgProto.PCItem.Builder addPcItemBuilder(int index) {
                 return (PCMsgProto.PCItem.Builder) getPcItemFieldBuilder().addBuilder(index, PCMsgProto.PCItem.getDefaultInstance());
+            }
+
+            public int getPcItemCount() {
+                if (this.pcItemBuilder_ == null) {
+                    return this.pcItem_.size();
+                }
+                return this.pcItemBuilder_.getCount();
             }
 
             public List<PCMsgProto.PCItem.Builder> getPcItemBuilderList() {
@@ -731,6 +720,13 @@ public final class ClientMsgProtos {
                     this.pcItem_ = null;
                 }
                 return this.pcItemBuilder_;
+            }
+
+            public PCMsgProto.PCItem getPcItem(int index) {
+                if (this.pcItemBuilder_ == null) {
+                    return (PCMsgProto.PCItem) this.pcItem_.get(index);
+                }
+                return (PCMsgProto.PCItem) this.pcItemBuilder_.getMessage(index);
             }
 
             private void ensureWebItemIsMutable() {
@@ -779,12 +775,6 @@ public final class ClientMsgProtos {
                 return this;
             }
 
-            public PCMsgProto.PCItemOrBuilder getPcItemOrBuilder(int index) {
-                if (this.pcItemBuilder_ == null)
-                    return (PCMsgProto.PCItemOrBuilder) this.pcItem_.get(index);
-                return (PCMsgProto.PCItemOrBuilder) this.pcItemBuilder_.getMessageOrBuilder(index);
-            }
-
             public Builder addWebItem(int index, WebMsgProto.WebItem value) {
                 if (this.webItemBuilder_ == null) {
                     if (value == null) {
@@ -797,13 +787,6 @@ public final class ClientMsgProtos {
                     this.webItemBuilder_.addMessage(index, value);
                 }
                 return this;
-            }
-
-            public List<? extends PCMsgProto.PCItemOrBuilder> getPcItemOrBuilderList() {
-                if (this.pcItemBuilder_ != null) {
-                    return this.pcItemBuilder_.getMessageOrBuilderList();
-                }
-                return Collections.unmodifiableList(this.pcItem_);
             }
 
             public Builder addWebItem(WebMsgProto.WebItem.Builder builderForValue) {
@@ -865,37 +848,29 @@ public final class ClientMsgProtos {
                 return (WebMsgProto.WebItem.Builder) getWebItemFieldBuilder().getBuilder(index);
             }
 
-            public List<WebMsgProto.WebItem> getWebItemList() {
-                if (this.webItemBuilder_ == null) {
-                    return Collections.unmodifiableList(this.webItem_);
-                }
-                return this.webItemBuilder_.getMessageList();
-            }
-
             public WebMsgProto.WebItem.Builder addWebItemBuilder() {
                 return (WebMsgProto.WebItem.Builder) getWebItemFieldBuilder().addBuilder(WebMsgProto.WebItem.getDefaultInstance());
             }
 
-            public int getWebItemCount() {
-                if (this.webItemBuilder_ == null) {
-                    return this.webItem_.size();
-                }
-                return this.webItemBuilder_.getCount();
+            public PCMsgProto.PCItemOrBuilder getPcItemOrBuilder(int index) {
+                if (this.pcItemBuilder_ == null)
+                    return (PCMsgProto.PCItemOrBuilder) this.pcItem_.get(index);
+                return (PCMsgProto.PCItemOrBuilder) this.pcItemBuilder_.getMessageOrBuilder(index);
             }
 
             public WebMsgProto.WebItem.Builder addWebItemBuilder(int index) {
                 return (WebMsgProto.WebItem.Builder) getWebItemFieldBuilder().addBuilder(index, WebMsgProto.WebItem.getDefaultInstance());
             }
 
-            public WebMsgProto.WebItem getWebItem(int index) {
-                if (this.webItemBuilder_ == null) {
-                    return (WebMsgProto.WebItem) this.webItem_.get(index);
-                }
-                return (WebMsgProto.WebItem) this.webItemBuilder_.getMessage(index);
-            }
-
             public List<WebMsgProto.WebItem.Builder> getWebItemBuilderList() {
                 return getWebItemFieldBuilder().getBuilderList();
+            }
+
+            public List<? extends PCMsgProto.PCItemOrBuilder> getPcItemOrBuilderList() {
+                if (this.pcItemBuilder_ != null) {
+                    return this.pcItemBuilder_.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.pcItem_);
             }
 
             private RepeatedFieldBuilder<WebMsgProto.WebItem, WebMsgProto.WebItem.Builder, WebMsgProto.WebItemOrBuilder> getWebItemFieldBuilder() {
@@ -904,6 +879,41 @@ public final class ClientMsgProtos {
                     this.webItem_ = null;
                 }
                 return this.webItemBuilder_;
+            }
+
+
+
+
+
+
+
+
+
+
+
+            public List<WebMsgProto.WebItem> getWebItemList() {
+                if (this.webItemBuilder_ == null) {
+                    return Collections.unmodifiableList(this.webItem_);
+                }
+                return this.webItemBuilder_.getMessageList();
+            }
+
+
+
+            public int getWebItemCount() {
+                if (this.webItemBuilder_ == null) {
+                    return this.webItem_.size();
+                }
+                return this.webItemBuilder_.getCount();
+            }
+
+
+
+            public WebMsgProto.WebItem getWebItem(int index) {
+                if (this.webItemBuilder_ == null) {
+                    return (WebMsgProto.WebItem) this.webItem_.get(index);
+                }
+                return (WebMsgProto.WebItem) this.webItemBuilder_.getMessage(index);
             }
 
 
@@ -922,6 +932,30 @@ public final class ClientMsgProtos {
 
 
         }
+
+        public WebMsgProto.WebItemOrBuilder getWebItemOrBuilder(int index) {
+            return (WebMsgProto.WebItemOrBuilder) this.webItem_.get(index);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
