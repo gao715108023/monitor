@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.monitor.dao.InfoDao">
+
+    <select id="select_pushproxyinfo" resultType="net.monitor.bean.Info">
+        select * from pushproxyinfo where updatetime>=#{updateTime}
+    </select>
+
+    <insert id="insert_pushproxyinfo" parameterType="net.monitor.bean.Info">
+        insert into insert_pushproxyinfo(updatetime,cpuusage,memusage) values(#{updateTime},#{cpuUsage},#{memUsage})
+    </insert>
+
+    <select id="select_querywebinfo" resultType="net.monitor.bean.Info">
+        select * from query_web_info where updatetime>=#{updateTime}
+    </select>
+
+    <insert id="insert_querywebinfo" parameterType="net.monitor.bean.Info">
+        insert into query_web_info(updatetime,cpuusage,memusage) values(#{updateTime},#{cpuUsage},#{memUsage})
+    </insert>
+
+    <select id="select_cjiinfo" resultType="net.monitor.bean.Info">
+        select * from cji_info where updatetime>=#{updateTime}
+    </select>
+
+    <insert id="insert_cjiinfo" parameterType="net.monitor.bean.Info">
+        insert into cji_info(updatetime,cpuusage,memusage) values(#{updateTime},#{cpuUsage},#{memUsage})
+    </insert>
+
+    <insert id="insert_elasticsearch" parameterType="net.monitor.bean.Info">
+        insert into elasticsearch(updatetime,cpuusage,memusage) values(#{updateTime},#{cpuUsage},#{memUsage})
+    </insert>
+</mapper>
