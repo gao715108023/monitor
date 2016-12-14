@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>根本停不下来-围住神经猫</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <meta name="full-screen" content="true" />
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="360-fullscreen" content="true" />
+
+
+    <style>
+        body {
+            text-align: center;
+            background: #000000;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+        html {
+            -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+        }
+
+        .sbgshow {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            color: #fff;
+            font-size: 30px;
+            line-height: 1.7em;
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        .sbgshow .arron {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 100px;
+            height: 100px;
+            background: url(http://baby.ci123.com/yunqi/m/weixin/images/arron.png) no-repeat;
+            background-size: 100px 100px;
+        }
+
+        .sbgshow p {
+            padding-top: 78px;
+        }
+
+        .sbg {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            color: #fff;
+            font-size: 26px;
+            line-height: 1.7em;
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        .sbg .arron {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 100px;
+            height: 100px;
+            background: url(http://baby.ci123.com/yunqi/m/weixin/images/arron.png) no-repeat;
+            background-size: 100px 100px;
+        }
+
+        .sbg p {
+            padding-top: 78px;
+        }
+
+        #myfav {
+            display: none;
+        }
+    </style>
+
+    <style type="text/css">.app2 {
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 5px 12px;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .app2 .a {
+        font-size: 18px;
+        font-weight: bold;
+        padding-bottom: 4px;
+    }
+
+    .app2 .b {
+        font-size: 10px;
+    }
+
+    .app2 .load {
+        float: left;
+        background: #f66;
+        color: #fff;
+        font-size: 16px;
+        margin-top: 4px;
+        padding: 7px 14px;
+        border-radius: 5px;
+    }
+    </style>
+
+</head>
+<body>
+<div style="display:inline-block;width:100%; height:100%;margin: 0 auto; background: black; position:relative;"
+     id="gameDiv">
+    <canvas id="gameCanvas" width="480" height="800" style="background-color: #000000"></canvas>
+</div>
+<div id="myfav">
+</div>
+<div id="sbg" class="sbg">
+    <div class="arron"></div>
+    <p id="msg">请点击右上角<br />点击【分享到朋友圈】<br />测测好友的神经指数吧！</p>
+</div>
+
+
+<script>var document_class = "GameApp";</script>
+<!--这部分内容在编译时会被替换，要修改文档类，请到工程目录下的egretProperties.json内编辑。-->
+<script src="js/sjm/jquery.min.js"></script>
+<script src="js/sjm/egret_loader.js"></script>
+<script src="js/sjm/game-min-07244.js"></script>
+
+<script>
+    window.shareData = {
+        "imgUrl": "http://1251001823.cdn.myqcloud.com/1251001823/wechat/mao80.jpg",
+        "timeLineLink": "http://1251001823.cdn.myqcloud.com/1251001823/wechat/sjm/launcher",
+        "tTitle": "围住神经猫-根本停不下来，玩过之后我整个人都精神了！",
+        "tContent": "在9×9范围内的格子中，使用色块围住白色神经猫。"
+    };
+    function showme() {
+        window.location.href = "http://mp.weixin.qq.com/s?__biz=MzA5NDY4MzMxOQ==&mid=200506249&idx=1&sn=600daa415b4d0c00e526e93bb9cd1bea#rd";
+    }
+    function share(n, m) {
+        if (m == 0) {
+            document.title = window.shareData.tTitle = "围住神经猫-根本停不下来，玩过之后我整个人都精神了！"
+        }
+        if (m == 1) {
+            document.title = window.shareData.tTitle = "我用了" + n + "步围住神经猫，击败" + (100 - n) + "%的人，你能超过我吗？"
+        }
+        if (m == 2) {
+            document.title = window.shareData.tTitle = "我没有围住它，谁能帮个忙？"
+        }
+        document.getElementById("sbg").className = "sbgshow";
+        window.setTimeout(hiddenMe, 5000);
+        $("#myfav").css("display", "none");
+    }
+
+    function hiddenMe() {
+        document.getElementById("sbg").className = "sbg";
+    }
+
+    var mebtnopenurl = 'http://1251001823.cdn.myqcloud.com/1251001823/wechat/sjm/launcher';
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+
+        WeixinJSBridge.on('menu:share:appmessage', function (argv) {
+            WeixinJSBridge.invoke('sendAppMessage', {
+                "img_url": window.shareData.imgUrl,
+                "link": window.shareData.timeLineLink,
+                "desc": window.shareData.tContent,
+                "title": window.shareData.tTitle
+            }, function (res) {
+                document.location.href = mebtnopenurl;
+            })
+        });
+
+        WeixinJSBridge.on('menu:share:timeline', function (argv) {
+            WeixinJSBridge.invoke('shareTimeline', {
+                "img_url": window.shareData.imgUrl,
+                "img_width": "640",
+                "img_height": "640",
+                "link": window.shareData.timeLineLink,
+                "desc": window.shareData.tContent,
+                "title": window.shareData.tTitle
+            }, function (res) {
+                document.location.href = mebtnopenurl;
+            });
+        });
+
+
+        WeixinJSBridge.on('menu:share:weibo', function (argv) {
+            WeixinJSBridge.invoke('shareWeibo', {
+                "content": window.shareData.tContent,
+                "url": window.shareData.timeLineLink
+            }, function (res) {
+                document.location.href = mebtnopenurl;
+            });
+        });
+
+    }, false)
+
+    egret_h5.startGame();
+</script>
+<script type="text/javascript">
+    var f_imgs = ["http://1251001823.cdn.myqcloud.com/1251001823/wechat/xz.png", "http://filebaby.qubaobei.com/box/images/log.png"];
+    var click_urls = ["http://10.15.144.162:8080/monitorweb/", "http://www.wowchina.com/"];
+    var f_names = ["资源监控系统", "魔兽世界"];
+    var f_descs = ["谁用谁知道", "做你从未做过的事"];
+
+    var i = Math.floor(Math.random() * f_imgs.length);
+    if (navigator.userAgent.indexOf("iPhone") != -1) {
+        i = 1;
+    }
+
+    var f_img = f_imgs[i];
+    var click_url = click_urls[i];
+    var f_name = f_names[i];
+    var f_desc = f_descs[i];
+
+    $(document).ready(function () {
+
+        $("#myfav").html('<div class="app2" id="app2" onClick="window.location=\'' + click_url + '\';"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td width="58"><img src="' + f_img + '" width="42" height="42" /></td><td><div class="a">' + f_name + '</div><div class="b">' + f_desc + '</div></td><td valign="top"><div class="load">下载' + f_name + '</div></td></tr></table></div>')
+
+    });
+
+
+    function entergame() {
+        $("#myfav").css("display", "block");
+    }
+</script>
+</body>
+</html>
