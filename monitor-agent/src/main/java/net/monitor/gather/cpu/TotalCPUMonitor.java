@@ -64,6 +64,8 @@ public class TotalCPUMonitor implements Runnable {
                         int[] processMemUsed = getProcessMemUsed();
                         double[] processCpuUsages = computeProcessCpuUsage(ncpu, preTotalCpuTime, preProcessCpuTimes, curTotalCpuTime, curProcessCpuTimes);
                         save(loadAvg, processCpuUsages, processMemUsed);
+                        preTotalCpuTime = curTotalCpuTime;
+                        preProcessCpuTimes = curProcessCpuTimes;
                     } catch (Exception e) {
                         LOGGER.error("monitor error.", e);
                         running.compareAndSet(true, false);
