@@ -1,4 +1,4 @@
-package net.monitor.gather.cpu;
+package net.monitor.gather.process;
 
 import net.monitor.utils.FileUtils;
 import net.monitor.utils.SystemUtils;

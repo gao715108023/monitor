@@ -1,9 +1,10 @@
-package net.monitor.gather.cpu;
+package net.monitor.gather.process;
 
 import net.monitor.bean.LoadAvgBean;
 import net.monitor.dao.dto.ProcessMonitorDTO;
 import net.monitor.dao.mapper.ProcessMonitorMapper;
 import net.monitor.domain.WatchProcess;
+import net.monitor.gather.CpuStaticInfo;
 import net.monitor.utils.Config;
 import net.monitor.utils.FileUtils;
 import net.monitor.utils.MybatisUtils;
@@ -11,7 +12,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -22,9 +25,9 @@ import java.util.regex.Pattern;
  * @author gaochuanjun
  * @since 14-3-3
  */
-public class TotalCPUMonitor implements Runnable {
+public class ProcessCPUAndMemoryMonitor implements Runnable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TotalCPUMonitor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessCPUAndMemoryMonitor.class);
 
     private static final AtomicBoolean running = new AtomicBoolean(true);
 
@@ -33,12 +36,12 @@ public class TotalCPUMonitor implements Runnable {
     private final String localIp;
     private ProcessMonitorMapper processMonitorMapper = MybatisUtils.session.getMapper(ProcessMonitorMapper.class);
 
-    public TotalCPUMonitor(String localIp) {
+    public ProcessCPUAndMemoryMonitor(String localIp) {
         this.localIp = localIp;
     }
 
     public void start() {
-        int ncpu = getNumberOfCPUs();
+        int ncpu = CpuStaticInfo.getNumberOfCPUs();
         mainLoop(ncpu);
     }
 
@@ -75,44 +78,6 @@ public class TotalCPUMonitor implements Runnable {
                 LOGGER.error("total cpu monitor error.", t);
             }
         }
-    }
-
-    /**
-     * 获取逻辑CPU个数
-     *
-     * @return 逻辑CPU个数
-     */
-    private int getNumberOfCPUs() {
-        int ncpu = 0;
-        File ncpufp = new File("/proc/cpuinfo");
-        if (!ncpufp.exists()) {
-            LOGGER.error("Can't open /proc/cpuinfo");
-            return ncpu;
-        }
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(ncpufp));
-            String tempString;
-            while ((tempString = reader.readLine()) != null) {
-                if (tempString.contains("processor\t:")) {
-                    ncpu++;
-                }
-            }
-            LOGGER.info("logical CPU number: " + ncpu);
-        } catch (FileNotFoundException e) {
-            LOGGER.error("/proc/cpuinfo文件不存在！", e);
-        } catch (IOException e) {
-            LOGGER.error("获取cpu数目失败！", e);
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                LOGGER.error("关闭buffer异常！", e);
-            }
-        }
-        return ncpu;
     }
 
     private double[] computeProcessCpuUsage(int ncpu, double preTotalCpuTime, double[] preProcessCpuTimes, double curTotalCpuTime, double[] curProcessCpuTimes) throws Exception {

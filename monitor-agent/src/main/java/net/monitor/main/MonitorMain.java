@@ -1,8 +1,8 @@
 package net.monitor.main;
 
 import net.monitor.domain.OS;
-import net.monitor.gather.cpu.TotalCPUMonitor;
-import net.monitor.io.IOStat;
+import net.monitor.gather.process.ProcessCPUAndMemoryMonitor;
+import net.monitor.gather.system.IOStatMonitor;
 import net.monitor.netstat.NetstatMonitor;
 import net.monitor.traffic.Traffic;
 import net.monitor.utils.Config;
@@ -43,7 +43,9 @@ public class MonitorMain {
 
         LOGGER.info("ip: {}", localHostIp);
 
-        new Thread(new TotalCPUMonitor(localHostIp)).start();
+        new Thread(new ProcessCPUAndMemoryMonitor(localHostIp)).start();
+
+        new Thread(new IOStatMonitor(localHostIp)).start();
 
         //if (args.length == 0) {
         //    startProcessCPUAndMemory(conf, localhostIP, sampleTime);
@@ -72,12 +74,12 @@ public class MonitorMain {
         //}
     }
 
-    private void startIO(String localhostIP) {
-        IOStat ioStat = new IOStat(localhostIP);
-        Thread t = new Thread(ioStat);
-        t.start();
-        LOGGER.info("Starting The Monitor for IOStat.      [OK]");
-    }
+    //private void startIO(String localhostIP) {
+    //    IOStatMonitor ioStat = new IOStatMonitor(localhostIP);
+    //    Thread t = new Thread(ioStat);
+    //    t.start();
+    //    LOGGER.info("Starting The Monitor for IOStatMonitor.      [OK]");
+    //}
 
     private void startNetstat(ConfigUtils conf, String localhostIP, int sampleTime) {
 
@@ -97,12 +99,12 @@ public class MonitorMain {
         LOGGER.info("Start The Monitor for Traffic.      [OK]");
     }
 
-    private void startProcessCPUAndMemory(ConfigUtils conf, String localhostIP, int sampleTime) {
-
-        String processName = conf.getString("process_name");
-        LOGGER.info("Process Name: " + processName);
-        new Thread(new TotalCPUMonitor(localhostIP)).start();
-
-        LOGGER.info("Start The Monitor for CPU & Memory.      [OK]");
-    }
+    //private void startProcessCPUAndMemory(ConfigUtils conf, String localhostIP, int sampleTime) {
+    //
+    //    String processName = conf.getString("process_name");
+    //    LOGGER.info("Process Name: " + processName);
+    //    new Thread(new ProcessCPUAndMemoryMonitor(localhostIP)).start();
+    //
+    //    LOGGER.info("Start The Monitor for CPU & Memory.      [OK]");
+    //}
 }

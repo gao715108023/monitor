@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.monitor.dao.mapper.IOMonitorMapper">
+    <resultMap id="BaseResultMap" type="net.monitor.dao.dto.IOMonitorDTO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="disk_name" jdbcType="VARCHAR" property="diskName"/>
+        <result column="await" jdbcType="REAL" property="await"/>
+        <result column="svctm" jdbcType="REAL" property="svctm"/>
+        <result column="util" jdbcType="REAL" property="util"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, ip, disk_name, await, svctm, util, gmt_create
+  </sql>
+    <select id="selectByExample" parameterType="net.monitor.dao.dto.IOMonitorDTOExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from io_monitor
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from io_monitor
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insert" parameterType="net.monitor.dao.dto.IOMonitorDTO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into io_monitor (ip, disk_name, await,
+        svctm, util, gmt_create)
+        values (#{ip,jdbcType=VARCHAR}, #{diskName,jdbcType=VARCHAR}, #{await,jdbcType=REAL},
+        #{svctm,jdbcType=REAL}, #{util,jdbcType=REAL}, #{gmtCreate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="net.monitor.dao.dto.IOMonitorDTO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into io_monitor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="diskName != null">
+                disk_name,
+            </if>
+            <if test="await != null">
+                await,
+            </if>
+            <if test="svctm != null">
+                svctm,
+            </if>
+            <if test="util != null">
+                util,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="diskName != null">
+                #{diskName,jdbcType=VARCHAR},
+            </if>
+            <if test="await != null">
+                #{await,jdbcType=REAL},
+            </if>
+            <if test="svctm != null">
+                #{svctm,jdbcType=REAL},
+            </if>
+            <if test="util != null">
+                #{util,jdbcType=REAL},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="net.monitor.dao.dto.IOMonitorDTOExample" resultType="java.lang.Long">
+        select count(*) from io_monitor
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update io_monitor
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.ip != null">
+                ip = #{record.ip,jdbcType=VARCHAR},
+            </if>
+            <if test="record.diskName != null">
+                disk_name = #{record.diskName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.await != null">
+                await = #{record.await,jdbcType=REAL},
+            </if>
+            <if test="record.svctm != null">
+                svctm = #{record.svctm,jdbcType=REAL},
+            </if>
+            <if test="record.util != null">
+                util = #{record.util,jdbcType=REAL},
+            </if>
+            <if test="record.gmtCreate != null">
+                gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update io_monitor
+        set id = #{record.id,jdbcType=BIGINT},
+        ip = #{record.ip,jdbcType=VARCHAR},
+        disk_name = #{record.diskName,jdbcType=VARCHAR},
+        await = #{record.await,jdbcType=REAL},
+        svctm = #{record.svctm,jdbcType=REAL},
+        util = #{record.util,jdbcType=REAL},
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="net.monitor.dao.dto.IOMonitorDTO">
+        update io_monitor
+        <set>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="diskName != null">
+                disk_name = #{diskName,jdbcType=VARCHAR},
+            </if>
+            <if test="await != null">
+                await = #{await,jdbcType=REAL},
+            </if>
+            <if test="svctm != null">
+                svctm = #{svctm,jdbcType=REAL},
+            </if>
+            <if test="util != null">
+                util = #{util,jdbcType=REAL},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="net.monitor.dao.dto.IOMonitorDTO">
+    update io_monitor
+    set ip = #{ip,jdbcType=VARCHAR},
+      disk_name = #{diskName,jdbcType=VARCHAR},
+      await = #{await,jdbcType=REAL},
+      svctm = #{svctm,jdbcType=REAL},
+      util = #{util,jdbcType=REAL},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
