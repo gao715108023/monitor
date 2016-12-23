@@ -11,6 +11,7 @@ public class LoadAvgBean {
     private float fifteenMinsProcs;
 
     public LoadAvgBean() {
+        this(0, 0, 0);
     }
 
     public LoadAvgBean(float oneMinsProcs, float fiveMinsProcs, float fifteenMinsProcs) {

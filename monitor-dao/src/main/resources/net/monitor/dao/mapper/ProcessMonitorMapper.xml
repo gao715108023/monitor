@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.monitor.dao.mapper.ProcessMonitorMapper">
+    <resultMap id="BaseResultMap" type="net.monitor.dao.dto.ProcessMonitorDTO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="process_name" jdbcType="VARCHAR" property="processName"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="one_mins_procs" jdbcType="REAL" property="oneMinsProcs"/>
+        <result column="five_mins_procs" jdbcType="REAL" property="fiveMinsProcs"/>
+        <result column="fifteen_mins_procs" jdbcType="REAL" property="fifteenMinsProcs"/>
+        <result column="process_cpu_usage" jdbcType="REAL" property="processCpuUsage"/>
+        <result column="process_memory_usage" jdbcType="REAL" property="processMemoryUsage"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, ip, process_name, pid, one_mins_procs, five_mins_procs, fifteen_mins_procs, process_cpu_usage, 
+    process_memory_usage, gmt_create
+  </sql>
+    <select id="selectByExample" parameterType="net.monitor.dao.dto.ProcessMonitorDTOExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from process_monitor
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from process_monitor
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insert" parameterType="net.monitor.dao.dto.ProcessMonitorDTO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into process_monitor (ip, process_name, pid,
+        one_mins_procs, five_mins_procs, fifteen_mins_procs,
+        process_cpu_usage, process_memory_usage, gmt_create
+        )
+        values (#{ip,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER},
+        #{oneMinsProcs,jdbcType=REAL}, #{fiveMinsProcs,jdbcType=REAL}, #{fifteenMinsProcs,jdbcType=REAL},
+        #{processCpuUsage,jdbcType=REAL}, #{processMemoryUsage,jdbcType=REAL}, #{gmtCreate,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="net.monitor.dao.dto.ProcessMonitorDTO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into process_monitor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="processName != null">
+                process_name,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="oneMinsProcs != null">
+                one_mins_procs,
+            </if>
+            <if test="fiveMinsProcs != null">
+                five_mins_procs,
+            </if>
+            <if test="fifteenMinsProcs != null">
+                fifteen_mins_procs,
+            </if>
+            <if test="processCpuUsage != null">
+                process_cpu_usage,
+            </if>
+            <if test="processMemoryUsage != null">
+                process_memory_usage,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="processName != null">
+                #{processName,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="oneMinsProcs != null">
+                #{oneMinsProcs,jdbcType=REAL},
+            </if>
+            <if test="fiveMinsProcs != null">
+                #{fiveMinsProcs,jdbcType=REAL},
+            </if>
+            <if test="fifteenMinsProcs != null">
+                #{fifteenMinsProcs,jdbcType=REAL},
+            </if>
+            <if test="processCpuUsage != null">
+                #{processCpuUsage,jdbcType=REAL},
+            </if>
+            <if test="processMemoryUsage != null">
+                #{processMemoryUsage,jdbcType=REAL},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="net.monitor.dao.dto.ProcessMonitorDTOExample" resultType="java.lang.Long">
+        select count(*) from process_monitor
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update process_monitor
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.ip != null">
+                ip = #{record.ip,jdbcType=VARCHAR},
+            </if>
+            <if test="record.processName != null">
+                process_name = #{record.processName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.pid != null">
+                pid = #{record.pid,jdbcType=INTEGER},
+            </if>
+            <if test="record.oneMinsProcs != null">
+                one_mins_procs = #{record.oneMinsProcs,jdbcType=REAL},
+            </if>
+            <if test="record.fiveMinsProcs != null">
+                five_mins_procs = #{record.fiveMinsProcs,jdbcType=REAL},
+            </if>
+            <if test="record.fifteenMinsProcs != null">
+                fifteen_mins_procs = #{record.fifteenMinsProcs,jdbcType=REAL},
+            </if>
+            <if test="record.processCpuUsage != null">
+                process_cpu_usage = #{record.processCpuUsage,jdbcType=REAL},
+            </if>
+            <if test="record.processMemoryUsage != null">
+                process_memory_usage = #{record.processMemoryUsage,jdbcType=REAL},
+            </if>
+            <if test="record.gmtCreate != null">
+                gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update process_monitor
+        set id = #{record.id,jdbcType=BIGINT},
+        ip = #{record.ip,jdbcType=VARCHAR},
+        process_name = #{record.processName,jdbcType=VARCHAR},
+        pid = #{record.pid,jdbcType=INTEGER},
+        one_mins_procs = #{record.oneMinsProcs,jdbcType=REAL},
+        five_mins_procs = #{record.fiveMinsProcs,jdbcType=REAL},
+        fifteen_mins_procs = #{record.fifteenMinsProcs,jdbcType=REAL},
+        process_cpu_usage = #{record.processCpuUsage,jdbcType=REAL},
+        process_memory_usage = #{record.processMemoryUsage,jdbcType=REAL},
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="net.monitor.dao.dto.ProcessMonitorDTO">
+        update process_monitor
+        <set>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="processName != null">
+                process_name = #{processName,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="oneMinsProcs != null">
+                one_mins_procs = #{oneMinsProcs,jdbcType=REAL},
+            </if>
+            <if test="fiveMinsProcs != null">
+                five_mins_procs = #{fiveMinsProcs,jdbcType=REAL},
+            </if>
+            <if test="fifteenMinsProcs != null">
+                fifteen_mins_procs = #{fifteenMinsProcs,jdbcType=REAL},
+            </if>
+            <if test="processCpuUsage != null">
+                process_cpu_usage = #{processCpuUsage,jdbcType=REAL},
+            </if>
+            <if test="processMemoryUsage != null">
+                process_memory_usage = #{processMemoryUsage,jdbcType=REAL},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="net.monitor.dao.dto.ProcessMonitorDTO">
+    update process_monitor
+    set ip = #{ip,jdbcType=VARCHAR},
+      process_name = #{processName,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
+      one_mins_procs = #{oneMinsProcs,jdbcType=REAL},
+      five_mins_procs = #{fiveMinsProcs,jdbcType=REAL},
+      fifteen_mins_procs = #{fifteenMinsProcs,jdbcType=REAL},
+      process_cpu_usage = #{processCpuUsage,jdbcType=REAL},
+      process_memory_usage = #{processMemoryUsage,jdbcType=REAL},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

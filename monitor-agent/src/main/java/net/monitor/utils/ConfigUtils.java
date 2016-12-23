@@ -10,7 +10,9 @@ import java.util.Properties;
  * this template use File | Settings | File Templates.
  */
 public class ConfigUtils {
-    private Properties propertie;
+
+    private Properties properties;
+
     private FileInputStream inputFile;
 
     /**
@@ -19,10 +21,10 @@ public class ConfigUtils {
      * @param filePath 文件路径
      */
     public ConfigUtils(String filePath) {
-        propertie = new Properties();
+        properties = new Properties();
         try {
             inputFile = new FileInputStream(filePath);
-            propertie.load(inputFile);
+            properties.load(inputFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -45,24 +47,22 @@ public class ConfigUtils {
      * @return 获取的值
      */
     private String getValue(String key) {
-        if (propertie.containsKey(key)) {
-            String value = propertie.getProperty(key);
-            return value;
+        if (properties.containsKey(key)) {
+            return properties.getProperty(key);
         } else
             return null;
     }
 
     public String getString(String key) {
-        if (propertie.containsKey(key)) {
-            String value = propertie.getProperty(key);
-            return value;
+        if (properties.containsKey(key)) {
+            return properties.getProperty(key);
         } else
             return null;
     }
 
     public int getInt(String key) {
-        if (propertie.containsKey(key)) {
-            String value = propertie.getProperty(key);
+        if (properties.containsKey(key)) {
+            String value = properties.getProperty(key);
             return Integer.parseInt(value);
         } else
             return -1;
@@ -70,8 +70,8 @@ public class ConfigUtils {
 
     public boolean getBoolean(String key) {
         boolean isOK = false;
-        if (propertie.containsKey(key)) {
-            String value = propertie.getProperty(key);
+        if (properties.containsKey(key)) {
+            String value = properties.getProperty(key);
             if (value.equalsIgnoreCase("Y")) {
                 isOK = true;
             }
@@ -90,10 +90,10 @@ public class ConfigUtils {
         try {
             String value = "";
             inputFile = new FileInputStream(fileName);
-            propertie.load(inputFile);
+            properties.load(inputFile);
             inputFile.close();
-            if (propertie.contains(key)) {
-                value = propertie.getProperty(key);
+            if (properties.contains(key)) {
+                value = properties.getProperty(key);
                 return value;
             } else
                 return value;

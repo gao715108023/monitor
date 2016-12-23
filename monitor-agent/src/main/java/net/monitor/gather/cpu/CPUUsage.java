@@ -1,4 +1,4 @@
-package net.monitor.cpu;
+package net.monitor.gather.cpu;
 
 import net.monitor.utils.FileUtils;
 import net.monitor.utils.SystemUtils;
@@ -111,7 +111,7 @@ public class CPUUsage {
             inBr = new BufferedReader(new InputStreamReader(in), 1024);
             String lineStr;
             while ((lineStr = inBr.readLine()) != null) {
-                FileUtils.writeFile(filePath, lineStr);
+                FileUtils.writeShellFile(filePath, lineStr);
                 if (lineStr.contains(processName)) {
                     lineStr = lineStr.replaceAll(" {2,}", " ").trim();
                     String[] array = lineStr.split(" ");

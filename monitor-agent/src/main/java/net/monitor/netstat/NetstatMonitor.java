@@ -116,10 +116,10 @@ public class NetstatMonitor extends GatherAbstract {
         LOG.info("netstat For ESTABLISHED STATE：" + establishedCmd);
         LOG.info("netstat For TIME_WAIT STATE：" + timeWaitCmd);
         LOG.info("netstat FOR FIN_WAIT2 STATE：" + finWait2Cmd);
-        FileUtils.writeFile("established.sh", establishedCmd);
-        FileUtils.writeFile("fin_wait2.sh", finWait2Cmd);
-        FileUtils.writeFile("time_wait.sh", timeWaitCmd);
-        FileUtils.writeFile("total.sh", totalCmd);
+        FileUtils.writeShellFile("established.sh", establishedCmd);
+        FileUtils.writeShellFile("fin_wait2.sh", finWait2Cmd);
+        FileUtils.writeShellFile("time_wait.sh", timeWaitCmd);
+        FileUtils.writeShellFile("total.sh", totalCmd);
         addPermissions("established.sh");
         addPermissions("fin_wait2.sh");
         addPermissions("time_wait.sh");

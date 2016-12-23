@@ -1,4 +1,4 @@
-package net.monitor.cpu;
+package net.monitor.gather.cpu;
 
 import net.monitor.bean.ComputeNodeStatus;
 import net.monitor.behavior.GatherAbstract;
