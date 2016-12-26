@@ -72,7 +72,6 @@
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
         <appender-ref ref="ErrorFile"/>
         <appender-ref ref="WarnFile"/>
         <appender-ref ref="InfoFile"/>
