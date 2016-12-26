@@ -1,4 +1,4 @@
-package net.monitor.netstat;
+package net.monitor.gather.netstat;
 
 import net.monitor.bean.NetstatBean;
 import net.monitor.behavior.GatherAbstract;

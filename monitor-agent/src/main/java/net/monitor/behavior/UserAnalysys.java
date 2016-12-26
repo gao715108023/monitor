@@ -17,7 +17,7 @@ public class UserAnalysys {
         super();
         // TODO Auto-generated constructor stub
         mybatisUtils = new MybatisUtils();
-        userAnalysisDao = MybatisUtils.session.getMapper(UserAnalysisDao.class);
+        //userAnalysisDao = MybatisUtils.session.getMapper(UserAnalysisDao.class);
     }
 
     /**
@@ -60,7 +60,7 @@ public class UserAnalysys {
                 }
             }
             userAnalysisDao.insert_user_analysis(userAnalysis);
-            MybatisUtils.session.commit();
+            //MybatisUtils.session.commit();
         }
     }
 

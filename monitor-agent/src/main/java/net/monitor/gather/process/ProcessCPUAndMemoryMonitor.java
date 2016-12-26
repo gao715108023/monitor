@@ -9,6 +9,7 @@ import net.monitor.utils.Config;
 import net.monitor.utils.FileUtils;
 import net.monitor.utils.MybatisUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,6 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
     private static final AtomicBoolean looping = new AtomicBoolean(true);
     private static final Pattern p = Pattern.compile("[^0-9]");
     private final String localIp;
-    private ProcessMonitorMapper processMonitorMapper = MybatisUtils.session.getMapper(ProcessMonitorMapper.class);
 
     public ProcessCPUAndMemoryMonitor(String localIp) {
         this.localIp = localIp;
@@ -110,11 +110,18 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
                 processMonitorDTO.setProcessCpuUsage((float) processCpuUsages[i]);
                 processMonitorDTO.setProcessMemoryUsage((float) processMemUsed[i]);
                 processMonitorDTO.setGmtCreate(new Date());
-                processMonitorMapper.insertSelective(processMonitorDTO);
-                MybatisUtils.session.commit();
+                insertSelective(processMonitorDTO);
             }
         } catch (Exception e) {
             LOGGER.error("保存监控信息异常！", e);
+        }
+    }
+
+    private void insertSelective(ProcessMonitorDTO record) {
+        try (SqlSession session = MybatisUtils.sqlSessionFactory.openSession(Boolean.FALSE)) {
+            ProcessMonitorMapper processMonitorMapper = session.getMapper(ProcessMonitorMapper.class);
+            processMonitorMapper.insertSelective(record);
+            session.commit();
         }
     }
 

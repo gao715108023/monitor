@@ -9,6 +9,7 @@ import net.monitor.dao.mapper.IOMonitorMapper;
 import net.monitor.gather.CpuStaticInfo;
 import net.monitor.utils.Config;
 import net.monitor.utils.MybatisUtils;
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +31,6 @@ public class IOStatMonitor implements Runnable {
     private static final int MAX_PARTITIONS = 64;
 
     private final String localIp;
-
-    private IOMonitorMapper ioMonitorMapper = MybatisUtils.session.getMapper(IOMonitorMapper.class);
 
     public IOStatMonitor(String localIp) {
         this.localIp = localIp;
@@ -126,7 +125,15 @@ public class IOStatMonitor implements Runnable {
             ioMonitorDTO.setSvctm((float) svcT);
             ioMonitorDTO.setUtil((float) busy);
             ioMonitorDTO.setGmtCreate(new Date());
-            ioMonitorMapper.insertSelective(ioMonitorDTO);
+            insertSelective(ioMonitorDTO);
+        }
+    }
+
+    private void insertSelective(IOMonitorDTO record) {
+        try (SqlSession session = MybatisUtils.sqlSessionFactory.openSession(Boolean.FALSE)) {
+            IOMonitorMapper ioMonitorMapper = session.getMapper(IOMonitorMapper.class);
+            ioMonitorMapper.insertSelective(record);
+            session.commit();
         }
     }
 

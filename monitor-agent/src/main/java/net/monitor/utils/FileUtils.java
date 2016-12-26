@@ -74,10 +74,4 @@ public class FileUtils {
             }
         }
     }
-
-    public static void main(String[] args) {
-        // FileUtils.readFileByLines("D:\\工作\\external_read_proxy_top.log",
-        // "external_read_proxy");
-        FileUtils.writeShellFile("D:\\test\\filewrite\\test.sh", "netstat -ant |grep ':6789' | grep 'FIN_WAIT2' |wc -l");
-    }
 }

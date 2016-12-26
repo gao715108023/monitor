@@ -1,9 +1,7 @@
 package net.monitor.http;
 
 import net.monitor.bean.UserAnalysis;
-import net.monitor.dao.UserAnalysisDao;
 import net.monitor.utils.ConfigUtils;
-import net.monitor.utils.MybatisUtils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -54,8 +52,9 @@ public class HttpGet {
     }
 
     private List<UserAnalysis> getInfoFromDB() {
-        UserAnalysisDao userAnalysisDao = MybatisUtils.session.getMapper(UserAnalysisDao.class);
-        List<UserAnalysis> userAnalysisList = userAnalysisDao.select_user_analysis();
-        return userAnalysisList;
+        //UserAnalysisDao userAnalysisDao = MybatisUtils.session.getMapper(UserAnalysisDao.class);
+        //List<UserAnalysis> userAnalysisList = userAnalysisDao.select_user_analysis();
+        //return userAnalysisList;
+        return null;
     }
 }

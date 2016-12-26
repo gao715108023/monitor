@@ -16,7 +16,7 @@ if [ -z "$JAVA_HOME" ]; then
   JAVA_HOME=/usr/local/jdk1.8.0_101
 fi
 
-JAVA_OPT_1="-server"
+JAVA_OPT_1="-server -Xms64m -Xmx64m"
 JAVA_OPT_2="-XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8 -XX:+DisableExplicitGC"
 #JAVA_OPT_3="-verbose:gc -Xloggc:${HOME}/demo_gc.log -XX:+PrintGCDetails"
 JAVA_OPT_4="-XX:-OmitStackTraceInFastThrow"
@@ -96,8 +96,10 @@ function startService {
    COUNT=0
    while [ $COUNT -lt 1 ]; do
     for (( i=0;  i<60;  i=i+1 )) do
-        STR=`grep "monitor agent started" nohup.log`
-        if [ ! -z "$STR" ]; then
+        #STR=`grep "monitor agent started" nohup.log`
+        #checkProcessIsRunning
+        #if [ ! -z "$STR" ]; then
+        if checkProcessIsRunning $pid; then
             echo "PID=$pid"
             echo "monitor agent start OK in $i seconds."
             break;

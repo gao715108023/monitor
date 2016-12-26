@@ -1,9 +1,9 @@
 package net.monitor.main;
 
 import net.monitor.domain.OS;
+import net.monitor.gather.netstat.NetstatMonitor;
 import net.monitor.gather.process.ProcessCPUAndMemoryMonitor;
 import net.monitor.gather.system.IOStatMonitor;
-import net.monitor.netstat.NetstatMonitor;
 import net.monitor.traffic.Traffic;
 import net.monitor.utils.Config;
 import net.monitor.utils.ConfigUtils;
@@ -47,6 +47,8 @@ public class MonitorMain {
 
         new Thread(new IOStatMonitor(localHostIp)).start();
 
+        new Thread(new NetstatMonitor(localHostIp)).start();
+
         //if (args.length == 0) {
         //    startProcessCPUAndMemory(conf, localhostIP, sampleTime);
         //    startTraffic(conf, localhostIP, sampleTime);
@@ -86,7 +88,7 @@ public class MonitorMain {
         int listeningPort = conf.getInt("listening_port");
         LOGGER.info("The Port for netstat: " + listeningPort);
 
-        new Thread(new NetstatMonitor(localhostIP, sampleTime, listeningPort)).start();
+        new Thread(new NetstatMonitor(localhostIP)).start();
         LOGGER.info("Starting The Monitor for netstat.      [OK]");
     }
 

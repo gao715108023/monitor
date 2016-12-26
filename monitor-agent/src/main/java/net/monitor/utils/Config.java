@@ -28,7 +28,7 @@ public class Config {
         load("/infoconfig.properties");
         intervalTime = getInt("sampling.time", 5000);
         os = OS.findOS(getInt("os", 0));
-        listeningPort = getInt("listening.port.name", -1);
+        listeningPort = getInt("listening.port", -1);
         networkCardName = get("network.card.name");
         String watchProcess = get("watch.process");
         if (StringUtils.isNotBlank(watchProcess)) {

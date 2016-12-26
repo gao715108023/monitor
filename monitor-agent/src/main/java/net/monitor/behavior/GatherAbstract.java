@@ -2,7 +2,6 @@ package net.monitor.behavior;
 
 import net.monitor.common.Constants;
 import net.monitor.dao.ServerMsgDao;
-import net.monitor.utils.MybatisUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +20,7 @@ public abstract class GatherAbstract implements Runnable {
 
     protected GatherAbstract(String ip) {
         this.ip = ip;
-        this.serverMsgDao = MybatisUtils.session.getMapper(ServerMsgDao.class);
+        //this.serverMsgDao = MybatisUtils.session.getMapper(ServerMsgDao.class);
         this.simpleDateFormat = new SimpleDateFormat(Constants.dateFormat);
     }
 
@@ -40,7 +39,7 @@ public abstract class GatherAbstract implements Runnable {
      * 关闭与数据库的连接
      */
     public void destroy() {
-        MybatisUtils.closeSession();
+        //MybatisUtils.closeSession();
     }
 
     public String getIp() {
@@ -60,7 +59,7 @@ public abstract class GatherAbstract implements Runnable {
     }
 
     public void commitTransaction() {
-        MybatisUtils.session.commit();
+        //MybatisUtils.session.commit();
     }
 
     public float round(double value) {
