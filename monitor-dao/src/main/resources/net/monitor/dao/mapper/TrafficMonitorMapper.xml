@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.monitor.dao.mapper.TrafficMonitorMapper">
+    <resultMap id="BaseResultMap" type="net.monitor.dao.dto.TrafficMonitorDTO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="network_card_name" jdbcType="VARCHAR" property="networkCardName"/>
+        <result column="receive_traffic" jdbcType="REAL" property="receiveTraffic"/>
+        <result column="receive_packets" jdbcType="REAL" property="receivePackets"/>
+        <result column="receive_errs" jdbcType="REAL" property="receiveErrs"/>
+        <result column="transmit_traffic" jdbcType="REAL" property="transmitTraffic"/>
+        <result column="transmit_packets" jdbcType="REAL" property="transmitPackets"/>
+        <result column="transmit_errs" jdbcType="REAL" property="transmitErrs"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, ip, network_card_name, receive_traffic, receive_packets, receive_errs, transmit_traffic, 
+    transmit_packets, transmit_errs, gmt_create
+  </sql>
+    <select id="selectByExample" parameterType="net.monitor.dao.dto.TrafficMonitorDTOExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from traffic_monitor
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from traffic_monitor
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insert" parameterType="net.monitor.dao.dto.TrafficMonitorDTO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into traffic_monitor (ip, network_card_name, receive_traffic,
+        receive_packets, receive_errs, transmit_traffic,
+        transmit_packets, transmit_errs, gmt_create
+        )
+        values (#{ip,jdbcType=VARCHAR}, #{networkCardName,jdbcType=VARCHAR}, #{receiveTraffic,jdbcType=REAL},
+        #{receivePackets,jdbcType=REAL}, #{receiveErrs,jdbcType=REAL}, #{transmitTraffic,jdbcType=REAL},
+        #{transmitPackets,jdbcType=REAL}, #{transmitErrs,jdbcType=REAL}, #{gmtCreate,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="net.monitor.dao.dto.TrafficMonitorDTO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into traffic_monitor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="networkCardName != null">
+                network_card_name,
+            </if>
+            <if test="receiveTraffic != null">
+                receive_traffic,
+            </if>
+            <if test="receivePackets != null">
+                receive_packets,
+            </if>
+            <if test="receiveErrs != null">
+                receive_errs,
+            </if>
+            <if test="transmitTraffic != null">
+                transmit_traffic,
+            </if>
+            <if test="transmitPackets != null">
+                transmit_packets,
+            </if>
+            <if test="transmitErrs != null">
+                transmit_errs,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="networkCardName != null">
+                #{networkCardName,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveTraffic != null">
+                #{receiveTraffic,jdbcType=REAL},
+            </if>
+            <if test="receivePackets != null">
+                #{receivePackets,jdbcType=REAL},
+            </if>
+            <if test="receiveErrs != null">
+                #{receiveErrs,jdbcType=REAL},
+            </if>
+            <if test="transmitTraffic != null">
+                #{transmitTraffic,jdbcType=REAL},
+            </if>
+            <if test="transmitPackets != null">
+                #{transmitPackets,jdbcType=REAL},
+            </if>
+            <if test="transmitErrs != null">
+                #{transmitErrs,jdbcType=REAL},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="net.monitor.dao.dto.TrafficMonitorDTOExample" resultType="java.lang.Long">
+        select count(*) from traffic_monitor
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update traffic_monitor
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.ip != null">
+                ip = #{record.ip,jdbcType=VARCHAR},
+            </if>
+            <if test="record.networkCardName != null">
+                network_card_name = #{record.networkCardName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.receiveTraffic != null">
+                receive_traffic = #{record.receiveTraffic,jdbcType=REAL},
+            </if>
+            <if test="record.receivePackets != null">
+                receive_packets = #{record.receivePackets,jdbcType=REAL},
+            </if>
+            <if test="record.receiveErrs != null">
+                receive_errs = #{record.receiveErrs,jdbcType=REAL},
+            </if>
+            <if test="record.transmitTraffic != null">
+                transmit_traffic = #{record.transmitTraffic,jdbcType=REAL},
+            </if>
+            <if test="record.transmitPackets != null">
+                transmit_packets = #{record.transmitPackets,jdbcType=REAL},
+            </if>
+            <if test="record.transmitErrs != null">
+                transmit_errs = #{record.transmitErrs,jdbcType=REAL},
+            </if>
+            <if test="record.gmtCreate != null">
+                gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update traffic_monitor
+        set id = #{record.id,jdbcType=BIGINT},
+        ip = #{record.ip,jdbcType=VARCHAR},
+        network_card_name = #{record.networkCardName,jdbcType=VARCHAR},
+        receive_traffic = #{record.receiveTraffic,jdbcType=REAL},
+        receive_packets = #{record.receivePackets,jdbcType=REAL},
+        receive_errs = #{record.receiveErrs,jdbcType=REAL},
+        transmit_traffic = #{record.transmitTraffic,jdbcType=REAL},
+        transmit_packets = #{record.transmitPackets,jdbcType=REAL},
+        transmit_errs = #{record.transmitErrs,jdbcType=REAL},
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="net.monitor.dao.dto.TrafficMonitorDTO">
+        update traffic_monitor
+        <set>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="networkCardName != null">
+                network_card_name = #{networkCardName,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveTraffic != null">
+                receive_traffic = #{receiveTraffic,jdbcType=REAL},
+            </if>
+            <if test="receivePackets != null">
+                receive_packets = #{receivePackets,jdbcType=REAL},
+            </if>
+            <if test="receiveErrs != null">
+                receive_errs = #{receiveErrs,jdbcType=REAL},
+            </if>
+            <if test="transmitTraffic != null">
+                transmit_traffic = #{transmitTraffic,jdbcType=REAL},
+            </if>
+            <if test="transmitPackets != null">
+                transmit_packets = #{transmitPackets,jdbcType=REAL},
+            </if>
+            <if test="transmitErrs != null">
+                transmit_errs = #{transmitErrs,jdbcType=REAL},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="net.monitor.dao.dto.TrafficMonitorDTO">
+    update traffic_monitor
+    set ip = #{ip,jdbcType=VARCHAR},
+      network_card_name = #{networkCardName,jdbcType=VARCHAR},
+      receive_traffic = #{receiveTraffic,jdbcType=REAL},
+      receive_packets = #{receivePackets,jdbcType=REAL},
+      receive_errs = #{receiveErrs,jdbcType=REAL},
+      transmit_traffic = #{transmitTraffic,jdbcType=REAL},
+      transmit_packets = #{transmitPackets,jdbcType=REAL},
+      transmit_errs = #{transmitErrs,jdbcType=REAL},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

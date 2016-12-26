@@ -11,12 +11,12 @@
     </appender>
 
     <appender name="InfoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>../logs/monitor/info/info.log</file>
+        <file>logs/info/info.log</file>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>info</level>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>../logs/monitor/info/info-%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+            <FileNamePattern>logs/info/info-%d{yyyy-MM-dd}-%i.log</FileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>20MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -30,14 +30,14 @@
     </appender>
 
     <appender name="ErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>../logs/monitor/error/error.log</file>
+        <file>logs/error/error.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>../logs/monitor/error/error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <fileNamePattern>logs/error/error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>20MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -51,14 +51,14 @@
     </appender>
 
     <appender name="WarnFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>../logs/monitor/warn/warn.log</file>
+        <file>logs/warn/warn.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>WARN</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>../logs/monitor/warn/warn-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <fileNamePattern>logs/warn/warn-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>20MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>

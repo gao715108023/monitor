@@ -1,19 +1,20 @@
 package net.monitor.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 
 public class StringUtils {
 
-    public static boolean isNull(String str) {
-        return str.equals("") || str.length() == 0;
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(StringUtils.class);
 
     public static byte[] stringToByte(String str) {
         try {
             return str.getBytes("gb2312");
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.error(String.format("string convert to byte error. str = %s", str), e);
         }
         return null;
     }

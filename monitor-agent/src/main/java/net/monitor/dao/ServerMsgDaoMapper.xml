@@ -8,7 +8,7 @@
         values(#{ip},#{pid},#{updateTime},#{proceeName},#{oneMinsProcs},#{fiveMinsProcs},#{fifteenMinsProcs},#{cpuUsage},#{iowaitTime},#{memUsage})
     </insert>
 
-    <insert id="insert_iostat_monitor" parameterType="net.monitor.bean.IOStatMonitor">
+    <insert id="insert_iostat_monitor" parameterType="net.monitor.domain.IOStatInfo">
         insert into iostat_monitor(IP,UpdateTime,name,await,svctm,util)
         values(#{ip},#{updateTime},#{name},#{await},#{svctm},#{util})
     </insert>

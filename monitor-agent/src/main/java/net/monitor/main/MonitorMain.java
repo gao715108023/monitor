@@ -1,12 +1,11 @@
 package net.monitor.main;
 
 import net.monitor.domain.OS;
+import net.monitor.gather.io.IOStatMonitor;
 import net.monitor.gather.netstat.NetstatMonitor;
 import net.monitor.gather.process.ProcessCPUAndMemoryMonitor;
-import net.monitor.gather.system.IOStatMonitor;
-import net.monitor.traffic.Traffic;
+import net.monitor.gather.traffic.TrafficMonitor;
 import net.monitor.utils.Config;
-import net.monitor.utils.ConfigUtils;
 import net.monitor.utils.HostUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +48,8 @@ public class MonitorMain {
 
         new Thread(new NetstatMonitor(localHostIp)).start();
 
+        new Thread(new TrafficMonitor(localHostIp)).start();
+
         //if (args.length == 0) {
         //    startProcessCPUAndMemory(conf, localhostIP, sampleTime);
         //    startTraffic(conf, localhostIP, sampleTime);
@@ -77,29 +78,29 @@ public class MonitorMain {
     }
 
     //private void startIO(String localhostIP) {
-    //    IOStatMonitor ioStat = new IOStatMonitor(localhostIP);
+    //    IOStatInfo ioStat = new IOStatInfo(localhostIP);
     //    Thread t = new Thread(ioStat);
     //    t.start();
-    //    LOGGER.info("Starting The Monitor for IOStatMonitor.      [OK]");
+    //    LOGGER.info("Starting The Monitor for IOStatInfo.      [OK]");
     //}
 
-    private void startNetstat(ConfigUtils conf, String localhostIP, int sampleTime) {
+    //private void startNetstat(ConfigUtils conf, String localhostIP, int sampleTime) {
+    //
+    //    int listeningPort = conf.getInt("listening_port");
+    //    LOGGER.info("The Port for netstat: " + listeningPort);
+    //
+    //    new Thread(new NetstatMonitor(localhostIP)).start();
+    //    LOGGER.info("Starting The Monitor for netstat.      [OK]");
+    //}
 
-        int listeningPort = conf.getInt("listening_port");
-        LOGGER.info("The Port for netstat: " + listeningPort);
+    //private void startTraffic(ConfigUtils conf, String localhostIP, int sampleTime) {
 
-        new Thread(new NetstatMonitor(localhostIP)).start();
-        LOGGER.info("Starting The Monitor for netstat.      [OK]");
-    }
-
-    private void startTraffic(ConfigUtils conf, String localhostIP, int sampleTime) {
-
-        String networkCardName = conf.getString("network_card_name");
-        LOGGER.info("The Name of Network Card: " + networkCardName);
-
-        new Thread(new Traffic(sampleTime, localhostIP, networkCardName)).start();
-        LOGGER.info("Start The Monitor for Traffic.      [OK]");
-    }
+    //String networkCardName = conf.getString("network_card_name");
+    //LOGGER.info("The Name of Network Card: " + networkCardName);
+    //
+    //new Thread(new TrafficMonitor(sampleTime, localhostIP, networkCardName)).start();
+    //LOGGER.info("Start The Monitor for TrafficMonitor.      [OK]");
+    //}
 
     //private void startProcessCPUAndMemory(ConfigUtils conf, String localhostIP, int sampleTime) {
     //

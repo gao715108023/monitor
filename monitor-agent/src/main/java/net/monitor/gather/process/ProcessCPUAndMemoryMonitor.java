@@ -1,8 +1,8 @@
 package net.monitor.gather.process;
 
-import net.monitor.bean.LoadAvgBean;
 import net.monitor.dao.dto.ProcessMonitorDTO;
 import net.monitor.dao.mapper.ProcessMonitorMapper;
+import net.monitor.domain.LoadAvgInfo;
 import net.monitor.domain.WatchProcess;
 import net.monitor.gather.CpuStaticInfo;
 import net.monitor.utils.Config;
@@ -63,7 +63,7 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
                         }
                         double curTotalCpuTime = getTotalCpuTime();
                         double[] curProcessCpuTimes = getProcessCpuTime();
-                        LoadAvgBean loadAvg = getLoadAvg();
+                        LoadAvgInfo loadAvg = getLoadAvg();
                         int[] processMemUsed = getProcessMemUsed();
                         double[] processCpuUsages = computeProcessCpuUsage(ncpu, preTotalCpuTime, preProcessCpuTimes, curTotalCpuTime, curProcessCpuTimes);
                         save(loadAvg, processCpuUsages, processMemUsed);
@@ -96,7 +96,7 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
         return pcpu;
     }
 
-    private void save(LoadAvgBean loadAvg, double[] processCpuUsages, int[] processMemUsed) {
+    private void save(LoadAvgInfo loadAvg, double[] processCpuUsages, int[] processMemUsed) {
         try {
             for (int i = 0; i < Config.watchProcessList.size(); i++) {
                 WatchProcess watchProcess = Config.watchProcessList.get(i);
@@ -185,24 +185,24 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
         return processCpuTime;
     }
 
-    private LoadAvgBean getLoadAvg() throws Exception {
+    private LoadAvgInfo getLoadAvg() throws Exception {
         //读取LoadAvg信息
         BufferedReader reader = null;
         try {
-            LoadAvgBean loadAvgBean = new LoadAvgBean();
+            LoadAvgInfo loadAvgInfo = new LoadAvgInfo();
             String tempString;
             reader = new BufferedReader(new FileReader("/proc/loadavg"));
             if ((tempString = reader.readLine()) != null) {
                 tempString = tempString.replaceAll(" {2,}", " ").trim();
                 String[] array = tempString.split(" ");
-                loadAvgBean.setOneMinsProcs(Float.parseFloat(array[0]));
-                loadAvgBean.setFiveMinsProcs(Float.parseFloat(array[1]));
-                loadAvgBean.setFifteenMinsProcs(Float.parseFloat(array[2]));
+                loadAvgInfo.setOneMinsProcs(Float.parseFloat(array[0]));
+                loadAvgInfo.setFiveMinsProcs(Float.parseFloat(array[1]));
+                loadAvgInfo.setFifteenMinsProcs(Float.parseFloat(array[2]));
             } else {
                 LOGGER.error("/proc/loadavg the contents of the file is empty!");
             }
-            LOGGER.debug("OneMinsProcs: {}  FiveMinsProcs: {}   FifteenMinsProcs: {}", loadAvgBean.getOneMinsProcs(), loadAvgBean.getFiveMinsProcs(), loadAvgBean.getFifteenMinsProcs());
-            return loadAvgBean;
+            LOGGER.debug("OneMinsProcs: {}  FiveMinsProcs: {}   FifteenMinsProcs: {}", loadAvgInfo.getOneMinsProcs(), loadAvgInfo.getFiveMinsProcs(), loadAvgInfo.getFifteenMinsProcs());
+            return loadAvgInfo;
         } finally {
             if (reader != null) {
                 reader.close();
