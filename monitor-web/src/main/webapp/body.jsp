@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <th align="left" height="10px">
-                    <s:textfield name="ip" label="Ip地址(IP地址查看方式：ifconfig) " value="10.211.55.4" />
+                    <s:textfield name="ip" label="Ip地址(IP地址查看方式：ifconfig) " value="10.173.210.40" />
                         <%--<s:fielderror cssStyle="color: red">--%>
                         <%--<s:param>ip</s:param>--%>
                         <%--</s:fielderror>--%>
@@ -58,17 +58,17 @@
             <tr>
                 <th align="left" height="10px"><s:textfield name="begin" label="查询起始时间" onchange="calculate('m')"
                                                             onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-                                                            value="2014-06-15 09:55:03" /></th>
+                                                            value="2016-12-25 09:55:03" /></th>
             </tr>
             <tr>
                 <th align="left" height="10px"><s:textfield name="end" label="查询结束时间" onchange="calculate('m')"
                                                             onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-                                                            value="2014-06-18 09:55:03" /></th>
+                                                            value="2016-12-30 09:55:03" /></th>
             </tr>
             <tr>
                 <th align="left" height="10px"><s:textfield name="diskname"
                                                             label="磁盘名称(磁盘名称查询方式：cat /proc/diskstats)"
-                                                            value="sda" /></th>
+                                                            value="vda" /></th>
             </tr>
             <tr>
                 <th align="left" height="10px"><s:textfield name="processId"
@@ -77,10 +77,10 @@
             </tr>
             <tr>
                 <th align="left" height="10px"><s:textfield name="processName" label="程序的名称（可以填写任意名称）"
-                                                            value="Java" /></th>
+                                                            value="tomcat" /></th>
             </tr>
             <tr>
-                <th align="left" height="10px"><s:textfield name="port" label="端口号" value="9089" /></th>
+                <th align="left" height="10px"><s:textfield name="port" label="端口号" value="80" /></th>
             </tr>
             <tr>
                 <th align="left" height="10px"><s:submit value="查询" style="width:40px,height:40" align="center" /></th>

@@ -13,7 +13,7 @@ public class HostUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HostUtil.class);
 
-    public static String getLinuxHostIP() {
+    public static String getLinuxHostIP() throws Exception {
         String localHostIP = null;
         Enumeration<NetworkInterface> netInterfaces;
         try {
@@ -29,21 +29,28 @@ public class HostUtil {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("get ip error.", e);
+            LOGGER.error("get linux ip error.", e);
+        }
+        if (localHostIP == null) {
+            throw new Exception("get linux ip error. local_ip = null.");
         }
         return localHostIP;
     }
 
-    public static String getWindowsHostIP() {
+    public static String getWindowsHostIP() throws Exception {
+        String localHostIP = null;
         try {
-            return InetAddress.getLocalHost().getHostAddress();
+            localHostIP = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
-            LOGGER.error("get ip error.", e);
+            LOGGER.error("get windows ip error.", e);
         }
-        return null;
+        if (localHostIP == null) {
+            throw new Exception("get windows ip error. local_ip = null.");
+        }
+        return localHostIP;
     }
 
-    public static String getHostIP() {
+    public static String getHostIP() throws Exception {
         OperatingSystem os = OperatingSystem.getInstance();
         String vendorName = os.getVendorName();
         if (vendorName.contains("Windows")) {

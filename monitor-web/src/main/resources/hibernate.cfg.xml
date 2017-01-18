@@ -22,10 +22,10 @@
         <!--<property name="connection.autoReconnectForPools">true</property>-->
         <!--<property name="connection.is-connection-validation-required">true</property>-->
         <!--<property name="hbm2ddl.auto">update</property>-->
-        <mapping class="com.gcj.source.IostatMonitorEntity"/>
-        <mapping class="com.gcj.source.ServerMonitorEntity"/>
-        <mapping class="com.gcj.source.TrafficMonitorEntity"/>
-        <mapping class="com.gcj.source.NetstatMonitorEntity"/>
+        <mapping class="net.monitor.source.IostatMonitorEntity"/>
+        <mapping class="net.monitor.source.ServerMonitorEntity"/>
+        <mapping class="net.monitor.source.TrafficMonitorEntity"/>
+        <mapping class="net.monitor.source.NetstatMonitorEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

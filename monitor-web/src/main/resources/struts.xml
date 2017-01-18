@@ -10,7 +10,7 @@
             <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
         </result-types>
 
-        <action name="data" class="com.gcj.action.DataAction">
+        <action name="data" class="net.monitor.action.DataAction">
             <result name="error">/error.jsp</result>
             <result name="iostat">/iostat.jsp</result>
             <result name="CPUAndMemory">/cpu-memory.jsp</result>
@@ -21,7 +21,7 @@
             <result name="computenodestatus">/computenodestatus.jsp</result>
         </action>
 
-        <action name="download" class="com.gcj.action.DownloadAction">
+        <action name="download" class="net.monitor.action.DownloadAction">
             <!--<param name="directory">/opt/resources/</param>-->
             <param name="directory">/opt/Downloads/</param>
             <result name="success" type="stream">
@@ -35,7 +35,7 @@
             <!--<result name="input">/monitor.jsp</result>-->
         </action>
 
-        <action name="game" class="com.gcj.action.GameAction">
+        <action name="game" class="net.monitor.action.GameAction">
             <result name="success">/game.jsp</result>
             <result name="input">/game.jsp</result>
         </action>
