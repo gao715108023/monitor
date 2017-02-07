@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="default" namespace="/" extends="struts-default">
+        <result-types>
+            <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+        </result-types>
+
+        <action name="data" class="net.monitor.action.DataAction">
+            <result name="error">/error.jsp</result>
+            <result name="iostat">/iostat.jsp</result>
+            <result name="CPUAndMemory">/cpu-memory.jsp</result>
+            <result name="traffic">/traffic.jsp</result>
+            <result name="netstat">/netstat.jsp</result>
+            <result name="input">/index.jsp</result>
+            <result name="nodata">/nodata.jsp</result>
+            <result name="computenodestatus">/computenodestatus.jsp</result>
+        </action>
+
+        <action name="download" class="net.monitor.action.DownloadAction">
+            <!--<param name="directory">/opt/resources/</param>-->
+            <param name="directory">/opt/Downloads/</param>
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">
+                    attachment;filename="${filename}"
+                </param>
+                <param name="bufferSize">2048</param>
+            </result>
+            <!--<result name="input">/monitor.jsp</result>-->
+        </action>
+
+        <action name="game" class="net.monitor.action.GameAction">
+            <result name="success">/game.jsp</result>
+            <result name="input">/game.jsp</result>
+        </action>
+
+        <!--<action name="login" class="com.gcjj.action.LoginAction">-->
+        <!--<result name="success" type="tiles">/welcome.tiles</result>-->
+        <!--<result name="error">/Login.jsp</result>-->
+        <!--</action>-->
+
+        <!--<action name="customer" class="com.gcjj.action.CustomerAction">-->
+        <!--<result name="success" type="tiles">/customer.success.tiles</result>-->
+        <!--<result name="input" type="tiles">/customer.tiles</result>-->
+        <!--</action>-->
+        <!--<action name="customer-form">-->
+        <!--<result name="success" type="tiles">/customer.tiles</result>-->
+        <!--</action>-->
+
+        <!--<result-types>-->
+        <!--<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"></result-type>-->
+        <!--</result-types>-->
+
+        <!--<action name="tilesTest" class="com.gcjj.action.TilesTest">-->
+        <!--<result name="success" type="tiles">index-def</result>-->
+        <!--</action>-->
+
+    </package>
+    <!--<package name="default" namespace="/tiles" extends="struts-default">-->
+    <!--<result-types>-->
+    <!--<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"></result-type>-->
+    <!--</result-types>-->
+    <!--<action name="tilesTest" class="com.gcjj.action.TilesTest">-->
+    <!--<result name="success" type="tiles">index-def</result>-->
+    <!--</action>-->
+    <!--</package>-->
+</struts>

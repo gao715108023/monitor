@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.monitor.dao.mapper.NetstatMonitorMapper">
+    <resultMap id="BaseResultMap" type="net.monitor.dao.dto.NetstatMonitorDTO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="localIp" jdbcType="VARCHAR" property="localIp"/>
+        <result column="port" jdbcType="INTEGER" property="port"/>
+        <result column="total" jdbcType="INTEGER" property="total"/>
+        <result column="established" jdbcType="INTEGER" property="established"/>
+        <result column="time_wait" jdbcType="INTEGER" property="timeWait"/>
+        <result column="fin_wait2" jdbcType="INTEGER" property="finWait2"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, localIp, port, total, established, time_wait, fin_wait2, gmt_create
+  </sql>
+    <select id="selectByExample" parameterType="net.monitor.dao.dto.NetstatMonitorDTOExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from netstat_monitor
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from netstat_monitor
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insert" parameterType="net.monitor.dao.dto.NetstatMonitorDTO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into netstat_monitor (localIp, port, total,
+        established, time_wait, fin_wait2,
+        gmt_create)
+        values (#{localIp,jdbcType=VARCHAR}, #{port,jdbcType=INTEGER}, #{total,jdbcType=INTEGER},
+        #{established,jdbcType=INTEGER}, #{timeWait,jdbcType=INTEGER}, #{finWait2,jdbcType=INTEGER},
+        #{gmtCreate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="net.monitor.dao.dto.NetstatMonitorDTO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into netstat_monitor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="localIp != null">
+                localIp,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="total != null">
+                total,
+            </if>
+            <if test="established != null">
+                established,
+            </if>
+            <if test="timeWait != null">
+                time_wait,
+            </if>
+            <if test="finWait2 != null">
+                fin_wait2,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="localIp != null">
+                #{localIp,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                #{port,jdbcType=INTEGER},
+            </if>
+            <if test="total != null">
+                #{total,jdbcType=INTEGER},
+            </if>
+            <if test="established != null">
+                #{established,jdbcType=INTEGER},
+            </if>
+            <if test="timeWait != null">
+                #{timeWait,jdbcType=INTEGER},
+            </if>
+            <if test="finWait2 != null">
+                #{finWait2,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="net.monitor.dao.dto.NetstatMonitorDTOExample" resultType="java.lang.Long">
+        select count(*) from netstat_monitor
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update netstat_monitor
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.localIp != null">
+                localIp = #{record.localIp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.port != null">
+                port = #{record.port,jdbcType=INTEGER},
+            </if>
+            <if test="record.total != null">
+                total = #{record.total,jdbcType=INTEGER},
+            </if>
+            <if test="record.established != null">
+                established = #{record.established,jdbcType=INTEGER},
+            </if>
+            <if test="record.timeWait != null">
+                time_wait = #{record.timeWait,jdbcType=INTEGER},
+            </if>
+            <if test="record.finWait2 != null">
+                fin_wait2 = #{record.finWait2,jdbcType=INTEGER},
+            </if>
+            <if test="record.gmtCreate != null">
+                gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update netstat_monitor
+        set id = #{record.id,jdbcType=BIGINT},
+        localIp = #{record.localIp,jdbcType=VARCHAR},
+        port = #{record.port,jdbcType=INTEGER},
+        total = #{record.total,jdbcType=INTEGER},
+        established = #{record.established,jdbcType=INTEGER},
+        time_wait = #{record.timeWait,jdbcType=INTEGER},
+        fin_wait2 = #{record.finWait2,jdbcType=INTEGER},
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="net.monitor.dao.dto.NetstatMonitorDTO">
+        update netstat_monitor
+        <set>
+            <if test="localIp != null">
+                localIp = #{localIp,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                port = #{port,jdbcType=INTEGER},
+            </if>
+            <if test="total != null">
+                total = #{total,jdbcType=INTEGER},
+            </if>
+            <if test="established != null">
+                established = #{established,jdbcType=INTEGER},
+            </if>
+            <if test="timeWait != null">
+                time_wait = #{timeWait,jdbcType=INTEGER},
+            </if>
+            <if test="finWait2 != null">
+                fin_wait2 = #{finWait2,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="net.monitor.dao.dto.NetstatMonitorDTO">
+    update netstat_monitor
+        set localIp = #{localIp,jdbcType=VARCHAR},
+      port = #{port,jdbcType=INTEGER},
+      total = #{total,jdbcType=INTEGER},
+      established = #{established,jdbcType=INTEGER},
+      time_wait = #{timeWait,jdbcType=INTEGER},
+      fin_wait2 = #{finWait2,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
