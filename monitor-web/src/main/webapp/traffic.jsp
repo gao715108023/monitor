@@ -14,7 +14,7 @@
     <script src="js/highcharts.js"></script>
     <script src="js/theme/dark-blue.js"></script>
     <script type="text/javascript">
-        var tmp = '<s:property value="ip" escape="false"/>';
+        var tmp = '<s:property value="localIp" escape="false"/>';
         //        alert(tmp);
         var text = tmp + '——流入带宽';
         //        alert(text);
@@ -125,7 +125,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp = '<s:property value="ip" escape="false"/>';
+        var tmp = '<s:property value="localIp" escape="false"/>';
         //        alert(tmp);
         var text = tmp + '——流出带宽';
         //        alert(text);

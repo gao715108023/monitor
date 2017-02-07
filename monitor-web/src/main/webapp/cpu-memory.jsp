@@ -16,7 +16,7 @@
     <script src="js/theme/gray.js"></script>
 
     <script type="text/javascript">
-        var tmp1 = '<s:property value="ip" escape="false"/>';
+        var tmp1 = '<s:property value="localIp" escape="false"/>';
         var tmp2 = '<s:property value="processName" escape="false"/>';
         var text = tmp1 + '(' + tmp2 + ')——CPU使用率';
         var cpuUsage = eval(<s:property value="cpuUsage" escape="false"/>);
@@ -124,7 +124,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp1 = '<s:property value="ip" escape="false"/>';
+        var tmp1 = '<s:property value="localIp" escape="false"/>';
         var tmp2 = '<s:property value="processName" escape="false"/>';
         var text = tmp1 + '(' + tmp2 + ')——内存使用率';
         var memUsage = eval(<s:property value="memUsage" escape="false"/>);
@@ -231,7 +231,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp = '<s:property value="ip" escape="false"/>';
+        var tmp = '<s:property value="localIp" escape="false"/>';
         var text = tmp + '——Load Average(CPU负载)';
         var oneMinsProcs = eval(<s:property value="oneMinsProcs" escape="false"/>);
         var fiveMinsProcs = eval(<s:property value="fiveMinsProcs" escape="false"/>);
@@ -347,7 +347,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp = '<s:property value="ip" escape="false"/>';
+        var tmp = '<s:property value="localIp" escape="false"/>';
         var text = tmp + '¬——5分钟进程数';
         var fiveMinsProcs = eval(<s:property value="fiveMinsProcs" escape="false"/>);
         Highcharts.setOptions({
@@ -453,7 +453,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp = '<s:property value="ip" escape="false"/>';
+        var tmp = '<s:property value="localIp" escape="false"/>';
         var text = tmp + '¬——15分钟进程数';
         var fifteenMinsProcs = eval(<s:property value="fifteenMinsProcs" escape="false"/>);
         Highcharts.setOptions({

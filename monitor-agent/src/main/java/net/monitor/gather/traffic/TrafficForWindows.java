@@ -1,149 +1,91 @@
 package net.monitor.gather.traffic;
 
-import net.monitor.bean.TrafficInfoBean;
-import net.monitor.behavior.GatherAbstract;
 import net.monitor.common.Constants;
-import net.monitor.utils.HostUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.monitor.dao.dto.TrafficMonitorDTO;
+import net.monitor.dao.mapper.TrafficMonitorMapper;
+import net.monitor.utils.Config;
+import net.monitor.utils.MybatisUtils;
+import org.apache.ibatis.session.SqlSession;
 import org.hyperic.sigar.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author gaochuanjun
  * @since 2014/6/16
  */
-public class TrafficForWindows extends GatherAbstract {
+public class TrafficForWindows implements Runnable {
 
-    private static final Log LOG = LogFactory.getLog(TrafficForWindows.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrafficForWindows.class);
 
-    private Sigar sigar;
+    private static final AtomicBoolean running = new AtomicBoolean(true);
 
-    private NetInterfaceStat netInterfaceStat;
+    private final String localIp;
 
-    private String networkCardName;
-
-    protected TrafficForWindows(String ip, String networkCardName) {
-        super(ip);
-        this.networkCardName = networkCardName;
+    public TrafficForWindows(String localIp) {
+        this.localIp = localIp;
     }
 
-    public static void main(String[] args) {
-        GatherAbstract gatherAbstract = new TrafficForWindows(HostUtil.getHostIP(), "en4");
-        new Thread(gatherAbstract).start();
-    }
-
-    @Override
     public void start() {
-
-        sigar = new Sigar();
-
-        getNetworkCardName();
-
-        while (true) {
-            process();
+        Sigar sigar = new Sigar();
+        String networkCardName = getNetworkCardName(sigar);
+        while (running.get()) {
+            process(sigar, networkCardName);
             try {
-                Thread.sleep(Constants.SLEEPTIME);
+                Thread.sleep(Config.intervalTime);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error("thread error.", e);
             }
         }
     }
 
-    @Override
-    public void process() {
-
-        getKernelStats();
-
-        computePersistence();
-    }
-
-    @Override
-    public void computePersistence() {
-
-        long receiveTraffic = netInterfaceStat.getRxBytes() / Constants.UNITS;
-
-        long receivePackets = netInterfaceStat.getRxPackets();
-
-        long receiveErrs = netInterfaceStat.getRxErrors();
-
-        long transmitTraffic = netInterfaceStat.getTxBytes() / Constants.UNITS;
-
-        long transmitPackets = netInterfaceStat.getTxPackets();
-
-        long transmitErrs = netInterfaceStat.getTxErrors();
-
-        TrafficInfoBean trafficInfoBean = new TrafficInfoBean();
-
-        trafficInfoBean.setIp(getIp());
-
-        trafficInfoBean.setUpdateTime(getCurrentTime());
-
-        trafficInfoBean.setReceiveTraffic(receiveTraffic);
-
-        trafficInfoBean.setReceivePackets(receivePackets);
-
-        trafficInfoBean.setReceiveErrs(receiveErrs);
-
-        trafficInfoBean.setTransmitTraffic(transmitTraffic);
-
-        trafficInfoBean.setTransmitPackets(transmitPackets);
-
-        trafficInfoBean.setTransmitErrs(transmitErrs);
-
-        getServerMsgDao().insert_traffic(trafficInfoBean);
-
-        commitTransaction();
-
-        if (LOG.isDebugEnabled()) {
-            printMsg(trafficInfoBean);
-        }
-    }
-
-    @Override
-    public boolean getKernelStats() {
+    private void process(Sigar sigar, String networkCardName) {
         try {
-            netInterfaceStat = sigar.getNetInterfaceStat(networkCardName);
+            NetInterfaceStat netInterfaceStat = sigar.getNetInterfaceStat(networkCardName);
+            TrafficMonitorDTO trafficMonitorDTO = new TrafficMonitorDTO();
+            trafficMonitorDTO.setIp(localIp);
+            trafficMonitorDTO.setNetworkCardName(networkCardName);
+            trafficMonitorDTO.setReceiveTraffic((float) (netInterfaceStat.getRxBytes() / Constants.UNITS));
+            trafficMonitorDTO.setReceivePackets((float) netInterfaceStat.getRxPackets());
+            trafficMonitorDTO.setReceiveErrs((float) netInterfaceStat.getRxErrors());
+            trafficMonitorDTO.setTransmitTraffic((float) (netInterfaceStat.getTxBytes() / Constants.UNITS));
+            trafficMonitorDTO.setTransmitPackets((float) netInterfaceStat.getTxPackets());
+            trafficMonitorDTO.setTransmitErrs((float) netInterfaceStat.getTxErrors());
+            trafficMonitorDTO.setGmtCreate(new Date());
+            LOGGER.debug(trafficMonitorDTO.toString());
+            insertSelective(trafficMonitorDTO);
         } catch (SigarException e) {
-            e.printStackTrace();
+            LOGGER.error("gather traffic error.", e);
         }
-        return false;
     }
 
-    private void printMsg(TrafficInfoBean trafficInfoBean) {
-
-        LOG.info("接收到的总字节数:" + trafficInfoBean.getReceiveTraffic());// 接收到的总字节数
-
-        LOG.info("接收的总包裹数:" + trafficInfoBean.getReceivePackets());// 接收的总包裹数
-
-        LOG.info("接收到的错误包数:" + trafficInfoBean.getReceiveErrs());// 接收到的错误包数
-
-        LOG.info("发送的总字节数:" + trafficInfoBean.getTransmitTraffic());// 发送的总字节数
-
-        LOG.info("发送的总包裹数:" + trafficInfoBean.getTransmitPackets());// 发送的总包裹数
-
-        LOG.info("发送数据包时的错误数:" + trafficInfoBean.getTransmitErrs());// 发送数据包时的错误数
+    private void insertSelective(TrafficMonitorDTO record) {
+        try (SqlSession session = MybatisUtils.sqlSessionFactory.openSession(Boolean.FALSE)) {
+            TrafficMonitorMapper trafficMonitorMapper = session.getMapper(TrafficMonitorMapper.class);
+            trafficMonitorMapper.insertSelective(record);
+            session.commit();
+        }
     }
 
-    public String getNetworkCardName() {
+    private String getNetworkCardName(Sigar sigar) {
         try {
-            String[] ifaces = sigar.getNetInterfaceList();
-            for (String iface : ifaces) {
-                NetInterfaceConfig cfg = sigar.getNetInterfaceConfig(iface);
-                if (NetFlags.LOOPBACK_ADDRESS.equals(cfg.getAddress()) || (cfg.getFlags() & NetFlags.IFF_LOOPBACK) != 0 || NetFlags.NULL_HWADDR.equals(cfg.getHwaddr()))
+            String[] netInterfaceList = sigar.getNetInterfaceList();
+            for (String netInterface : netInterfaceList) {
+                NetInterfaceConfig netInterfaceConfig = sigar.getNetInterfaceConfig(netInterface);
+                if (NetFlags.LOOPBACK_ADDRESS.equals(netInterfaceConfig.getAddress()) || (netInterfaceConfig.getFlags() & NetFlags.IFF_LOOPBACK) != 0 || NetFlags.NULL_HWADDR.equals(netInterfaceConfig.getHwaddr())) {
                     continue;
-                if (cfg.getAddress().equals(getIp())) {
-                    setNetworkCardName(cfg.getName());
-                    break;
+                }
+                if (netInterfaceConfig.getAddress().equals(localIp)) {
+                    return netInterfaceConfig.getName();
                 }
             }
         } catch (SigarException e) {
-            e.printStackTrace();
+            LOGGER.error("get network card name error.", e);
         }
-        return networkCardName;
-    }
-
-    public void setNetworkCardName(String networkCardName) {
-        this.networkCardName = networkCardName;
+        return null;
     }
 
     @Override

@@ -6,7 +6,7 @@ IF EXISTS `process_monitor`;
 
 CREATE TABLE `process_monitor` (
   `id`                   BIGINT(20)   NOT NULL AUTO_INCREMENT,
-  `ip`                   VARCHAR(128) NOT NULL
+  `localIp`              VARCHAR(128) NOT NULL
   COMMENT '服务器ip地址',
   `process_name`         VARCHAR(128) NOT NULL
   COMMENT '进程名',
@@ -40,7 +40,7 @@ IF EXISTS `io_monitor`;
 
 CREATE TABLE `io_monitor` (
   `id`         BIGINT(20)   NOT NULL AUTO_INCREMENT,
-  `ip`         VARCHAR(128) NOT NULL
+  `localIp`    VARCHAR(128) NOT NULL
   COMMENT '服务器ip地址',
   `disk_name`  VARCHAR(128) NOT NULL
   COMMENT '磁盘名称',
@@ -68,7 +68,7 @@ IF EXISTS `netstat_monitor`;
 
 CREATE TABLE `netstat_monitor` (
   `id`          BIGINT(20)   NOT NULL AUTO_INCREMENT,
-  `ip`          VARCHAR(128) NOT NULL
+  `localIp`     VARCHAR(128) NOT NULL
   COMMENT '服务器ip地址',
   `port`        INT          NOT NULL DEFAULT 0
   COMMENT '被监控的端口号',
@@ -97,7 +97,7 @@ IF EXISTS `traffic_monitor`;
 
 CREATE TABLE `traffic_monitor` (
   `id`                BIGINT(20)   NOT NULL AUTO_INCREMENT,
-  `ip`                VARCHAR(128) NOT NULL
+  `localIp`           VARCHAR(128) NOT NULL
   COMMENT '服务器ip地址',
   `network_card_name` VARCHAR(128) NOT NULL
   COMMENT '被监控的网卡名称',

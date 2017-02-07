@@ -3,7 +3,7 @@
 <mapper namespace="net.monitor.dao.mapper.TrafficMonitorMapper">
     <resultMap id="BaseResultMap" type="net.monitor.dao.dto.TrafficMonitorDTO">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="localIp" jdbcType="VARCHAR" property="localIp"/>
         <result column="network_card_name" jdbcType="VARCHAR" property="networkCardName"/>
         <result column="receive_traffic" jdbcType="REAL" property="receiveTraffic"/>
         <result column="receive_packets" jdbcType="REAL" property="receivePackets"/>
@@ -72,7 +72,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, ip, network_card_name, receive_traffic, receive_packets, receive_errs, transmit_traffic, 
+        id, localIp, network_card_name, receive_traffic, receive_packets, receive_errs, transmit_traffic,
     transmit_packets, transmit_errs, gmt_create
   </sql>
     <select id="selectByExample" parameterType="net.monitor.dao.dto.TrafficMonitorDTOExample" resultMap="BaseResultMap">
@@ -102,11 +102,11 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into traffic_monitor (ip, network_card_name, receive_traffic,
+        insert into traffic_monitor (localIp, network_card_name, receive_traffic,
         receive_packets, receive_errs, transmit_traffic,
         transmit_packets, transmit_errs, gmt_create
         )
-        values (#{ip,jdbcType=VARCHAR}, #{networkCardName,jdbcType=VARCHAR}, #{receiveTraffic,jdbcType=REAL},
+        values (#{localIp,jdbcType=VARCHAR}, #{networkCardName,jdbcType=VARCHAR}, #{receiveTraffic,jdbcType=REAL},
         #{receivePackets,jdbcType=REAL}, #{receiveErrs,jdbcType=REAL}, #{transmitTraffic,jdbcType=REAL},
         #{transmitPackets,jdbcType=REAL}, #{transmitErrs,jdbcType=REAL}, #{gmtCreate,jdbcType=TIMESTAMP}
         )
@@ -117,8 +117,8 @@
         </selectKey>
         insert into traffic_monitor
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="ip != null">
-                ip,
+            <if test="localIp != null">
+                localIp,
             </if>
             <if test="networkCardName != null">
                 network_card_name,
@@ -146,8 +146,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="ip != null">
-                #{ip,jdbcType=VARCHAR},
+            <if test="localIp != null">
+                #{localIp,jdbcType=VARCHAR},
             </if>
             <if test="networkCardName != null">
                 #{networkCardName,jdbcType=VARCHAR},
@@ -187,8 +187,8 @@
             <if test="record.id != null">
                 id = #{record.id,jdbcType=BIGINT},
             </if>
-            <if test="record.ip != null">
-                ip = #{record.ip,jdbcType=VARCHAR},
+            <if test="record.localIp != null">
+                localIp = #{record.localIp,jdbcType=VARCHAR},
             </if>
             <if test="record.networkCardName != null">
                 network_card_name = #{record.networkCardName,jdbcType=VARCHAR},
@@ -222,7 +222,7 @@
     <update id="updateByExample" parameterType="map">
         update traffic_monitor
         set id = #{record.id,jdbcType=BIGINT},
-        ip = #{record.ip,jdbcType=VARCHAR},
+        localIp = #{record.localIp,jdbcType=VARCHAR},
         network_card_name = #{record.networkCardName,jdbcType=VARCHAR},
         receive_traffic = #{record.receiveTraffic,jdbcType=REAL},
         receive_packets = #{record.receivePackets,jdbcType=REAL},
@@ -238,8 +238,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="net.monitor.dao.dto.TrafficMonitorDTO">
         update traffic_monitor
         <set>
-            <if test="ip != null">
-                ip = #{ip,jdbcType=VARCHAR},
+            <if test="localIp != null">
+                localIp = #{localIp,jdbcType=VARCHAR},
             </if>
             <if test="networkCardName != null">
                 network_card_name = #{networkCardName,jdbcType=VARCHAR},
@@ -270,7 +270,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="net.monitor.dao.dto.TrafficMonitorDTO">
     update traffic_monitor
-    set ip = #{ip,jdbcType=VARCHAR},
+        set localIp = #{localIp,jdbcType=VARCHAR},
       network_card_name = #{networkCardName,jdbcType=VARCHAR},
       receive_traffic = #{receiveTraffic,jdbcType=REAL},
       receive_packets = #{receivePackets,jdbcType=REAL},

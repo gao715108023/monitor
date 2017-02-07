@@ -3,10 +3,9 @@ package net.monitor.gather.process;
 import net.monitor.bean.ComputeNodeStatus;
 import net.monitor.behavior.GatherAbstract;
 import net.monitor.common.Constants;
-import net.monitor.utils.HostUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hyperic.sigar.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author gaochuanjun
@@ -14,7 +13,7 @@ import org.hyperic.sigar.*;
  */
 public class CPUInfoForWindows extends GatherAbstract {
 
-    private static final Log LOG = LogFactory.getLog(CPUInfoForWindows.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CPUInfoForWindows.class);
 
     private Sigar sigar;
 
@@ -28,15 +27,6 @@ public class CPUInfoForWindows extends GatherAbstract {
 
     protected CPUInfoForWindows(String ip) {
         super(ip);
-    }
-
-    public static void main(String[] args) {
-        LOG.info(System.getProperty("java.library.path"));
-        GatherAbstract gatherAbstract = new CPUInfoForWindows(HostUtil.getHostIP());
-
-        Constants.OS = 1;
-
-        new Thread(gatherAbstract).start();
     }
 
     @Override
@@ -130,7 +120,7 @@ public class CPUInfoForWindows extends GatherAbstract {
 
         computeNodeStatus.setIdleSwap((int) idleSwap);
 
-        if (LOG.isDebugEnabled()) {
+        if (LOGGER.isDebugEnabled()) {
             printMsg(computeNodeStatus);
         }
 
@@ -183,55 +173,55 @@ public class CPUInfoForWindows extends GatherAbstract {
 
     private void printMsg(ComputeNodeStatus computeNodeStatus) {
 
-        LOG.info("begin: ----------------------------------------------");
+        LOGGER.info("begin: ----------------------------------------------");
 
-        LOG.info("IP地址：" + computeNodeStatus.getNodeName());
+        LOGGER.info("IP地址：" + computeNodeStatus.getNodeName());
 
-        LOG.info("更新时间：" + computeNodeStatus.getUpdateTime());
+        LOGGER.info("更新时间：" + computeNodeStatus.getUpdateTime());
 
-        LOG.info("一分钟进程数：" + computeNodeStatus.getOneMinsProcs());
+        LOGGER.info("一分钟进程数：" + computeNodeStatus.getOneMinsProcs());
 
-        LOG.info("五分钟进程数：" + computeNodeStatus.getFiveMinsProcs());
+        LOGGER.info("五分钟进程数：" + computeNodeStatus.getFiveMinsProcs());
 
-        LOG.info("十五分钟进程数：" + computeNodeStatus.getFifteenMinsProcs());
+        LOGGER.info("十五分钟进程数：" + computeNodeStatus.getFifteenMinsProcs());
 
-        LOG.info("所有CPU的平均使用率：" + computeNodeStatus.getTotalTime() + "%");
+        LOGGER.info("所有CPU的平均使用率：" + computeNodeStatus.getTotalTime() + "%");
 
-        LOG.info("所有CPU的User平均使用率：" + computeNodeStatus.getUserTime() + "%");
+        LOGGER.info("所有CPU的User平均使用率：" + computeNodeStatus.getUserTime() + "%");
 
-        LOG.info("所有CPU的Nice平均使用率：" + computeNodeStatus.getNiceTime() + "%");
+        LOGGER.info("所有CPU的Nice平均使用率：" + computeNodeStatus.getNiceTime() + "%");
 
-        LOG.info("所有CPU的System平均使用率：" + computeNodeStatus.getSystemTime() + "%");
+        LOGGER.info("所有CPU的System平均使用率：" + computeNodeStatus.getSystemTime() + "%");
 
-        LOG.info("所有CPU的Iowait平均使用率：" + computeNodeStatus.getIowaitTime() + "%");
+        LOGGER.info("所有CPU的Iowait平均使用率：" + computeNodeStatus.getIowaitTime() + "%");
 
-        LOG.info("所有CPU的Idle平均使用率：" + computeNodeStatus.getIdleTime() + "%");
+        LOGGER.info("所有CPU的Idle平均使用率：" + computeNodeStatus.getIdleTime() + "%");
 
-        LOG.info("所有CPU的使用率：" + computeNodeStatus.getAllTotalTime());
+        LOGGER.info("所有CPU的使用率：" + computeNodeStatus.getAllTotalTime());
 
-        LOG.info("所有CPU的User使用率：" + computeNodeStatus.getAllUserTime());
+        LOGGER.info("所有CPU的User使用率：" + computeNodeStatus.getAllUserTime());
 
-        LOG.info("所有CPU的Nice使用率：" + computeNodeStatus.getAllNiceTime());
+        LOGGER.info("所有CPU的Nice使用率：" + computeNodeStatus.getAllNiceTime());
 
-        LOG.info("所有CPU的System使用率：" + computeNodeStatus.getAllSystemTime());
+        LOGGER.info("所有CPU的System使用率：" + computeNodeStatus.getAllSystemTime());
 
-        LOG.info("所有CPU的Iowait使用率：" + computeNodeStatus.getAllIowaitTime());
+        LOGGER.info("所有CPU的Iowait使用率：" + computeNodeStatus.getAllIowaitTime());
 
-        LOG.info("所有CPU的Idle使用率：" + computeNodeStatus.getAllIdleTime());
+        LOGGER.info("所有CPU的Idle使用率：" + computeNodeStatus.getAllIdleTime());
 
-        LOG.info("总内存大小：" + computeNodeStatus.getTotalMemory() + "MB");
+        LOGGER.info("总内存大小：" + computeNodeStatus.getTotalMemory() + "MB");
 
-        LOG.info("已使用内存大小：" + computeNodeStatus.getUsedMemory() + "MB");
+        LOGGER.info("已使用内存大小：" + computeNodeStatus.getUsedMemory() + "MB");
 
-        LOG.info("空闲内存大小：" + computeNodeStatus.getIdleMemory() + "MB");
+        LOGGER.info("空闲内存大小：" + computeNodeStatus.getIdleMemory() + "MB");
 
-        LOG.info("交换区大小：" + computeNodeStatus.getSwapSize() + "MB");
+        LOGGER.info("交换区大小：" + computeNodeStatus.getSwapSize() + "MB");
 
-        LOG.info("使用的交换区大小：" + computeNodeStatus.getUsedSwap() + "MB");
+        LOGGER.info("使用的交换区大小：" + computeNodeStatus.getUsedSwap() + "MB");
 
-        LOG.info("空闲的交换区大小：" + computeNodeStatus.getIdleSwap() + "MB");
+        LOGGER.info("空闲的交换区大小：" + computeNodeStatus.getIdleSwap() + "MB");
 
-        LOG.info("end: ----------------------------------------------");
+        LOGGER.info("end: ----------------------------------------------");
     }
 
     @Override

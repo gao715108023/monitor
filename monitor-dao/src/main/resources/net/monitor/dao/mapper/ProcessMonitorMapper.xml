@@ -3,7 +3,7 @@
 <mapper namespace="net.monitor.dao.mapper.ProcessMonitorMapper">
     <resultMap id="BaseResultMap" type="net.monitor.dao.dto.ProcessMonitorDTO">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="localIp" jdbcType="VARCHAR" property="localIp"/>
         <result column="process_name" jdbcType="VARCHAR" property="processName"/>
         <result column="pid" jdbcType="INTEGER" property="pid"/>
         <result column="one_mins_procs" jdbcType="REAL" property="oneMinsProcs"/>
@@ -72,7 +72,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, ip, process_name, pid, one_mins_procs, five_mins_procs, fifteen_mins_procs, process_cpu_usage, 
+        id, localIp, process_name, pid, one_mins_procs, five_mins_procs, fifteen_mins_procs, process_cpu_usage,
     process_memory_usage, gmt_create
   </sql>
     <select id="selectByExample" parameterType="net.monitor.dao.dto.ProcessMonitorDTOExample" resultMap="BaseResultMap">
@@ -102,11 +102,11 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into process_monitor (ip, process_name, pid,
+        insert into process_monitor (localIp, process_name, pid,
         one_mins_procs, five_mins_procs, fifteen_mins_procs,
         process_cpu_usage, process_memory_usage, gmt_create
         )
-        values (#{ip,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER},
+        values (#{localIp,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER},
         #{oneMinsProcs,jdbcType=REAL}, #{fiveMinsProcs,jdbcType=REAL}, #{fifteenMinsProcs,jdbcType=REAL},
         #{processCpuUsage,jdbcType=REAL}, #{processMemoryUsage,jdbcType=REAL}, #{gmtCreate,jdbcType=TIMESTAMP}
         )
@@ -117,8 +117,8 @@
         </selectKey>
         insert into process_monitor
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="ip != null">
-                ip,
+            <if test="localIp != null">
+                localIp,
             </if>
             <if test="processName != null">
                 process_name,
@@ -146,8 +146,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="ip != null">
-                #{ip,jdbcType=VARCHAR},
+            <if test="localIp != null">
+                #{localIp,jdbcType=VARCHAR},
             </if>
             <if test="processName != null">
                 #{processName,jdbcType=VARCHAR},
@@ -187,8 +187,8 @@
             <if test="record.id != null">
                 id = #{record.id,jdbcType=BIGINT},
             </if>
-            <if test="record.ip != null">
-                ip = #{record.ip,jdbcType=VARCHAR},
+            <if test="record.localIp != null">
+                localIp = #{record.localIp,jdbcType=VARCHAR},
             </if>
             <if test="record.processName != null">
                 process_name = #{record.processName,jdbcType=VARCHAR},
@@ -222,7 +222,7 @@
     <update id="updateByExample" parameterType="map">
         update process_monitor
         set id = #{record.id,jdbcType=BIGINT},
-        ip = #{record.ip,jdbcType=VARCHAR},
+        localIp = #{record.localIp,jdbcType=VARCHAR},
         process_name = #{record.processName,jdbcType=VARCHAR},
         pid = #{record.pid,jdbcType=INTEGER},
         one_mins_procs = #{record.oneMinsProcs,jdbcType=REAL},
@@ -238,8 +238,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="net.monitor.dao.dto.ProcessMonitorDTO">
         update process_monitor
         <set>
-            <if test="ip != null">
-                ip = #{ip,jdbcType=VARCHAR},
+            <if test="localIp != null">
+                localIp = #{localIp,jdbcType=VARCHAR},
             </if>
             <if test="processName != null">
                 process_name = #{processName,jdbcType=VARCHAR},
@@ -270,7 +270,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="net.monitor.dao.dto.ProcessMonitorDTO">
     update process_monitor
-    set ip = #{ip,jdbcType=VARCHAR},
+        set localIp = #{localIp,jdbcType=VARCHAR},
       process_name = #{processName,jdbcType=VARCHAR},
       pid = #{pid,jdbcType=INTEGER},
       one_mins_procs = #{oneMinsProcs,jdbcType=REAL},

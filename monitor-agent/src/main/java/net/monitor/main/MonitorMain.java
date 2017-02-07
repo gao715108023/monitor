@@ -4,6 +4,7 @@ import net.monitor.gather.io.IOStatMonitor;
 import net.monitor.gather.netstat.NetstatMonitor;
 import net.monitor.gather.netstat.NetstatMonitorForWindows;
 import net.monitor.gather.process.ProcessCPUAndMemoryMonitor;
+import net.monitor.gather.traffic.TrafficForWindows;
 import net.monitor.gather.traffic.TrafficMonitor;
 import net.monitor.utils.Config;
 import net.monitor.utils.HostUtil;
@@ -42,6 +43,7 @@ public class MonitorMain {
                 localHostIp = HostUtil.getWindowsHostIP();
                 LOGGER.info("ip: {}", localHostIp);
                 new Thread(new NetstatMonitorForWindows(localHostIp)).start();
+                new Thread(new TrafficForWindows(localHostIp)).start();
         }
     }
 }

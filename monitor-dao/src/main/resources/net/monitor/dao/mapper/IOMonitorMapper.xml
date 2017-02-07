@@ -3,7 +3,7 @@
 <mapper namespace="net.monitor.dao.mapper.IOMonitorMapper">
     <resultMap id="BaseResultMap" type="net.monitor.dao.dto.IOMonitorDTO">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="localIp" jdbcType="VARCHAR" property="localIp"/>
         <result column="disk_name" jdbcType="VARCHAR" property="diskName"/>
         <result column="await" jdbcType="REAL" property="await"/>
         <result column="svctm" jdbcType="REAL" property="svctm"/>
@@ -69,7 +69,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, ip, disk_name, await, svctm, util, gmt_create
+        id, localIp, disk_name, await, svctm, util, gmt_create
   </sql>
     <select id="selectByExample" parameterType="net.monitor.dao.dto.IOMonitorDTOExample" resultMap="BaseResultMap">
         select
@@ -98,9 +98,9 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into io_monitor (ip, disk_name, await,
+        insert into io_monitor (localIp, disk_name, await,
         svctm, util, gmt_create)
-        values (#{ip,jdbcType=VARCHAR}, #{diskName,jdbcType=VARCHAR}, #{await,jdbcType=REAL},
+        values (#{localIp,jdbcType=VARCHAR}, #{diskName,jdbcType=VARCHAR}, #{await,jdbcType=REAL},
         #{svctm,jdbcType=REAL}, #{util,jdbcType=REAL}, #{gmtCreate,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="net.monitor.dao.dto.IOMonitorDTO">
@@ -109,8 +109,8 @@
         </selectKey>
         insert into io_monitor
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="ip != null">
-                ip,
+            <if test="localIp != null">
+                localIp,
             </if>
             <if test="diskName != null">
                 disk_name,
@@ -129,8 +129,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="ip != null">
-                #{ip,jdbcType=VARCHAR},
+            <if test="localIp != null">
+                #{localIp,jdbcType=VARCHAR},
             </if>
             <if test="diskName != null">
                 #{diskName,jdbcType=VARCHAR},
@@ -161,8 +161,8 @@
             <if test="record.id != null">
                 id = #{record.id,jdbcType=BIGINT},
             </if>
-            <if test="record.ip != null">
-                ip = #{record.ip,jdbcType=VARCHAR},
+            <if test="record.localIp != null">
+                localIp = #{record.localIp,jdbcType=VARCHAR},
             </if>
             <if test="record.diskName != null">
                 disk_name = #{record.diskName,jdbcType=VARCHAR},
@@ -187,7 +187,7 @@
     <update id="updateByExample" parameterType="map">
         update io_monitor
         set id = #{record.id,jdbcType=BIGINT},
-        ip = #{record.ip,jdbcType=VARCHAR},
+        localIp = #{record.localIp,jdbcType=VARCHAR},
         disk_name = #{record.diskName,jdbcType=VARCHAR},
         await = #{record.await,jdbcType=REAL},
         svctm = #{record.svctm,jdbcType=REAL},
@@ -200,8 +200,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="net.monitor.dao.dto.IOMonitorDTO">
         update io_monitor
         <set>
-            <if test="ip != null">
-                ip = #{ip,jdbcType=VARCHAR},
+            <if test="localIp != null">
+                localIp = #{localIp,jdbcType=VARCHAR},
             </if>
             <if test="diskName != null">
                 disk_name = #{diskName,jdbcType=VARCHAR},
@@ -223,7 +223,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="net.monitor.dao.dto.IOMonitorDTO">
     update io_monitor
-    set ip = #{ip,jdbcType=VARCHAR},
+        set localIp = #{localIp,jdbcType=VARCHAR},
       disk_name = #{diskName,jdbcType=VARCHAR},
       await = #{await,jdbcType=REAL},
       svctm = #{svctm,jdbcType=REAL},

@@ -1,6 +1,5 @@
 package net.monitor.gather.netstat;
 
-import net.monitor.common.Constants;
 import net.monitor.dao.dto.NetstatMonitorDTO;
 import net.monitor.dao.mapper.NetstatMonitorMapper;
 import net.monitor.utils.Config;
@@ -41,7 +40,7 @@ public class NetstatMonitorForWindows implements Runnable {
                 LOGGER.error("monitor netstat error.", e);
             }
             try {
-                Thread.sleep(Constants.SLEEPTIME);
+                Thread.sleep(Config.intervalTime);
             } catch (InterruptedException e) {
                 LOGGER.error("thread error.", e);
             }

@@ -95,4 +95,20 @@ public class TrafficMonitorDTO implements Serializable {
     public void setGmtCreate(Date gmtCreate) {
         this.gmtCreate = gmtCreate;
     }
+
+    @Override
+    public String toString() {
+        return "TrafficMonitorDTO{" +
+                "id=" + id +
+                ", ip='" + ip + '\'' +
+                ", networkCardName='" + networkCardName + '\'' +
+                ", receiveTraffic=" + receiveTraffic +
+                ", receivePackets=" + receivePackets +
+                ", receiveErrs=" + receiveErrs +
+                ", transmitTraffic=" + transmitTraffic +
+                ", transmitPackets=" + transmitPackets +
+                ", transmitErrs=" + transmitErrs +
+                ", gmtCreate=" + gmtCreate +
+                '}';
+    }
 }

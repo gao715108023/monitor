@@ -16,7 +16,7 @@
     <script src="js/theme/gray.js"></script>
 
     <script type="text/javascript">
-        var tmp = '<s:property value="ip" escape="false"/>';
+        var tmp = '<s:property value="localIp" escape="false"/>';
         var text = tmp + '——CPU使用详情';
         var totalTime = eval(<s:property value="totalTime" escape="false"/>);
         var userTime = eval(<s:property value="userTime" escape="false"/>);
@@ -148,7 +148,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp = '<s:property value="ip" escape="false"/>';
+        var tmp = '<s:property value="localIp" escape="false"/>';
         var text = tmp + '——内存使用详情';
         var totalMemory = eval(<s:property value="totalMemory" escape="false"/>);
         var usedMemory = eval(<s:property value="usedMemory" escape="false"/>);
@@ -265,7 +265,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp = '<s:property value="ip" escape="false"/>';
+        var tmp = '<s:property value="localIp" escape="false"/>';
         var text = tmp + '——交换区（Swap）使用详情';
         var swapSize = eval(<s:property value="swapSize" escape="false"/>);
         var usedSwap = eval(<s:property value="usedSwap" escape="false"/>);

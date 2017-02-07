@@ -48,9 +48,9 @@
             </tr>
             <tr>
                 <th align="left" height="10px">
-                    <s:textfield name="ip" label="Ip地址(IP地址查看方式：ifconfig) " value="10.173.210.40" />
+                    <s:textfield name="localIp" label="Ip地址(IP地址查看方式：ifconfig) " value="10.173.210.40" />
                         <%--<s:fielderror cssStyle="color: red">--%>
-                        <%--<s:param>ip</s:param>--%>
+                        <%--<s:param>localIp</s:param>--%>
                         <%--</s:fielderror>--%>
                 </th>
             </tr>

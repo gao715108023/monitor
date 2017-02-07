@@ -15,7 +15,7 @@
     <script src="js/theme/dark-blue.js"></script>
 
     <script type="text/javascript">
-        var tmp1 = '<s:property value="ip" escape="false"/>';
+        var tmp1 = '<s:property value="localIp" escape="false"/>';
         var tmp2 = '<s:property value="port" escape="false"/>';
         var text = tmp1 + '——' + tmp2 + '端口的所有连接数（其中,Total是Established、TimeWait和FinWait2的总和）';
         var total = eval(<s:property value="total" escape="false"/>);
@@ -141,7 +141,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp1 = '<s:property value="ip" escape="false"/>';
+        var tmp1 = '<s:property value="localIp" escape="false"/>';
         var tmp2 = '<s:property value="port" escape="false"/>';
         var text = tmp1 + '——' + tmp2 + '端口处于Established状态的连接数';
         var established = eval(<s:property value="established" escape="false"/>);
@@ -253,7 +253,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp1 = '<s:property value="ip" escape="false"/>';
+        var tmp1 = '<s:property value="localIp" escape="false"/>';
         var tmp2 = '<s:property value="port" escape="false"/>';
         var text = tmp1 + '——' + tmp2 + '端口处于TimeWait状态的连接数';
         var timeWait = eval(<s:property value="timeWait" escape="false"/>);
@@ -360,7 +360,7 @@
     </script>
 
     <script type="text/javascript">
-        var tmp1 = '<s:property value="ip" escape="false"/>';
+        var tmp1 = '<s:property value="localIp" escape="false"/>';
         var tmp2 = '<s:property value="port" escape="false"/>';
         var text = tmp1 + '——' + tmp2 + '端口处于FinWait2状态的连接数';
         var finWait2 = eval(<s:property value="finWait2" escape="false"/>);

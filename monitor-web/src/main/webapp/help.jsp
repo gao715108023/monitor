@@ -89,7 +89,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;<font color="red">network_card_name = eth0</font><br /><br />
     &nbsp;&nbsp;&nbsp;&nbsp;7、修改配置文件MyBatis-Configuration.xml，修改MySQL的IP地址和账号密码，以及库名；<br />
     &nbsp;&nbsp;&nbsp;&nbsp;name="driver" value="com.mysql.jdbc.Driver" /><br />
-    &nbsp;&nbsp;&nbsp;&nbsp;name="url" value="jdbc:mysql://<font color="red">mysql-ip</font>:<font
+    &nbsp;&nbsp;&nbsp;&nbsp;name="url" value="jdbc:mysql://<font color="red">mysql-localIp</font>:<font
         color="red">mysql-port</font>/process?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"<br />
     &nbsp;&nbsp;&nbsp;&nbsp;name="username" value="<font color="red">mysql-user</font>"<br />
     &nbsp;&nbsp;&nbsp;&nbsp;name="password" value="<font color="red">mysql-pwd</font>"<br /><br />
