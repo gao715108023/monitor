@@ -2,6 +2,7 @@ package net.monitor.utils;
 
 import net.monitor.domain.OS;
 import net.monitor.domain.WatchProcess;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ public class Config {
     static {
         load("/infoconfig.properties");
         intervalTime = getInt("sampling.time", 5000);
-        os = OS.findOS();
+        os = OSUtils.getInstance().getOS();
         listeningPort = getInt("listening.port", -1);
         networkCardName = get("network.card.name");
         String watchProcess = get("watch.process");

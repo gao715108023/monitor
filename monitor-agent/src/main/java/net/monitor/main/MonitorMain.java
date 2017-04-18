@@ -8,6 +8,7 @@ import net.monitor.gather.traffic.TrafficForWindows;
 import net.monitor.gather.traffic.TrafficMonitor;
 import net.monitor.utils.Config;
 import net.monitor.utils.HostUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +45,8 @@ public class MonitorMain {
                 LOGGER.info("ip: {}", localHostIp);
                 new Thread(new NetstatMonitorForWindows(localHostIp)).start();
                 new Thread(new TrafficForWindows(localHostIp)).start();
+            default:
+                throw new IllegalArgumentException("暂不支持该操作系统！os = " + Config.os);
         }
     }
 }

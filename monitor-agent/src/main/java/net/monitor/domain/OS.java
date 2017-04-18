@@ -1,7 +1,5 @@
 package net.monitor.domain;
 
-import org.hyperic.sigar.OperatingSystem;
-
 /**
  * @author gaochuanjun
  * @since 15/4/15
@@ -9,7 +7,10 @@ import org.hyperic.sigar.OperatingSystem;
 public enum OS {
 
     LINUX(0),
-    WINDOWS(1);
+    WINDOWS(1),
+    MAC_OS(2),
+    MAC_OS_X(3),
+    OTHERS(-1);
 
     private final int os;
 
@@ -23,18 +24,12 @@ public enum OS {
                 return LINUX;
             case 1:
                 return WINDOWS;
+            case 2:
+                return MAC_OS;
+            case 3:
+                return MAC_OS_X;
             default:
-                return LINUX;
-        }
-    }
-
-    public static OS findOS() {
-        OperatingSystem os = OperatingSystem.getInstance();
-        String vendorName = os.getVendorName();
-        if (vendorName.contains("Windows")) {
-            return WINDOWS;
-        } else {
-            return LINUX;
+                return OTHERS;
         }
     }
 
