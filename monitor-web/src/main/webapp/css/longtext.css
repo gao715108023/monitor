@@ -1,0 +1,11 @@
+.text-flow-omit {
+    width: 20px;
+    text-overflow: ellipsis;
+}
+
+.table1 {
+    line-height: 20px;
+    text-decoration: none;
+    table-layout: fixed;
+    width: 50px;
+}
