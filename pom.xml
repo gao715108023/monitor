@@ -80,8 +80,8 @@
                 <version>1.6.4</version>
             </dependency>
 
-            <dependency>
-                <groupId>antlr</groupId>
+          <dependency>
+            <groupId>antlr</groupId>
                 <artifactId>antlr</artifactId>
                 <version>2.7.7</version>
             </dependency>
