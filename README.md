@@ -114,9 +114,7 @@
 
 ### 7.1 配置filters下面的配置文件，修改数据库连接地址
 
-### 7.2 将monitor-web.war拷贝至tomcat下，启动tomcat，打开
-
-### 7.3 http://localhost:8080/index.html
+### 7.2 将monitor-web.war拷贝至tomcat下，启动tomcat，打开http://localhost:8080/index.html
 
 
 
