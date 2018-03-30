@@ -3,7 +3,11 @@ package net.monitor.gather.process;
 import net.monitor.bean.ComputeNodeStatus;
 import net.monitor.behavior.GatherAbstract;
 import net.monitor.common.Constants;
-import org.hyperic.sigar.*;
+import org.hyperic.sigar.CpuPerc;
+import org.hyperic.sigar.Mem;
+import org.hyperic.sigar.Sigar;
+import org.hyperic.sigar.SigarException;
+import org.hyperic.sigar.Swap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +39,7 @@ public class CPUInfoForWindows extends GatherAbstract {
         while (true) {
             process();
             try {
-                Thread.sleep(Constants.SLEEPTIME);
+                Thread.sleep(Constants.SLEEP_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -78,7 +82,6 @@ public class CPUInfoForWindows extends GatherAbstract {
         long usedSwap = swap.getUsed() / Constants.UNITS;  //MB
 
         long idleSwap = swap.getFree() / Constants.UNITS;  //MB
-
 
         computeNodeStatus.setNodeName(getIp());
 

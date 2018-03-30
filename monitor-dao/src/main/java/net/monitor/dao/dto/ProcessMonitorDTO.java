@@ -4,95 +4,96 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ProcessMonitorDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private Long id;
-    private String ip;
-    private String processName;
-    private Integer pid;
-    private Float oneMinsProcs;
-    private Float fiveMinsProcs;
-    private Float fifteenMinsProcs;
-    private Float processCpuUsage;
-    private Float processMemoryUsage;
-    private Date gmtCreate;
 
-    public Long getId() {
-        return id;
-    }
+  private static final long serialVersionUID = 1L;
+  private Long id;
+  private String ip;
+  private String processName;
+  private Integer pid;
+  private Float oneMinsProcs;
+  private Float fiveMinsProcs;
+  private Float fifteenMinsProcs;
+  private Float processCpuUsage;
+  private Float processMemoryUsage;
+  private Date gmtCreate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getIp() {
-        return ip;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
-    }
+  public String getIp() {
+    return ip;
+  }
 
-    public String getProcessName() {
-        return processName;
-    }
+  public void setIp(String ip) {
+    this.ip = ip == null ? null : ip.trim();
+  }
 
-    public void setProcessName(String processName) {
-        this.processName = processName == null ? null : processName.trim();
-    }
+  public String getProcessName() {
+    return processName;
+  }
 
-    public Integer getPid() {
-        return pid;
-    }
+  public void setProcessName(String processName) {
+    this.processName = processName == null ? null : processName.trim();
+  }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
+  public Integer getPid() {
+    return pid;
+  }
 
-    public Float getOneMinsProcs() {
-        return oneMinsProcs;
-    }
+  public void setPid(Integer pid) {
+    this.pid = pid;
+  }
 
-    public void setOneMinsProcs(Float oneMinsProcs) {
-        this.oneMinsProcs = oneMinsProcs;
-    }
+  public Float getOneMinsProcs() {
+    return oneMinsProcs;
+  }
 
-    public Float getFiveMinsProcs() {
-        return fiveMinsProcs;
-    }
+  public void setOneMinsProcs(Float oneMinsProcs) {
+    this.oneMinsProcs = oneMinsProcs;
+  }
 
-    public void setFiveMinsProcs(Float fiveMinsProcs) {
-        this.fiveMinsProcs = fiveMinsProcs;
-    }
+  public Float getFiveMinsProcs() {
+    return fiveMinsProcs;
+  }
 
-    public Float getFifteenMinsProcs() {
-        return fifteenMinsProcs;
-    }
+  public void setFiveMinsProcs(Float fiveMinsProcs) {
+    this.fiveMinsProcs = fiveMinsProcs;
+  }
 
-    public void setFifteenMinsProcs(Float fifteenMinsProcs) {
-        this.fifteenMinsProcs = fifteenMinsProcs;
-    }
+  public Float getFifteenMinsProcs() {
+    return fifteenMinsProcs;
+  }
 
-    public Float getProcessCpuUsage() {
-        return processCpuUsage;
-    }
+  public void setFifteenMinsProcs(Float fifteenMinsProcs) {
+    this.fifteenMinsProcs = fifteenMinsProcs;
+  }
 
-    public void setProcessCpuUsage(Float processCpuUsage) {
-        this.processCpuUsage = processCpuUsage;
-    }
+  public Float getProcessCpuUsage() {
+    return processCpuUsage;
+  }
 
-    public Float getProcessMemoryUsage() {
-        return processMemoryUsage;
-    }
+  public void setProcessCpuUsage(Float processCpuUsage) {
+    this.processCpuUsage = processCpuUsage;
+  }
 
-    public void setProcessMemoryUsage(Float processMemoryUsage) {
-        this.processMemoryUsage = processMemoryUsage;
-    }
+  public Float getProcessMemoryUsage() {
+    return processMemoryUsage;
+  }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+  public void setProcessMemoryUsage(Float processMemoryUsage) {
+    this.processMemoryUsage = processMemoryUsage;
+  }
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+  public Date getGmtCreate() {
+    return gmtCreate;
+  }
+
+  public void setGmtCreate(Date gmtCreate) {
+    this.gmtCreate = gmtCreate;
+  }
 }

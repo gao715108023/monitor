@@ -16,7 +16,7 @@
 <%--<body background="images/skulls.png">--%>
 <body>
 <%--<s:actionerror></s:actionerror>--%>
-<tiles:insertDefinition name="baseLayout" />
+<tiles:insertDefinition name="baseLayout"/>
 <%--<tiles:insertAttribute name="header"/>--%>
 <%--<p id="body">--%>
 <%--<tiles:insertAttribute name="main"/>--%>

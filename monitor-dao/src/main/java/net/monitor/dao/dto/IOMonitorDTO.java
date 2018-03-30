@@ -4,68 +4,69 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class IOMonitorDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private Long id;
-    private String ip;
-    private String diskName;
-    private Float await;
-    private Float svctm;
-    private Float util;
-    private Date gmtCreate;
 
-    public Long getId() {
-        return id;
-    }
+  private static final long serialVersionUID = 1L;
+  private Long id;
+  private String ip;
+  private String diskName;
+  private Float await;
+  private Float svctm;
+  private Float util;
+  private Date gmtCreate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getIp() {
-        return ip;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
-    }
+  public String getIp() {
+    return ip;
+  }
 
-    public String getDiskName() {
-        return diskName;
-    }
+  public void setIp(String ip) {
+    this.ip = ip == null ? null : ip.trim();
+  }
 
-    public void setDiskName(String diskName) {
-        this.diskName = diskName == null ? null : diskName.trim();
-    }
+  public String getDiskName() {
+    return diskName;
+  }
 
-    public Float getAwait() {
-        return await;
-    }
+  public void setDiskName(String diskName) {
+    this.diskName = diskName == null ? null : diskName.trim();
+  }
 
-    public void setAwait(Float await) {
-        this.await = await;
-    }
+  public Float getAwait() {
+    return await;
+  }
 
-    public Float getSvctm() {
-        return svctm;
-    }
+  public void setAwait(Float await) {
+    this.await = await;
+  }
 
-    public void setSvctm(Float svctm) {
-        this.svctm = svctm;
-    }
+  public Float getSvctm() {
+    return svctm;
+  }
 
-    public Float getUtil() {
-        return util;
-    }
+  public void setSvctm(Float svctm) {
+    this.svctm = svctm;
+  }
 
-    public void setUtil(Float util) {
-        this.util = util;
-    }
+  public Float getUtil() {
+    return util;
+  }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+  public void setUtil(Float util) {
+    this.util = util;
+  }
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+  public Date getGmtCreate() {
+    return gmtCreate;
+  }
+
+  public void setGmtCreate(Date gmtCreate) {
+    this.gmtCreate = gmtCreate;
+  }
 }

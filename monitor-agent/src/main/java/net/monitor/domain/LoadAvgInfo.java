@@ -6,41 +6,41 @@ package net.monitor.domain;
  */
 public class LoadAvgInfo {
 
-    private float oneMinsProcs;
-    private float fiveMinsProcs;
-    private float fifteenMinsProcs;
+  private float oneMinsProcs;
+  private float fiveMinsProcs;
+  private float fifteenMinsProcs;
 
-    public LoadAvgInfo() {
-        this(0, 0, 0);
-    }
+  public LoadAvgInfo() {
+    this(0, 0, 0);
+  }
 
-    public LoadAvgInfo(float oneMinsProcs, float fiveMinsProcs, float fifteenMinsProcs) {
-        this.oneMinsProcs = oneMinsProcs;
-        this.fiveMinsProcs = fiveMinsProcs;
-        this.fifteenMinsProcs = fifteenMinsProcs;
-    }
+  public LoadAvgInfo(float oneMinsProcs, float fiveMinsProcs, float fifteenMinsProcs) {
+    this.oneMinsProcs = oneMinsProcs;
+    this.fiveMinsProcs = fiveMinsProcs;
+    this.fifteenMinsProcs = fifteenMinsProcs;
+  }
 
-    public float getOneMinsProcs() {
-        return oneMinsProcs;
-    }
+  public float getOneMinsProcs() {
+    return oneMinsProcs;
+  }
 
-    public void setOneMinsProcs(float oneMinsProcs) {
-        this.oneMinsProcs = oneMinsProcs;
-    }
+  public void setOneMinsProcs(float oneMinsProcs) {
+    this.oneMinsProcs = oneMinsProcs;
+  }
 
-    public float getFiveMinsProcs() {
-        return fiveMinsProcs;
-    }
+  public float getFiveMinsProcs() {
+    return fiveMinsProcs;
+  }
 
-    public void setFiveMinsProcs(float fiveMinsProcs) {
-        this.fiveMinsProcs = fiveMinsProcs;
-    }
+  public void setFiveMinsProcs(float fiveMinsProcs) {
+    this.fiveMinsProcs = fiveMinsProcs;
+  }
 
-    public float getFifteenMinsProcs() {
-        return fifteenMinsProcs;
-    }
+  public float getFifteenMinsProcs() {
+    return fifteenMinsProcs;
+  }
 
-    public void setFifteenMinsProcs(float fifteenMinsProcs) {
-        this.fifteenMinsProcs = fifteenMinsProcs;
-    }
+  public void setFifteenMinsProcs(float fifteenMinsProcs) {
+    this.fifteenMinsProcs = fifteenMinsProcs;
+  }
 }

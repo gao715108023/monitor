@@ -6,5 +6,8 @@ package net.monitor.common;
  */
 public class Constants implements ConstantsInterface {
 
-    public static int OS = 0; //0代表Linux,1代表Windows
+  /**
+   * 0代表Linux,1代表Windows
+   */
+  public static int OS = 0;
 }

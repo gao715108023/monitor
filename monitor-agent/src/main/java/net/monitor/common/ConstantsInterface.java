@@ -6,9 +6,9 @@ package net.monitor.common;
  */
 public interface ConstantsInterface {
 
-    String dateFormat = "yyyy-MM-dd HH:mm:ss";
+    String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    int SLEEPTIME = 5000;
+    int SLEEP_TIME = 5000;
 
     long UNITS = 1048576;
 

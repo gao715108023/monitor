@@ -4,77 +4,78 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class NetstatMonitorDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private Long id;
-    private String ip;
-    private Integer port;
-    private Integer total;
-    private Integer established;
-    private Integer timeWait;
-    private Integer finWait2;
-    private Date gmtCreate;
 
-    public Long getId() {
-        return id;
-    }
+  private static final long serialVersionUID = 1L;
+  private Long id;
+  private String ip;
+  private Integer port;
+  private Integer total;
+  private Integer established;
+  private Integer timeWait;
+  private Integer finWait2;
+  private Date gmtCreate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getIp() {
-        return ip;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
-    }
+  public String getIp() {
+    return ip;
+  }
 
-    public Integer getPort() {
-        return port;
-    }
+  public void setIp(String ip) {
+    this.ip = ip == null ? null : ip.trim();
+  }
 
-    public void setPort(Integer port) {
-        this.port = port;
-    }
+  public Integer getPort() {
+    return port;
+  }
 
-    public Integer getTotal() {
-        return total;
-    }
+  public void setPort(Integer port) {
+    this.port = port;
+  }
 
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
+  public Integer getTotal() {
+    return total;
+  }
 
-    public Integer getEstablished() {
-        return established;
-    }
+  public void setTotal(Integer total) {
+    this.total = total;
+  }
 
-    public void setEstablished(Integer established) {
-        this.established = established;
-    }
+  public Integer getEstablished() {
+    return established;
+  }
 
-    public Integer getTimeWait() {
-        return timeWait;
-    }
+  public void setEstablished(Integer established) {
+    this.established = established;
+  }
 
-    public void setTimeWait(Integer timeWait) {
-        this.timeWait = timeWait;
-    }
+  public Integer getTimeWait() {
+    return timeWait;
+  }
 
-    public Integer getFinWait2() {
-        return finWait2;
-    }
+  public void setTimeWait(Integer timeWait) {
+    this.timeWait = timeWait;
+  }
 
-    public void setFinWait2(Integer finWait2) {
-        this.finWait2 = finWait2;
-    }
+  public Integer getFinWait2() {
+    return finWait2;
+  }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+  public void setFinWait2(Integer finWait2) {
+    this.finWait2 = finWait2;
+  }
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+  public Date getGmtCreate() {
+    return gmtCreate;
+  }
+
+  public void setGmtCreate(Date gmtCreate) {
+    this.gmtCreate = gmtCreate;
+  }
 }

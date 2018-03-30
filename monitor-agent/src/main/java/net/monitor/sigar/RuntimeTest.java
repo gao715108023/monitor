@@ -1,11 +1,22 @@
 package net.monitor.sigar;
 
-import org.hyperic.sigar.*;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.Properties;
+import org.hyperic.sigar.CpuInfo;
+import org.hyperic.sigar.CpuPerc;
+import org.hyperic.sigar.FileSystem;
+import org.hyperic.sigar.FileSystemUsage;
+import org.hyperic.sigar.Mem;
+import org.hyperic.sigar.NetFlags;
+import org.hyperic.sigar.NetInterfaceConfig;
+import org.hyperic.sigar.NetInterfaceStat;
+import org.hyperic.sigar.OperatingSystem;
+import org.hyperic.sigar.Sigar;
+import org.hyperic.sigar.SigarException;
+import org.hyperic.sigar.Swap;
+import org.hyperic.sigar.Who;
 
 public class RuntimeTest {
 
@@ -250,8 +261,9 @@ public class RuntimeTest {
         String[] ifaces = sigar.getNetInterfaceList();
         for (String iface : ifaces) {
             NetInterfaceConfig cfg = sigar.getNetInterfaceConfig(iface);
-            if (NetFlags.LOOPBACK_ADDRESS.equals(cfg.getAddress()) || (cfg.getFlags() & NetFlags.IFF_LOOPBACK) != 0
-                    || NetFlags.NULL_HWADDR.equals(cfg.getHwaddr())) {
+            if (NetFlags.LOOPBACK_ADDRESS.equals(cfg.getAddress())
+                || (cfg.getFlags() & NetFlags.IFF_LOOPBACK) != 0
+                || NetFlags.NULL_HWADDR.equals(cfg.getHwaddr())) {
                 continue;
             }
             System.out.println(cfg.getName() + "IP地址:" + cfg.getAddress());// IP地址

@@ -4,111 +4,112 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class TrafficMonitorDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private Long id;
-    private String ip;
-    private String networkCardName;
-    private Float receiveTraffic;
-    private Float receivePackets;
-    private Float receiveErrs;
-    private Float transmitTraffic;
-    private Float transmitPackets;
-    private Float transmitErrs;
-    private Date gmtCreate;
 
-    public Long getId() {
-        return id;
-    }
+  private static final long serialVersionUID = 1L;
+  private Long id;
+  private String ip;
+  private String networkCardName;
+  private Float receiveTraffic;
+  private Float receivePackets;
+  private Float receiveErrs;
+  private Float transmitTraffic;
+  private Float transmitPackets;
+  private Float transmitErrs;
+  private Date gmtCreate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getIp() {
-        return ip;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
-    }
+  public String getIp() {
+    return ip;
+  }
 
-    public String getNetworkCardName() {
-        return networkCardName;
-    }
+  public void setIp(String ip) {
+    this.ip = ip == null ? null : ip.trim();
+  }
 
-    public void setNetworkCardName(String networkCardName) {
-        this.networkCardName = networkCardName == null ? null : networkCardName.trim();
-    }
+  public String getNetworkCardName() {
+    return networkCardName;
+  }
 
-    public Float getReceiveTraffic() {
-        return receiveTraffic;
-    }
+  public void setNetworkCardName(String networkCardName) {
+    this.networkCardName = networkCardName == null ? null : networkCardName.trim();
+  }
 
-    public void setReceiveTraffic(Float receiveTraffic) {
-        this.receiveTraffic = receiveTraffic;
-    }
+  public Float getReceiveTraffic() {
+    return receiveTraffic;
+  }
 
-    public Float getReceivePackets() {
-        return receivePackets;
-    }
+  public void setReceiveTraffic(Float receiveTraffic) {
+    this.receiveTraffic = receiveTraffic;
+  }
 
-    public void setReceivePackets(Float receivePackets) {
-        this.receivePackets = receivePackets;
-    }
+  public Float getReceivePackets() {
+    return receivePackets;
+  }
 
-    public Float getReceiveErrs() {
-        return receiveErrs;
-    }
+  public void setReceivePackets(Float receivePackets) {
+    this.receivePackets = receivePackets;
+  }
 
-    public void setReceiveErrs(Float receiveErrs) {
-        this.receiveErrs = receiveErrs;
-    }
+  public Float getReceiveErrs() {
+    return receiveErrs;
+  }
 
-    public Float getTransmitTraffic() {
-        return transmitTraffic;
-    }
+  public void setReceiveErrs(Float receiveErrs) {
+    this.receiveErrs = receiveErrs;
+  }
 
-    public void setTransmitTraffic(Float transmitTraffic) {
-        this.transmitTraffic = transmitTraffic;
-    }
+  public Float getTransmitTraffic() {
+    return transmitTraffic;
+  }
 
-    public Float getTransmitPackets() {
-        return transmitPackets;
-    }
+  public void setTransmitTraffic(Float transmitTraffic) {
+    this.transmitTraffic = transmitTraffic;
+  }
 
-    public void setTransmitPackets(Float transmitPackets) {
-        this.transmitPackets = transmitPackets;
-    }
+  public Float getTransmitPackets() {
+    return transmitPackets;
+  }
 
-    public Float getTransmitErrs() {
-        return transmitErrs;
-    }
+  public void setTransmitPackets(Float transmitPackets) {
+    this.transmitPackets = transmitPackets;
+  }
 
-    public void setTransmitErrs(Float transmitErrs) {
-        this.transmitErrs = transmitErrs;
-    }
+  public Float getTransmitErrs() {
+    return transmitErrs;
+  }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+  public void setTransmitErrs(Float transmitErrs) {
+    this.transmitErrs = transmitErrs;
+  }
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+  public Date getGmtCreate() {
+    return gmtCreate;
+  }
 
-    @Override
-    public String toString() {
-        return "TrafficMonitorDTO{" +
-                "id=" + id +
-                ", ip='" + ip + '\'' +
-                ", networkCardName='" + networkCardName + '\'' +
-                ", receiveTraffic=" + receiveTraffic +
-                ", receivePackets=" + receivePackets +
-                ", receiveErrs=" + receiveErrs +
-                ", transmitTraffic=" + transmitTraffic +
-                ", transmitPackets=" + transmitPackets +
-                ", transmitErrs=" + transmitErrs +
-                ", gmtCreate=" + gmtCreate +
-                '}';
-    }
+  public void setGmtCreate(Date gmtCreate) {
+    this.gmtCreate = gmtCreate;
+  }
+
+  @Override
+  public String toString() {
+    return "TrafficMonitorDTO{" +
+        "id=" + id +
+        ", ip='" + ip + '\'' +
+        ", networkCardName='" + networkCardName + '\'' +
+        ", receiveTraffic=" + receiveTraffic +
+        ", receivePackets=" + receivePackets +
+        ", receiveErrs=" + receiveErrs +
+        ", transmitTraffic=" + transmitTraffic +
+        ", transmitPackets=" + transmitPackets +
+        ", transmitErrs=" + transmitErrs +
+        ", gmtCreate=" + gmtCreate +
+        '}';
+  }
 }

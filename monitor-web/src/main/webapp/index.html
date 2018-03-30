@@ -1,41 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/commons.css">
-    <link rel="stylesheet" href="/css/jquery-ui.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/smarty.css">
-    <title>监控系统管理</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/commons.css">
+  <link rel="stylesheet" href="/css/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/smarty.css">
+  <title>监控系统管理</title>
 </head>
 <body ng-app="monitor" ng-controller="monitorCtrl">
 <!--nav-->
 <nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#/home">首页</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="monitor-navbar">
-            <ul class="nav navbar-nav">
-                <li ng-class="active"><a href="#/home">首页</a></li>
-            </ul>
-        </div>
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#/home">进程CPU/Memory监控系统</a>
     </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="monitor-navbar">
+      <ul class="nav navbar-nav">
+        <li ng-class="active"><a href="#/home">进程CPU/Memory监控系统</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>
 <!--view-->
 <div ng-view class="div-padding"></div>
 </body>
+<!--angular js-->
 <script src="/js/lib/angular.min.js" type="text/javascript"></script>
 <script src="/js/lib/angular-route.min.js" type="text/javascript"></script>
+<!--jquery-->
 <script src="/js/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script src="/js/lib/jquery-ui.min.js" type="text/javascript"></script>
+<!--date util-->
 <script src="/js/lib/date-format.js" type="text/javascript"></script>
+<script src="/js/lib/WdatePicker.js" type="text/javascript"></script>
+<!--ui-->
 <script src="/js/lib/bootstrap.min.js" type="text/javascript"></script>
 <script src="/js/lib/ui-bootstrap-tpls-0.11.0.min.js" type="text/javascript"></script>
+<!--charts-->
 <script src="/js/lib/highcharts.js" type="text/javascript"></script>
-<script src="/js/lib/WdatePicker.js" type="text/javascript"></script>
+
+<!--root app js-->
 <script src="/js/app.js" type="text/javascript"></script>
+
+<!--module js-->
+<script src="/modules/home/ctrl.js" type="text/javascript"></script>
 </html>

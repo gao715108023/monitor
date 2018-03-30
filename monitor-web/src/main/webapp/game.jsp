@@ -10,14 +10,14 @@
 <html>
 <head>
     <title>随机计算每个工作的工作量，让你的周报再也没有烦恼！</title>
-    <s:head theme="xhtml" />
+    <s:head theme="xhtml"/>
 </head>
 
 <body>
 <div class="ys"><h1 align="center">随机计算每个工作的工作量，让你的周报再也没有烦恼！</h1></div>
 
 <div class="ys"><h3 align="center">此应用只供懒人专用，仅限于娱乐！</h3></div>
-<s:actionerror />
+<s:actionerror/>
 <s:form action="game">
     <table width="100%" align="center" border="1">
         <s:textfield name="works" label="项目个数"></s:textfield>

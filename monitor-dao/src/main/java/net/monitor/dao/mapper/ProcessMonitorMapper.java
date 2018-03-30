@@ -1,27 +1,29 @@
 package net.monitor.dao.mapper;
 
+import java.util.List;
 import net.monitor.dao.dto.ProcessMonitorDTO;
 import net.monitor.dao.dto.ProcessMonitorDTOExample;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 public interface ProcessMonitorMapper {
-    long countByExample(ProcessMonitorDTOExample example);
 
-    int insert(ProcessMonitorDTO record);
+  long countByExample(ProcessMonitorDTOExample example);
 
-    int insertSelective(ProcessMonitorDTO record);
+  int insert(ProcessMonitorDTO record);
 
-    List<ProcessMonitorDTO> selectByExample(ProcessMonitorDTOExample example);
+  int insertSelective(ProcessMonitorDTO record);
 
-    ProcessMonitorDTO selectByPrimaryKey(Long id);
+  List<ProcessMonitorDTO> selectByExample(ProcessMonitorDTOExample example);
 
-    int updateByExampleSelective(@Param("record") ProcessMonitorDTO record, @Param("example") ProcessMonitorDTOExample example);
+  ProcessMonitorDTO selectByPrimaryKey(Long id);
 
-    int updateByExample(@Param("record") ProcessMonitorDTO record, @Param("example") ProcessMonitorDTOExample example);
+  int updateByExampleSelective(@Param("record") ProcessMonitorDTO record,
+      @Param("example") ProcessMonitorDTOExample example);
 
-    int updateByPrimaryKeySelective(ProcessMonitorDTO record);
+  int updateByExample(@Param("record") ProcessMonitorDTO record,
+      @Param("example") ProcessMonitorDTOExample example);
 
-    int updateByPrimaryKey(ProcessMonitorDTO record);
+  int updateByPrimaryKeySelective(ProcessMonitorDTO record);
+
+  int updateByPrimaryKey(ProcessMonitorDTO record);
 }

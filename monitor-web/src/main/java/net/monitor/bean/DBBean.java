@@ -6,27 +6,27 @@ package net.monitor.bean;
  */
 public class DBBean {
 
-    private String url;
+  private String url;
 
-    private String user;
+  private String user;
 
-    private String pwd;
+  private String pwd;
 
-    public DBBean(String url, String user, String pwd) {
-        this.url = url;
-        this.user = user;
-        this.pwd = pwd;
-    }
+  public DBBean(String url, String user, String pwd) {
+    this.url = url;
+    this.user = user;
+    this.pwd = pwd;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public String getUser() {
-        return user;
-    }
+  public String getUser() {
+    return user;
+  }
 
-    public String getPwd() {
-        return pwd;
-    }
+  public String getPwd() {
+    return pwd;
+  }
 }

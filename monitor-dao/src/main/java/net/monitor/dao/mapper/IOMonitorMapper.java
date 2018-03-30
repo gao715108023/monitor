@@ -1,27 +1,29 @@
 package net.monitor.dao.mapper;
 
+import java.util.List;
 import net.monitor.dao.dto.IOMonitorDTO;
 import net.monitor.dao.dto.IOMonitorDTOExample;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 public interface IOMonitorMapper {
-    long countByExample(IOMonitorDTOExample example);
 
-    int insert(IOMonitorDTO record);
+  long countByExample(IOMonitorDTOExample example);
 
-    int insertSelective(IOMonitorDTO record);
+  int insert(IOMonitorDTO record);
 
-    List<IOMonitorDTO> selectByExample(IOMonitorDTOExample example);
+  int insertSelective(IOMonitorDTO record);
 
-    IOMonitorDTO selectByPrimaryKey(Long id);
+  List<IOMonitorDTO> selectByExample(IOMonitorDTOExample example);
 
-    int updateByExampleSelective(@Param("record") IOMonitorDTO record, @Param("example") IOMonitorDTOExample example);
+  IOMonitorDTO selectByPrimaryKey(Long id);
 
-    int updateByExample(@Param("record") IOMonitorDTO record, @Param("example") IOMonitorDTOExample example);
+  int updateByExampleSelective(@Param("record") IOMonitorDTO record,
+      @Param("example") IOMonitorDTOExample example);
 
-    int updateByPrimaryKeySelective(IOMonitorDTO record);
+  int updateByExample(@Param("record") IOMonitorDTO record,
+      @Param("example") IOMonitorDTOExample example);
 
-    int updateByPrimaryKey(IOMonitorDTO record);
+  int updateByPrimaryKeySelective(IOMonitorDTO record);
+
+  int updateByPrimaryKey(IOMonitorDTO record);
 }

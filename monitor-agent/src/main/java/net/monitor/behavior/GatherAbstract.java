@@ -1,10 +1,9 @@
 package net.monitor.behavior;
 
-import net.monitor.common.Constants;
-import net.monitor.dao.ServerMsgDao;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import net.monitor.common.Constants;
+import net.monitor.dao.ServerMsgDao;
 
 /**
  * @author gaochuanjun
@@ -21,7 +20,7 @@ public abstract class GatherAbstract implements Runnable {
     protected GatherAbstract(String ip) {
         this.ip = ip;
         //this.serverMsgDao = MybatisUtils.session.getMapper(ServerMsgDao.class);
-        this.simpleDateFormat = new SimpleDateFormat(Constants.dateFormat);
+        this.simpleDateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
     }
 
     /**

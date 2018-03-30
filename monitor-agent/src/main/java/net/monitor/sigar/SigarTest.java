@@ -15,7 +15,6 @@ public class SigarTest {
      *
      * @param @param args    设定文件
      * @return void    返回类型
-     * @throws
      * @Title: main
      * @Description: TODO
      */

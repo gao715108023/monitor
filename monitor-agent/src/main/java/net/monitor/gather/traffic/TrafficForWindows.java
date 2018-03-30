@@ -1,17 +1,20 @@
 package net.monitor.gather.traffic;
 
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 import net.monitor.common.Constants;
 import net.monitor.dao.dto.TrafficMonitorDTO;
 import net.monitor.dao.mapper.TrafficMonitorMapper;
 import net.monitor.utils.Config;
 import net.monitor.utils.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
-import org.hyperic.sigar.*;
+import org.hyperic.sigar.NetFlags;
+import org.hyperic.sigar.NetInterfaceConfig;
+import org.hyperic.sigar.NetInterfaceStat;
+import org.hyperic.sigar.Sigar;
+import org.hyperic.sigar.SigarException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author gaochuanjun
@@ -21,7 +24,7 @@ public class TrafficForWindows implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrafficForWindows.class);
 
-    private static final AtomicBoolean running = new AtomicBoolean(true);
+    private static final AtomicBoolean RUNNING = new AtomicBoolean(true);
 
     private final String localIp;
 
@@ -32,10 +35,10 @@ public class TrafficForWindows implements Runnable {
     public void start() {
         Sigar sigar = new Sigar();
         String networkCardName = getNetworkCardName(sigar);
-        while (running.get()) {
+        while (RUNNING.get()) {
             process(sigar, networkCardName);
             try {
-                Thread.sleep(Config.intervalTime);
+                Thread.sleep(Config.INTERVAL_TIME);
             } catch (InterruptedException e) {
                 LOGGER.error("thread error.", e);
             }
@@ -48,10 +51,12 @@ public class TrafficForWindows implements Runnable {
             TrafficMonitorDTO trafficMonitorDTO = new TrafficMonitorDTO();
             trafficMonitorDTO.setIp(localIp);
             trafficMonitorDTO.setNetworkCardName(networkCardName);
-            trafficMonitorDTO.setReceiveTraffic((float) (netInterfaceStat.getRxBytes() / Constants.UNITS));
+            trafficMonitorDTO
+                .setReceiveTraffic((float) (netInterfaceStat.getRxBytes() / Constants.UNITS));
             trafficMonitorDTO.setReceivePackets((float) netInterfaceStat.getRxPackets());
             trafficMonitorDTO.setReceiveErrs((float) netInterfaceStat.getRxErrors());
-            trafficMonitorDTO.setTransmitTraffic((float) (netInterfaceStat.getTxBytes() / Constants.UNITS));
+            trafficMonitorDTO
+                .setTransmitTraffic((float) (netInterfaceStat.getTxBytes() / Constants.UNITS));
             trafficMonitorDTO.setTransmitPackets((float) netInterfaceStat.getTxPackets());
             trafficMonitorDTO.setTransmitErrs((float) netInterfaceStat.getTxErrors());
             trafficMonitorDTO.setGmtCreate(new Date());
@@ -63,8 +68,9 @@ public class TrafficForWindows implements Runnable {
     }
 
     private void insertSelective(TrafficMonitorDTO record) {
-        try (SqlSession session = MybatisUtils.sqlSessionFactory.openSession(Boolean.FALSE)) {
-            TrafficMonitorMapper trafficMonitorMapper = session.getMapper(TrafficMonitorMapper.class);
+        try (SqlSession session = MybatisUtils.SQL_SESSION_FACTORY.openSession(Boolean.FALSE)) {
+            TrafficMonitorMapper trafficMonitorMapper = session
+                .getMapper(TrafficMonitorMapper.class);
             trafficMonitorMapper.insertSelective(record);
             session.commit();
         }
@@ -75,7 +81,10 @@ public class TrafficForWindows implements Runnable {
             String[] netInterfaceList = sigar.getNetInterfaceList();
             for (String netInterface : netInterfaceList) {
                 NetInterfaceConfig netInterfaceConfig = sigar.getNetInterfaceConfig(netInterface);
-                if (NetFlags.LOOPBACK_ADDRESS.equals(netInterfaceConfig.getAddress()) || (netInterfaceConfig.getFlags() & NetFlags.IFF_LOOPBACK) != 0 || NetFlags.NULL_HWADDR.equals(netInterfaceConfig.getHwaddr())) {
+                if (NetFlags.LOOPBACK_ADDRESS.equals(netInterfaceConfig.getAddress())
+                    || (netInterfaceConfig.getFlags() & NetFlags.IFF_LOOPBACK) != 0
+                    || NetFlags.NULL_HWADDR
+                    .equals(netInterfaceConfig.getHwaddr())) {
                     continue;
                 }
                 if (netInterfaceConfig.getAddress().equals(localIp)) {

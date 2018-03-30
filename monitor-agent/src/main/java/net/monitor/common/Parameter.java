@@ -5,5 +5,6 @@ package net.monitor.common;
  * @since 14-1-9
  */
 public class Parameter {
-    public static int HZ = 1000;
+
+  public static int HZ = 1000;
 }

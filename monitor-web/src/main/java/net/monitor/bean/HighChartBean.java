@@ -6,20 +6,20 @@ package net.monitor.bean;
  */
 public class HighChartBean {
 
-    private long updateTime;
+  private long updateTime;
 
-    private String value;
+  private String value;
 
-    public HighChartBean(long updateTime, String value) {
-        this.updateTime = updateTime;
-        this.value = value;
-    }
+  public HighChartBean(long updateTime, String value) {
+    this.updateTime = updateTime;
+    this.value = value;
+  }
 
-    public long getUpdateTime() {
-        return updateTime;
-    }
+  public long getUpdateTime() {
+    return updateTime;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 }

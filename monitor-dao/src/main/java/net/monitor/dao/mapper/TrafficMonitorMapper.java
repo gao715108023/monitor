@@ -1,27 +1,29 @@
 package net.monitor.dao.mapper;
 
+import java.util.List;
 import net.monitor.dao.dto.TrafficMonitorDTO;
 import net.monitor.dao.dto.TrafficMonitorDTOExample;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 public interface TrafficMonitorMapper {
-    long countByExample(TrafficMonitorDTOExample example);
 
-    int insert(TrafficMonitorDTO record);
+  long countByExample(TrafficMonitorDTOExample example);
 
-    int insertSelective(TrafficMonitorDTO record);
+  int insert(TrafficMonitorDTO record);
 
-    List<TrafficMonitorDTO> selectByExample(TrafficMonitorDTOExample example);
+  int insertSelective(TrafficMonitorDTO record);
 
-    TrafficMonitorDTO selectByPrimaryKey(Long id);
+  List<TrafficMonitorDTO> selectByExample(TrafficMonitorDTOExample example);
 
-    int updateByExampleSelective(@Param("record") TrafficMonitorDTO record, @Param("example") TrafficMonitorDTOExample example);
+  TrafficMonitorDTO selectByPrimaryKey(Long id);
 
-    int updateByExample(@Param("record") TrafficMonitorDTO record, @Param("example") TrafficMonitorDTOExample example);
+  int updateByExampleSelective(@Param("record") TrafficMonitorDTO record,
+      @Param("example") TrafficMonitorDTOExample example);
 
-    int updateByPrimaryKeySelective(TrafficMonitorDTO record);
+  int updateByExample(@Param("record") TrafficMonitorDTO record,
+      @Param("example") TrafficMonitorDTOExample example);
 
-    int updateByPrimaryKey(TrafficMonitorDTO record);
+  int updateByPrimaryKeySelective(TrafficMonitorDTO record);
+
+  int updateByPrimaryKey(TrafficMonitorDTO record);
 }

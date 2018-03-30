@@ -1,5 +1,13 @@
 package net.monitor.gather.process;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.monitor.dao.dto.ProcessMonitorDTO;
 import net.monitor.dao.mapper.ProcessMonitorMapper;
 import net.monitor.domain.LoadAvgInfo;
@@ -13,15 +21,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * @author gaochuanjun
  * @since 14-3-3
@@ -30,10 +29,10 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessCPUAndMemoryMonitor.class);
 
-    private static final AtomicBoolean running = new AtomicBoolean(true);
+    private static final AtomicBoolean RUNNING = new AtomicBoolean(true);
 
-    private static final AtomicBoolean looping = new AtomicBoolean(true);
-    private static final Pattern p = Pattern.compile("[^0-9]");
+    private static final AtomicBoolean LOOPING = new AtomicBoolean(true);
+    private static final Pattern PATTERN = Pattern.compile("[^0-9]");
     private final String localIp;
 
     public ProcessCPUAndMemoryMonitor(String localIp) {
@@ -49,15 +48,15 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
      * 主循环，一直运行，除了JVM退出
      */
     private void mainLoop(int ncpu) {
-        while (looping.get()) {
+        while (LOOPING.get()) {
             try {
                 setPidsLoop();
                 double preTotalCpuTime = getTotalCpuTime();
                 double[] preProcessCpuTimes = getProcessCpuTime();
-                while (running.get()) {
+                while (RUNNING.get()) {
                     try {
                         try {
-                            Thread.sleep(Config.intervalTime);
+                            Thread.sleep(Config.INTERVAL_TIME);
                         } catch (InterruptedException e) {
                             LOGGER.error("线程中断异常！", e);
                         }
@@ -65,13 +64,14 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
                         double[] curProcessCpuTimes = getProcessCpuTime();
                         LoadAvgInfo loadAvg = getLoadAvg();
                         int[] processMemUsed = getProcessMemUsed();
-                        double[] processCpuUsages = computeProcessCpuUsage(ncpu, preTotalCpuTime, preProcessCpuTimes, curTotalCpuTime, curProcessCpuTimes);
+                        double[] processCpuUsages = computeProcessCpuUsage(ncpu, preTotalCpuTime,
+                            preProcessCpuTimes, curTotalCpuTime, curProcessCpuTimes);
                         save(loadAvg, processCpuUsages, processMemUsed);
                         preTotalCpuTime = curTotalCpuTime;
                         preProcessCpuTimes = curProcessCpuTimes;
                     } catch (Exception e) {
                         LOGGER.error("monitor error.", e);
-                        running.compareAndSet(true, false);
+                        RUNNING.compareAndSet(true, false);
                     }
                 }
             } catch (Throwable t) {
@@ -80,16 +80,22 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
         }
     }
 
-    private double[] computeProcessCpuUsage(int ncpu, double preTotalCpuTime, double[] preProcessCpuTimes, double curTotalCpuTime, double[] curProcessCpuTimes) throws Exception {
+    private double[] computeProcessCpuUsage(int ncpu, double preTotalCpuTime,
+        double[] preProcessCpuTimes, double curTotalCpuTime, double[] curProcessCpuTimes)
+        throws Exception {
         if (preProcessCpuTimes.length != curProcessCpuTimes.length) {
             throw new Exception("preProcessCpuTimes与curProcessCpuTimes的长度不匹配！");
         }
         double[] pcpu = new double[preProcessCpuTimes.length];
         for (int i = 0; i < preProcessCpuTimes.length; i++) {
-            pcpu[i] = 100 * ((curProcessCpuTimes[i] - preProcessCpuTimes[i]) / (curTotalCpuTime - preTotalCpuTime)) * ncpu;
-            LOGGER.debug("double pcpu = 100 * (({} - {}) / ({} - {})) * {}", curProcessCpuTimes[i], preProcessCpuTimes[i], curTotalCpuTime, preTotalCpuTime, ncpu);
+            pcpu[i] = 100 * ((curProcessCpuTimes[i] - preProcessCpuTimes[i]) / (curTotalCpuTime
+                - preTotalCpuTime)) * ncpu;
+            LOGGER.debug("double pcpu = 100 * (({} - {}) / ({} - {})) * {}", curProcessCpuTimes[i],
+                preProcessCpuTimes[i], curTotalCpuTime, preTotalCpuTime, ncpu);
             if (pcpu[i] > (100 * ncpu)) {
-                LOGGER.warn("Over the Maximum Value: " + pcpu[i] + "%. Maximum Value: " + (100 * ncpu) + "%");
+                LOGGER
+                    .warn("Over the Maximum Value: " + pcpu[i] + "%. Maximum Value: " + (100 * ncpu)
+                        + "%");
             }
             LOGGER.debug("Process CPU Used(%): {}%", pcpu[i]);
         }
@@ -98,8 +104,8 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
 
     private void save(LoadAvgInfo loadAvg, double[] processCpuUsages, int[] processMemUsed) {
         try {
-            for (int i = 0; i < Config.watchProcessList.size(); i++) {
-                WatchProcess watchProcess = Config.watchProcessList.get(i);
+            for (int i = 0; i < Config.WATCH_PROCESS_LIST.size(); i++) {
+                WatchProcess watchProcess = Config.WATCH_PROCESS_LIST.get(i);
                 ProcessMonitorDTO processMonitorDTO = new ProcessMonitorDTO();
                 processMonitorDTO.setIp(localIp);
                 processMonitorDTO.setProcessName(watchProcess.getProcessName());
@@ -118,8 +124,9 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
     }
 
     private void insertSelective(ProcessMonitorDTO record) {
-        try (SqlSession session = MybatisUtils.sqlSessionFactory.openSession(Boolean.FALSE)) {
-            ProcessMonitorMapper processMonitorMapper = session.getMapper(ProcessMonitorMapper.class);
+        try (SqlSession session = MybatisUtils.SQL_SESSION_FACTORY.openSession(Boolean.FALSE)) {
+            ProcessMonitorMapper processMonitorMapper = session
+                .getMapper(ProcessMonitorMapper.class);
             processMonitorMapper.insertSelective(record);
             session.commit();
         }
@@ -157,10 +164,10 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
     }
 
     private double[] getProcessCpuTime() throws Exception {
-        double[] processCpuTime = new double[Config.watchProcessList.size()];
+        double[] processCpuTime = new double[Config.WATCH_PROCESS_LIST.size()];
         //读取进程CPU的信息
-        for (int i = 0; i < Config.watchProcessList.size(); i++) {
-            WatchProcess watchProcess = Config.watchProcessList.get(i);
+        for (int i = 0; i < Config.WATCH_PROCESS_LIST.size(); i++) {
+            WatchProcess watchProcess = Config.WATCH_PROCESS_LIST.get(i);
             BufferedReader reader = null;
             String tempString;
             try {
@@ -175,7 +182,10 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
                 } else {
                     throw new Exception(fileName + " the contents of the file is empty!");
                 }
-                LOGGER.debug("The Process's CPU Time, process_id = {}, cpu_time = {} ", watchProcess.getPid(), processCpuTime);
+                LOGGER
+                    .debug("The Process's CPU Time, process_id = {}, cpu_time = {} ",
+                        watchProcess.getPid(),
+                        processCpuTime);
             } finally {
                 if (reader != null) {
                     reader.close();
@@ -201,7 +211,9 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
             } else {
                 LOGGER.error("/proc/loadavg the contents of the file is empty!");
             }
-            LOGGER.debug("OneMinsProcs: {}  FiveMinsProcs: {}   FifteenMinsProcs: {}", loadAvgInfo.getOneMinsProcs(), loadAvgInfo.getFiveMinsProcs(), loadAvgInfo.getFifteenMinsProcs());
+            LOGGER.debug("OneMinsProcs: {}  FiveMinsProcs: {}   FifteenMinsProcs: {}",
+                loadAvgInfo.getOneMinsProcs(), loadAvgInfo.getFiveMinsProcs(),
+                loadAvgInfo.getFifteenMinsProcs());
             return loadAvgInfo;
         } finally {
             if (reader != null) {
@@ -211,17 +223,18 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
     }
 
     private int[] getProcessMemUsed() throws Exception {
-        int[] memUsed = new int[Config.watchProcessList.size()];
+        int[] memUsed = new int[Config.WATCH_PROCESS_LIST.size()];
         //读取进程内存信息
-        for (int i = 0; i < Config.watchProcessList.size(); i++) {
-            WatchProcess watchProcess = Config.watchProcessList.get(i);
+        for (int i = 0; i < Config.WATCH_PROCESS_LIST.size(); i++) {
+            WatchProcess watchProcess = Config.WATCH_PROCESS_LIST.get(i);
             BufferedReader reader = null;
             try {
                 String tempString;
-                reader = new BufferedReader(new FileReader("/proc/" + watchProcess.getPid() + "/status"));
+                reader = new BufferedReader(
+                    new FileReader("/proc/" + watchProcess.getPid() + "/status"));
                 while ((tempString = reader.readLine()) != null) {
                     if (tempString.contains("VmRSS")) {
-                        Matcher m = p.matcher(tempString);
+                        Matcher m = PATTERN.matcher(tempString);
                         memUsed[i] = (Integer.parseInt(m.replaceAll("").trim())) / 1024;
                     }
                 }
@@ -244,12 +257,12 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
         int retry = 0;
         while (getPidLoop) {
             try {
-                Thread.sleep(Config.intervalTime);
+                Thread.sleep(Config.INTERVAL_TIME);
             } catch (InterruptedException e) {
                 LOGGER.error("线程中断异常.", e);
             }
             boolean allSuccess = true;
-            for (WatchProcess watchProcess : Config.watchProcessList) {
+            for (WatchProcess watchProcess : Config.WATCH_PROCESS_LIST) {
                 if (watchProcess.getPid() != -1) {
                     continue;
                 }
@@ -259,14 +272,18 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
                     break;
                 }
                 if (contentList.size() > 1) {
-                    looping.compareAndSet(true, false);
-                    throw new Exception(String.format("pid file content error. content should only one line. pid_path = %s, process_name = %s", watchProcess.getPidPath(), watchProcess.getProcessName()));
+                    LOOPING.compareAndSet(true, false);
+                    throw new Exception(String.format(
+                        "pid file content error. content should only one line. pid_path = %s, process_name = %s",
+                        watchProcess.getPidPath(), watchProcess.getProcessName()));
                 }
                 try {
                     watchProcess.setPid(Integer.parseInt(contentList.get(0)));
                 } catch (Exception e) {
-                    looping.compareAndSet(true, false);
-                    throw new Exception(String.format("convert pid type error. pid must be number. pid_path = %s, process_name = %s", watchProcess.getPidPath(), watchProcess.getProcessName()));
+                    LOOPING.compareAndSet(true, false);
+                    throw new Exception(String.format(
+                        "convert pid type error. pid must be number. pid_path = %s, process_name = %s",
+                        watchProcess.getPidPath(), watchProcess.getProcessName()));
                 }
             }
 
@@ -279,7 +296,7 @@ public class ProcessCPUAndMemoryMonitor implements Runnable {
     }
 
     private void resetPid() {
-        for (WatchProcess watchProcess : Config.watchProcessList) {
+        for (WatchProcess watchProcess : Config.WATCH_PROCESS_LIST) {
             watchProcess.setPid(-1);
         }
     }

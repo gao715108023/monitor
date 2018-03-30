@@ -1,64 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!DOCTYPE generatorConfiguration PUBLIC
+  "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <!-- classPathEntry: 设置sql server驱动路径 -->
-    <classPathEntry location="/Users/gaochuanjun/.m2/repository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar"/>
+  <!-- classPathEntry: 设置sql server驱动路径 -->
+  <classPathEntry
+    location="/Users/gaochuanjun/.m2/repository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar"/>
 
-    <context id="DB2Tables" targetRuntime="MyBatis3">
-        <plugin type="net.monitor.dao.plugin.PaginationPlugin"/>
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
-        <!-- jdbc连接信息 -->
-        <commentGenerator>
-            <property name="suppressAllComments" value="true"/>
-        </commentGenerator>
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+    <plugin type="net.monitor.dao.plugin.PaginationPlugin"/>
+    <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+    <!-- jdbc连接信息 -->
+    <commentGenerator>
+      <property name="suppressAllComments" value="true"/>
+    </commentGenerator>
 
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/monitor"
-                        userId="root"
-                        password="123456">
-        </jdbcConnection>
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/monitor"
+      driverClass="com.mysql.jdbc.Driver"
+      password="123456"
+      userId="root">
+    </jdbcConnection>
 
-        <javaTypeResolver>
-            <property name="forceBigDecimals" value="false"/>
-        </javaTypeResolver>
+    <javaTypeResolver>
+      <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
 
-        <!-- 生成vo对象 -->
-        <javaModelGenerator targetPackage="net.monitor.dao.dto"
-                            targetProject="/Users/gaochuanjun/Workspaces/monitor/monitor-dao/src/main/java">
-            <property name="enableSubPackages" value="true"/>
-            <property name="trimStrings" value="true"/>
-        </javaModelGenerator>
-        <!-- 用于定义SQL映射生成器的属性。 -->
-        <sqlMapGenerator targetPackage="net.monitor.dao.mapper"
-                         targetProject="/Users/gaochuanjun/Workspaces/monitor/monitor-dao/src/main/resources">
-            <property name="enableSubPackages" value="true"/>
-        </sqlMapGenerator>
-        <!-- 生成DAO的类文件以及配置文件 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="net.monitor.dao.mapper"
-                             targetProject="/Users/gaochuanjun/Workspaces/monitor/monitor-dao/src/main/java">
-            <property name="enableSubPackages" value="true"/>
-        </javaClientGenerator>
+    <!-- 生成vo对象 -->
+    <javaModelGenerator targetPackage="net.monitor.dao.dto"
+      targetProject="/Users/gaochuanjun/Workspaces/monitor/monitor-dao/src/main/java">
+      <property name="enableSubPackages" value="true"/>
+      <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
+    <!-- 用于定义SQL映射生成器的属性。 -->
+    <sqlMapGenerator targetPackage="net.monitor.dao.mapper"
+      targetProject="/Users/gaochuanjun/Workspaces/monitor/monitor-dao/src/main/resources">
+      <property name="enableSubPackages" value="true"/>
+    </sqlMapGenerator>
+    <!-- 生成DAO的类文件以及配置文件 -->
+    <javaClientGenerator targetPackage="net.monitor.dao.mapper"
+      targetProject="/Users/gaochuanjun/Workspaces/monitor/monitor-dao/src/main/java"
+      type="XMLMAPPER">
+      <property name="enableSubPackages" value="true"/>
+    </javaClientGenerator>
 
-        <!-- tableName:想要生成的数据库表,自动化工具会根据该表的结构生成相应的vo对象 -->
-        <table tableName="process_monitor" domainObjectName="ProcessMonitorDTO" mapperName="ProcessMonitorMapper"
-               enableDeleteByPrimaryKey="false" enableDeleteByExample="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="io_monitor" domainObjectName="IOMonitorDTO" mapperName="IOMonitorMapper"
-               enableDeleteByPrimaryKey="false" enableDeleteByExample="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+    <!-- tableName:想要生成的数据库表,自动化工具会根据该表的结构生成相应的vo对象 -->
+    <table domainObjectName="ProcessMonitorDTO" enableDeleteByExample="false"
+      enableDeleteByPrimaryKey="false"
+      mapperName="ProcessMonitorMapper" tableName="process_monitor">
+      <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+    </table>
+    <table domainObjectName="IOMonitorDTO" enableDeleteByExample="false"
+      enableDeleteByPrimaryKey="false"
+      mapperName="IOMonitorMapper" tableName="io_monitor">
+      <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+    </table>
 
-        <table tableName="netstat_monitor" domainObjectName="NetstatMonitorDTO" mapperName="NetstatMonitorMapper"
-               enableDeleteByPrimaryKey="false" enableDeleteByExample="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+    <table domainObjectName="NetstatMonitorDTO" enableDeleteByExample="false"
+      enableDeleteByPrimaryKey="false"
+      mapperName="NetstatMonitorMapper" tableName="netstat_monitor">
+      <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+    </table>
 
-        <table tableName="traffic_monitor" domainObjectName="TrafficMonitorDTO" mapperName="TrafficMonitorMapper"
-               enableDeleteByPrimaryKey="false" enableDeleteByExample="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-    </context>
+    <table domainObjectName="TrafficMonitorDTO" enableDeleteByExample="false"
+      enableDeleteByPrimaryKey="false"
+      mapperName="TrafficMonitorMapper" tableName="traffic_monitor">
+      <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+    </table>
+  </context>
 
 </generatorConfiguration>

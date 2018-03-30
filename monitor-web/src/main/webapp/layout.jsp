@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><tiles:insertAttribute name="title" ignore="true" /></title>
+    <title><tiles:insertAttribute name="title" ignore="true"/></title>
     <style type="text/css">
         /*#container {*/
         /*margin-left: auto;*/
@@ -116,15 +116,15 @@
 
 <div id="container">
     <div id="header">
-        <tiles:insertAttribute name="header" />
+        <tiles:insertAttribute name="header"/>
     </div>
 
     <div id="menu">
-        <tiles:insertAttribute name="menu" />
+        <tiles:insertAttribute name="menu"/>
     </div>
 
     <div id="body">
-        <tiles:insertAttribute name="body" />
+        <tiles:insertAttribute name="body"/>
     </div>
 
     <%--<div id="footer" style="height: 100px">--%>
@@ -132,7 +132,7 @@
     <%--</div>--%>
 
     <div id="footer">
-        <tiles:insertAttribute name="footer" />
+        <tiles:insertAttribute name="footer"/>
     </div>
 </div>
 </body>

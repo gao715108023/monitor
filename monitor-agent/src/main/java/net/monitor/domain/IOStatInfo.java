@@ -6,63 +6,63 @@ package net.monitor.domain;
  */
 public class IOStatInfo {
 
-    private String ip;
+  private String ip;
 
-    private String updateTime;
+  private String updateTime;
 
-    private String name;
+  private String name;
 
-    private float await;
+  private float await;
 
-    private float svctm;
+  private float svctm;
 
-    private float util;
+  private float util;
 
-    public String getIp() {
-        return ip;
-    }
+  public String getIp() {
+    return ip;
+  }
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+  public void setIp(String ip) {
+    this.ip = ip;
+  }
 
-    public String getUpdateTime() {
-        return updateTime;
-    }
+  public String getUpdateTime() {
+    return updateTime;
+  }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
+  public void setUpdateTime(String updateTime) {
+    this.updateTime = updateTime;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public float getAwait() {
-        return await;
-    }
+  public float getAwait() {
+    return await;
+  }
 
-    public void setAwait(float await) {
-        this.await = await;
-    }
+  public void setAwait(float await) {
+    this.await = await;
+  }
 
-    public float getSvctm() {
-        return svctm;
-    }
+  public float getSvctm() {
+    return svctm;
+  }
 
-    public void setSvctm(float svctm) {
-        this.svctm = svctm;
-    }
+  public void setSvctm(float svctm) {
+    this.svctm = svctm;
+  }
 
-    public float getUtil() {
-        return util;
-    }
+  public float getUtil() {
+    return util;
+  }
 
-    public void setUtil(float util) {
-        this.util = util;
-    }
+  public void setUtil(float util) {
+    this.util = util;
+  }
 }

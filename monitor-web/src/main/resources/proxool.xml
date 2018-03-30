@@ -2,15 +2,15 @@
 <!-- the proxool configuration can be embedded within your own application's.
 Anything outside the "proxool" tag is ignored. -->
 <something-else-entirely>
-    <proxool>
-        <alias>DBPool</alias>
-        <driver-url>jdbc:mysql://139.196.238.211:3306/monitor</driver-url>
-        <driver-class>com.mysql.jdbc.Driver</driver-class>
-        <driver-properties>
-            <property name="user" value="root"/>
-            <property name="password" value="bhS@pCqw4ii68Qoc"/>
-        </driver-properties>
-        <maximum-connection-count>10</maximum-connection-count>
-        <house-keeping-test-sql>90000</house-keeping-test-sql>
-    </proxool>
+  <proxool>
+    <alias>DBPool</alias>
+    <driver-url>jdbc:mysql://139.196.238.211:3306/monitor</driver-url>
+    <driver-class>com.mysql.jdbc.Driver</driver-class>
+    <driver-properties>
+      <property name="user" value="root"/>
+      <property name="password" value="bhS@pCqw4ii68Qoc"/>
+    </driver-properties>
+    <maximum-connection-count>10</maximum-connection-count>
+    <house-keeping-test-sql>90000</house-keeping-test-sql>
+  </proxool>
 </something-else-entirely>

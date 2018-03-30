@@ -6,6 +6,6 @@ package net.monitor.common;
  */
 public class Constant implements BaseConstants {
 
-    public static String SEPARATOR = ",";
+  public static String SEPARATOR = ",";
 
 }
